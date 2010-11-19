@@ -49,7 +49,7 @@ public class Window extends JFrame {
             i++;
         }
         if (panel.isKeyPressed(KeyEvent.VK_UP)) {
-            y += 1;
+            y += 2;
         }
         if (panel.isKeyPressed(KeyEvent.VK_DOWN)) {
             y--;
@@ -62,8 +62,8 @@ public class Window extends JFrame {
                 }
             }
         }
-        if (y > 100) {
-            y = 100;
+        if (y > 250) {
+            y = 250;
         }
         if (y < -20) {
             y = -20;
