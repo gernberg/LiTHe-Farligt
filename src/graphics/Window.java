@@ -2,14 +2,17 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.MediaTracker;
 import java.awt.Toolkit;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 public class Window extends JFrame {
     static int WIDTH = 1024;
     static int HEIGHT = 768;
-    Color backgroundColor = Color.BLACK;
+    int i = 0;
+    Color backgroundColor = Color.WHITE;
     BufferedImage buffer;
     public void initialize(){
         buffer = new BufferedImage(WIDTH, HEIGHT,BufferedImage.TYPE_INT_RGB);
@@ -18,7 +21,21 @@ public class Window extends JFrame {
         Graphics2D b = buffer.createGraphics();
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0,0,WIDTH,HEIGHT);
+        ImageObject image = new ImageObject();
+
+        drawImage(image, b, 100, 200);
+        drawImage(image, b, 150, 200, Math.PI/6);
+
         b.dispose();
+    }
+    public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation){
+        AffineTransform tfm = new AffineTransform();
+        tfm.rotate(rotation, x+image.getImage().getWidth()/2, y+image.getImage().getHeight()/2);
+        b.setTransform(tfm);
+        b.drawImage(image.getImage(),x,y,this);
+    }
+    public void drawImage(ImageObject image, Graphics2D b, int x, int y){
+        drawImage(image, b, x, y, 0);
     }
     public Window() {
         add(new Panel());
