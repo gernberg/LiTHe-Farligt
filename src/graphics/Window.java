@@ -40,8 +40,6 @@ public class Window extends JFrame {
         b.fillRect(0, 0, WIDTH, HEIGHT);
 
         ImageObject image = new ImageObject();
-        ImageObject bike = new ImageObject();
-        bike.setImage("bike.png");
 
         drawImage(image, b, 100, 200);
         if (panel.isKeyPressed(KeyEvent.VK_LEFT)) {
@@ -79,7 +77,7 @@ public class Window extends JFrame {
         double angle = (Math.PI / 32) * i;
         xpos = (int) Math.round(xpos + y * Math.cos(angle));
         ypos = (int) Math.round(ypos + y * Math.sin(angle));
-        drawImage(bike, b, xpos / 5, ypos / 5, angle);
+        drawImage(image, b, xpos / 5, ypos / 5, angle);
 
         b.dispose();
     }
