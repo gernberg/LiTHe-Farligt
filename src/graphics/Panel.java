@@ -5,7 +5,9 @@ import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 public class Panel extends JPanel implements KeyListener{
+    private boolean[] keyStatus;
     public Panel(){
+        keyStatus = new boolean[50];
         setIgnoreRepaint(true);
         addKeyListener(this);
         setFocusable(true);
@@ -13,15 +15,19 @@ public class Panel extends JPanel implements KeyListener{
     }
 
     public void keyTyped(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return;
     }
 
     public void keyPressed(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        keyStatus[ke.getKeyCode()] = true;
     }
 
     public void keyReleased(KeyEvent ke) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        keyStatus[ke.getKeyCode()] = false;
+
+    }
+    public boolean isKeyPressed(int keyCode){
+        return keyStatus[keyCode];
     }
     
 }
