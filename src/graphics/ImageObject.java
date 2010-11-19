@@ -34,6 +34,11 @@ public class ImageObject extends JPanel{
             System.out.println(e);
         }
     }
-    
+    public int getRealWidth(){
+        return image.getWidth();
+    }
+    public int getRealHeihgt(){
+        return image.getHeight();
+    }
     
 }

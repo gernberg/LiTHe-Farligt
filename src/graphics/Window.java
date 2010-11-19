@@ -40,6 +40,8 @@ public class Window extends JFrame {
         b.fillRect(0, 0, WIDTH, HEIGHT);
 
         ImageObject image = new ImageObject();
+        ImageObject bike = new ImageObject();
+        bike.setImage("bike.png");
 
         drawImage(image, b, 100, 200);
         if (panel.isKeyPressed(KeyEvent.VK_LEFT)) {
@@ -56,7 +58,7 @@ public class Window extends JFrame {
         }
         if (panel.isKeyPressed(KeyEvent.VK_SPACE)) {
             if(y>0){
-                y -= 1/y*50;
+                y -= y/20;
                 if(y<0){
                     y=0;
                 }
@@ -68,10 +70,16 @@ public class Window extends JFrame {
         if (y < -20) {
             y = -20;
         }
+        if (y>0){
+            y -= 0.5;
+        }
+        if (y<0){
+            y += 0.5;
+        }
         double angle = (Math.PI / 32) * i;
         xpos = (int) Math.round(xpos + y * Math.cos(angle));
         ypos = (int) Math.round(ypos + y * Math.sin(angle));
-        drawImage(image, b, xpos / 10, ypos / 10, angle);
+        drawImage(bike, b, xpos / 5, ypos / 5, angle);
 
         b.dispose();
     }
@@ -79,7 +87,7 @@ public class Window extends JFrame {
     public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation) {
         AffineTransform tfm = new AffineTransform();
 
-        tfm.rotate(rotation, x + image.getImage().getWidth() / 2, y + image.getImage().getHeight() / 2);
+        tfm.rotate(rotation, x + image.getRealWidth() / 2, y + image.getRealWidth() / 2);
         b.setTransform(tfm);
         b.drawImage(image.getImage(), x, y, this);
     }
