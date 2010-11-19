@@ -12,38 +12,54 @@ import java.awt.event.KeyEvent;
 public class Window extends JFrame {
     static int WIDTH = 1024;
     static int HEIGHT = 768;
-    int x,y;
+    int x,y,xpos,ypos;
     int i = 0;
-    Color backgroundColor = Color.WHITE;
+    Color backgroundColor = Color.DARK_GRAY;
     BufferedImage buffer;
     Panel panel;
     public void initialize(){
         buffer = new BufferedImage(WIDTH, HEIGHT,BufferedImage.TYPE_INT_RGB);
         x=0;
         y=0;
+        xpos=50;
+        ypos=50;
     }
     public void drawBuffer(){
         Graphics2D b = buffer.createGraphics();
-        b.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-alias!
-        RenderingHints.VALUE_ANTIALIAS_ON);
+        // Gör så att allt blir härligt smooth
+        b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+          RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        b.setRenderingHint(RenderingHints.KEY_RENDERING,
+          RenderingHints.VALUE_RENDER_QUALITY);
+
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0,0,WIDTH,HEIGHT);
+
         ImageObject image = new ImageObject();
 
         drawImage(image, b, 100, 200);
         if(panel.isKeyPressed(KeyEvent.VK_LEFT)){
             i--;
         }
-        if(panel.isKeyPressed(KeyEvent.VK_RIGHT)){
+        if(panel.isKeyPressed(KeyEvent.VK_RIGHT))
+        {
             i++;
         }
-        if(panel.isKeyPressed(KeyEvent.VK_UP)){
-            x++;
+        if(panel.isKeyPressed(KeyEvent.VK_UP))
+        {
+            y++;
         }
         if(panel.isKeyPressed(KeyEvent.VK_DOWN)){
-            x--;
+            y--;
         }
-        drawImage(image, b, x, 100, (Math.PI/32)*i);
+        if(y>50)
+            y=50;
+        if(y<-20)
+            y=-20;
+        double angle = (Math.PI/32)*i;
+        xpos = (int)Math.round(xpos + y*Math.cos(angle));
+        ypos = (int)Math.round(ypos + y*Math.sin(angle));
+        drawImage(image, b, xpos/10, ypos/10, angle);
 
         b.dispose();
     }
