@@ -16,7 +16,7 @@ public class Main {
                 window.update();
                 window.drawBuffer();
                 window.drawScreen();
-                Thread.sleep(2);
+                Thread.sleep(1);
             }
             catch(Exception e)
             {

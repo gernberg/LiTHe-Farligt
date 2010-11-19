@@ -40,5 +40,11 @@ public class ImageObject extends JPanel{
     public int getRealHeihgt(){
         return image.getHeight();
     }
+    public int getCenterWidth(){
+        return 34;
+    }
+    public int getCenterHeight(){
+        return 25;
+    }
     
 }
