@@ -10,69 +10,84 @@ import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 
 public class Window extends JFrame {
+
     static int WIDTH = 1024;
     static int HEIGHT = 768;
-    int x,y,xpos,ypos;
+    double x, y;
+    int xpos, ypos;
     int i = 0;
     Color backgroundColor = Color.DARK_GRAY;
     BufferedImage buffer;
     Panel panel;
-    public void initialize(){
-        buffer = new BufferedImage(WIDTH, HEIGHT,BufferedImage.TYPE_INT_RGB);
-        x=0;
-        y=0;
-        xpos=50;
-        ypos=50;
+
+    public void initialize() {
+        buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        x = 0;
+        y = 0;
+        xpos = 50;
+        ypos = 50;
     }
-    public void drawBuffer(){
+
+    public void drawBuffer() {
         Graphics2D b = buffer.createGraphics();
         // Gör så att allt blir härligt smooth
         b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-          RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         b.setRenderingHint(RenderingHints.KEY_RENDERING,
-          RenderingHints.VALUE_RENDER_QUALITY);
+                RenderingHints.VALUE_RENDER_QUALITY);
 
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
-        b.fillRect(0,0,WIDTH,HEIGHT);
+        b.fillRect(0, 0, WIDTH, HEIGHT);
 
         ImageObject image = new ImageObject();
 
         drawImage(image, b, 100, 200);
-        if(panel.isKeyPressed(KeyEvent.VK_LEFT)){
+        if (panel.isKeyPressed(KeyEvent.VK_LEFT)) {
             i--;
         }
-        if(panel.isKeyPressed(KeyEvent.VK_RIGHT))
-        {
+        if (panel.isKeyPressed(KeyEvent.VK_RIGHT)) {
             i++;
         }
-        if(panel.isKeyPressed(KeyEvent.VK_UP))
-        {
+        if (panel.isKeyPressed(KeyEvent.VK_UP)) {
             y++;
         }
-        if(panel.isKeyPressed(KeyEvent.VK_DOWN)){
+        if (panel.isKeyPressed(KeyEvent.VK_DOWN)) {
             y--;
         }
-        if(y>50)
-            y=50;
-        if(y<-20)
-            y=-20;
-        double angle = (Math.PI/32)*i;
-        xpos = (int)Math.round(xpos + y*Math.cos(angle));
-        ypos = (int)Math.round(ypos + y*Math.sin(angle));
-        drawImage(image, b, xpos/10, ypos/10, angle);
+        if (panel.isKeyPressed(KeyEvent.VK_SPACE)) {
+            if(y>0){
+                y -= 1/y*50;
+                if(y<0){
+                    y=0;
+                }
+            }
+        }
+        if (y > 50) {
+            y = 50;
+        }
+        if (y < -20) {
+            y = -20;
+        }
+        double angle = (Math.PI / 32) * i;
+        xpos = (int) Math.round(xpos + y * Math.cos(angle));
+        ypos = (int) Math.round(ypos + y * Math.sin(angle));
+        drawImage(image, b, xpos / 10, ypos / 10, angle);
 
         b.dispose();
     }
-    public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation){
+
+    public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation) {
         AffineTransform tfm = new AffineTransform();
-        
-        tfm.rotate(rotation, x+image.getImage().getWidth()/2, y+image.getImage().getHeight()/2);
+
+        tfm.rotate(rotation, x + image.getImage().getWidth() / 2, y + image.getImage().getHeight() / 2);
         b.setTransform(tfm);
-        b.drawImage(image.getImage(),x,y,this);
+        b.drawImage(image.getImage(), x, y, this);
     }
-    public void drawImage(ImageObject image, Graphics2D b, int x, int y){
+
+    public void drawImage(ImageObject image, Graphics2D b, int x, int y) {
         drawImage(image, b, x, y, 0);
     }
+
     public Window() {
         panel = new Panel();
         add(panel);
@@ -87,8 +102,8 @@ public class Window extends JFrame {
     }
 
     public void drawScreen() {
-        Graphics2D g = (Graphics2D)this.getGraphics();
-        g.drawImage(buffer,0,0,this);
+        Graphics2D g = (Graphics2D) this.getGraphics();
+        g.drawImage(buffer, 0, 0, this);
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
