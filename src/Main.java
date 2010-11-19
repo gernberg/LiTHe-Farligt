@@ -1,5 +1,5 @@
 
-import window.Window;
+import graphics.Window;
 
 public class Main {
     public static void main(String[] args){
@@ -7,6 +7,21 @@ public class Main {
         m.start();
     }
     public void start(){
-        Window w = new Window();
+        Window window = new Window();
+        window.initialize();
+        while(true)
+        {
+            try
+            {
+                window.update();
+                window.drawBuffer();
+                window.drawScreen();
+                Thread.sleep(15);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }
