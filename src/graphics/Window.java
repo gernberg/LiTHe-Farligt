@@ -62,8 +62,8 @@ public class Window extends JFrame {
                 }
             }
         }
-        if (y > 250) {
-            y = 250;
+        if (y > 50) {
+            y = 50;
         }
         if (y < -20) {
             y = -20;
