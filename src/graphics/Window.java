@@ -69,10 +69,10 @@ public class Window extends JFrame {
             y = -20;
         }
         if (y>0){
-            y -= y/50;
+            y-=0.5;
         }
         if (y<0){
-            y += 1;
+            y+=0.5;
         }
         double angle = (Math.PI / 32) * i;
         xpos = (int) Math.round(xpos + y * Math.cos(angle));
