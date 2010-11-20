@@ -8,11 +8,11 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Window extends JFrame {
-
-    static int WIDTH = 1600;
-    static int HEIGHT = 1024;
+    static int WINDOW_WIDTH = 1024;
+    static int WINDOW_HEIGHT = 768;
     double x, y;
     int xpos, ypos;
     double i = 0;
@@ -41,7 +41,7 @@ public class Window extends JFrame {
 
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WIDTH, HEIGHT);
-
+        
         b.dispose();
     }
 
@@ -57,22 +57,24 @@ public class Window extends JFrame {
         drawImage(image, b, x, y, 0);
     }
 
-    public Window() {
+    public Window(KeyListener keyListener) {
         panel = new Panel();
         add(panel);
         setTitle("GTA - LiTHe Farligt");
         setDefaultCloseOperation(EXIT_ON_CLOSE); // Kul att det inte är default
-        setSize(WIDTH, HEIGHT);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        setExtendedState(MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);
-        setExtendedState(MAXIMIZED_BOTH);
         createBufferStrategy(2);
+        addKeyListener(keyListener);
     }
 
     public void drawScreen() {
         Graphics2D g = (Graphics2D) this.getGraphics();
         g.drawImage(buffer, 0, 0, this);
+        Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
 
