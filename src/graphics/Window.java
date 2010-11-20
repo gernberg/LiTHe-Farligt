@@ -8,11 +8,12 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Window extends JFrame {
 
-    static int WIDTH = 1600;
-    static int HEIGHT = 1024;
+    static int WINDOW_WIDTH = 1024;
+    static int WINDOW_HEIGHT = 768;
     double x, y;
     int xpos, ypos;
     double i = 0;
@@ -21,7 +22,7 @@ public class Window extends JFrame {
     Panel panel;
 
     public void initialize() {
-        buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
         x = 0;
         y = 0;
         xpos = 50;
@@ -40,49 +41,7 @@ public class Window extends JFrame {
                 RenderingHints.VALUE_RENDER_QUALITY);
 
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
-        b.fillRect(0, 0, WIDTH, HEIGHT);
-
-        ImageObject image = new ImageObject();
-
-        drawImage(image, b, 100, 200);
-        if (panel.isKeyPressed(KeyEvent.VK_LEFT)) {
-            if(y!=0)
-                i--;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_RIGHT)) {
-            if(y!=0)
-                i++;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_UP)) {
-            y += 2;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_DOWN)) {
-            y--;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_SPACE)) {
-            if(y>0){
-                y -= y/20;
-                if(y<0){
-                    y=0;
-                }
-            }
-        }
-        if (y > 50) {
-            y = 50;
-        }
-        if (y < -20) {
-            y = -20;
-        }
-        if (y>0){
-            y-=0.5;
-        }
-        if (y<0){
-            y+=0.5;
-        }
-        double angle = (Math.PI / 256) * i;
-        xpos = (int) Math.round(xpos + y * Math.cos(angle));
-        ypos = (int) Math.round(ypos + y * Math.sin(angle));
-        drawImage(image, b, xpos / 5, ypos / 5, angle);
+        b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
         b.dispose();
     }
@@ -99,12 +58,13 @@ public class Window extends JFrame {
         drawImage(image, b, x, y, 0);
     }
 
-    public Window() {
+    public Window(KeyListener keyListener) {
         panel = new Panel();
         add(panel);
+        panel.addKeyListener(keyListener);
         setTitle("GTA - LiTHe Farligt");
         setDefaultCloseOperation(EXIT_ON_CLOSE); // Kul att det inte är default
-        setSize(WIDTH, HEIGHT);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setLocationRelativeTo(null);
         setVisible(true);
         setResizable(false);

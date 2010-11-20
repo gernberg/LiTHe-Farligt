@@ -1,5 +1,6 @@
 
 import graphics.Window;
+import objects.UserController;
 
 public class Main {
     public static void main(String[] args){
@@ -7,7 +8,8 @@ public class Main {
         m.start();
     }
     public void start(){
-        Window window = new Window();
+        UserController userInput = new UserController();
+        Window window = new Window(userInput);
         window.initialize();
         while(true)
         {
