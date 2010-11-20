@@ -15,7 +15,13 @@ public class Person extends MoveableObject{
     
     @Override
     public void setImage() {
-        setImage(new ImageObject("person.png"));
+        setImage(new ImageObject("car.png"));
     }
+
+    public Person(){
+        setImage();
+        setPosition(100,200);
+    }
+
 
 }

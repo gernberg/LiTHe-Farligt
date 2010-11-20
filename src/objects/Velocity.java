@@ -12,4 +12,8 @@ package objects;
 public class Velocity {
     double speed;
     double angle;
+
+    void increaseSpeed() {
+        speed++;
+    }
 }

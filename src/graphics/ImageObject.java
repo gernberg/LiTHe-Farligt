@@ -35,7 +35,6 @@ public class ImageObject extends JPanel{
             // TODO: Se till att vi gör något smart om ex. filen inte finns.
             // Förslagsvis ladda en bild med ett kryss, eller döda programmet.
             System.out.println(e);
-            
         }
     }
     public int getRealWidth(){

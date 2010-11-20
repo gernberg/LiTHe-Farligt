@@ -14,4 +14,15 @@ public abstract class MoveableObject extends Object{
     float weight;
     Velocity velocity;
     float engineCapacity;
+
+    @Override
+    public void setPosition(int x, int y) {
+        setX(x);
+        setY(y);
+    }
+
+    public void accelerate(){
+        velocity.increaseSpeed();
+    }
+
 }

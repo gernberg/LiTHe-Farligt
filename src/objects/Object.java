@@ -46,5 +46,13 @@ public abstract class Object {
     public void setY(int y) {
         this.y = y;
     }
+    /**
+     * Förslagsvis så skapar vi olika funktioner för moveable och fixed.
+     * För att fixed aldrig ska behöva tänka några bounds, medans moveable
+     * kanske inte alltid får anta alla positioner.
+     * @param x
+     * @param y
+     */
+    public abstract void setPosition(int x, int y);
     
 }
