@@ -15,7 +15,7 @@ public class Window extends JFrame {
     static int HEIGHT = 1024;
     double x, y;
     int xpos, ypos;
-    int i = 0;
+    double i = 0;
     Color backgroundColor = Color.DARK_GRAY;
     BufferedImage buffer;
     Panel panel;
@@ -27,7 +27,10 @@ public class Window extends JFrame {
         xpos = 50;
         ypos = 50;
     }
-
+    public void draw(){
+        drawBuffer();
+        drawScreen();
+    }
     public void drawBuffer() {
         Graphics2D b = buffer.createGraphics();
         // Gör så att allt blir härligt smooth
@@ -43,10 +46,12 @@ public class Window extends JFrame {
 
         drawImage(image, b, 100, 200);
         if (panel.isKeyPressed(KeyEvent.VK_LEFT)) {
-            i--;
+            if(y!=0)
+                i--;
         }
         if (panel.isKeyPressed(KeyEvent.VK_RIGHT)) {
-            i++;
+            if(y!=0)
+                i++;
         }
         if (panel.isKeyPressed(KeyEvent.VK_UP)) {
             y += 2;
@@ -74,7 +79,7 @@ public class Window extends JFrame {
         if (y<0){
             y+=0.5;
         }
-        double angle = (Math.PI / 32) * i;
+        double angle = (Math.PI / 256) * i;
         xpos = (int) Math.round(xpos + y * Math.cos(angle));
         ypos = (int) Math.round(ypos + y * Math.sin(angle));
         drawImage(image, b, xpos / 5, ypos / 5, angle);

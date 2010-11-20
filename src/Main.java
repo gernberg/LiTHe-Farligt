@@ -11,17 +11,10 @@ public class Main {
         window.initialize();
         while(true)
         {
-            try
-            {
-                window.update();
-                window.drawBuffer();
-                window.drawScreen();
-                Thread.sleep(1);
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-            }
+            window.update();
+            window.draw();
+            //window.drawBuffer();
+            //window.drawScreen();
         }
     }
 }
