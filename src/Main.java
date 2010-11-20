@@ -10,11 +10,12 @@ public class Main {
     }
     public void start(){
         Window window = new Window();
-        UserController UserController = new UserController(window);
-        window.addUserInput(UserController);
+        UserController userController = new UserController(window);
+        window.addUserInput(userController);
         window.initialize();
         while(true)
         {
+            userController.poll();
             window.update();
             window.draw();
            

@@ -54,5 +54,8 @@ public abstract class Object {
      * @param y
      */
     public abstract void setPosition(int x, int y);
-    
+    /**
+     * Fråga what's up.
+     */
+    public abstract void poll();
 }

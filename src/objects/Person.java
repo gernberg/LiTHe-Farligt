@@ -23,5 +23,10 @@ public class Person extends MoveableObject{
         setPosition(100,200);
     }
 
+    @Override
+    public void poll() {
+        // Gör ingenting
+    }
+
 
 }

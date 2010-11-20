@@ -52,6 +52,7 @@ public class Window extends JFrame {
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         for (Object object : objects) {
+            object.poll();
             drawImage(object, b);
         }
         b.dispose();
@@ -95,6 +96,7 @@ public class Window extends JFrame {
 
     public void update() {
         // TODO: Uppdatera saker som händer.
+
     }
 
     public void addUserInput(UserController UserController) {

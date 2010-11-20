@@ -40,4 +40,11 @@ public class UserController implements KeyListener{
         return activeKeys.contains(keyCode);
     }
 
+    public void poll() {
+        if(isKeyPressed(KeyEvent.VK_UP)){
+            currentObject.accelerate();
+        }
+    }
+
+
 }
