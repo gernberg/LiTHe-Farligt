@@ -1,5 +1,6 @@
 
 import graphics.Window;
+import java.awt.event.KeyEvent;
 import objects.UserController;
 
 public class Main {
@@ -8,13 +9,15 @@ public class Main {
         m.start();
     }
     public void start(){
-        UserController userInput = new UserController();
-        Window window = new Window(userInput);
+        Window window = new Window();
+        UserController UserController = new UserController(window);
+        window.addUserInput(UserController);
         window.initialize();
         while(true)
         {
             window.update();
             window.draw();
+           
             //window.drawBuffer();
             //window.drawScreen();
         }

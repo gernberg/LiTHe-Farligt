@@ -9,7 +9,7 @@ package objects;
  *
  * @author gustav
  */
-public class MoveableObject {
+public abstract class MoveableObject extends Object{
     int maxSpeed;
     float weight;
     Velocity velocity;

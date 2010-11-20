@@ -9,6 +9,14 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import objects.MoveableObject;
+import objects.UserController;
+import objects.Object;
+import objects.Person;
 
 public class Window extends JFrame {
 
@@ -20,7 +28,8 @@ public class Window extends JFrame {
     Color backgroundColor = Color.DARK_GRAY;
     BufferedImage buffer;
     Panel panel;
-
+    Set<Object> objects = new HashSet<Object>();
+    MoveableObject person;
     public void initialize() {
         buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
         x = 0;
@@ -42,10 +51,14 @@ public class Window extends JFrame {
 
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-
+        for (Object object : objects) {
+            drawImage(object, b);
+        }
         b.dispose();
     }
-
+    public void drawImage(Object o, Graphics2D b){
+        drawImage(o.getImage(), b, o.getX(), o.getY());
+    }
     public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation) {
         AffineTransform tfm = new AffineTransform();
 
@@ -58,10 +71,9 @@ public class Window extends JFrame {
         drawImage(image, b, x, y, 0);
     }
 
-    public Window(KeyListener keyListener) {
+    public Window() {
         panel = new Panel();
         add(panel);
-        panel.addKeyListener(keyListener);
         setTitle("GTA - LiTHe Farligt");
         setDefaultCloseOperation(EXIT_ON_CLOSE); // Kul att det inte är default
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -70,6 +82,8 @@ public class Window extends JFrame {
         setResizable(false);
         setExtendedState(MAXIMIZED_BOTH);
         createBufferStrategy(2);
+        
+        addPerson();
     }
 
     public void drawScreen() {
@@ -81,5 +95,16 @@ public class Window extends JFrame {
 
     public void update() {
         // TODO: Uppdatera saker som händer.
+    }
+
+    public void addUserInput(UserController UserController) {
+        panel.addKeyListener(UserController);
+    }
+    public void addPerson(){
+        person = new Person();
+        objects.add(person);
+    }
+    public MoveableObject getPerson() {
+        return person;
     }
 }

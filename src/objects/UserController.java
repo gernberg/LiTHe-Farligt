@@ -5,8 +5,11 @@
 
 package objects;
 
+import graphics.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -14,13 +17,27 @@ import java.awt.event.KeyListener;
  */
 public class UserController implements KeyListener{
     MoveableObject currentObject;
+    Window window;
+    // Ett set som innehåller de tangenter som är nertryckta för tillfället.
+    Set<Integer> activeKeys = new HashSet<Integer>();
+
+    public UserController(Window window) {
+        this.window = window;
+        currentObject = getPerson();
+    }
+    public MoveableObject getPerson(){
+        return window.getPerson();
+    }
     public void keyTyped(KeyEvent e) { /* Denna hanterar vi inte */}
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        activeKeys.add(e.getKeyCode());
     }
 
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        activeKeys.remove(e.getKeyCode());
+    }
+    public boolean isKeyPressed(int keyCode){
+        return activeKeys.contains(keyCode);
     }
 
 }
