@@ -115,7 +115,6 @@ public class Window extends JFrame {
     public void drawScreen() {
         Graphics2D g = (Graphics2D) this.getGraphics();
         g.drawImage(buffer, 0, 0, this);
-        Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
 
