@@ -42,48 +42,6 @@ public class Window extends JFrame {
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WIDTH, HEIGHT);
 
-        ImageObject image = new ImageObject();
-
-        drawImage(image, b, 100, 200);
-        if (panel.isKeyPressed(KeyEvent.VK_LEFT)) {
-            if(y!=0)
-                i--;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_RIGHT)) {
-            if(y!=0)
-                i++;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_UP)) {
-            y += 2;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_DOWN)) {
-            y--;
-        }
-        if (panel.isKeyPressed(KeyEvent.VK_SPACE)) {
-            if(y>0){
-                y -= y/20;
-                if(y<0){
-                    y=0;
-                }
-            }
-        }
-        if (y > 50) {
-            y = 50;
-        }
-        if (y < -20) {
-            y = -20;
-        }
-        if (y>0){
-            y-=0.5;
-        }
-        if (y<0){
-            y+=0.5;
-        }
-        double angle = (Math.PI / 256) * i;
-        xpos = (int) Math.round(xpos + y * Math.cos(angle));
-        ypos = (int) Math.round(ypos + y * Math.sin(angle));
-        drawImage(image, b, xpos / 5, ypos / 5, angle);
-
         b.dispose();
     }
 
