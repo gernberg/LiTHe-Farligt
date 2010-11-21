@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import objects.Car;
 import objects.MoveableObject;
 import objects.UserController;
 import objects.Object;
@@ -25,10 +26,10 @@ public class Window extends JFrame {
     double x, y;
     int xpos, ypos;
     double i = 0;
-    Color backgroundColor = Color.DARK_GRAY;
+    Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;
     Panel panel;
-    Set<Object> objects = new HashSet<Object>();
+    Set<MoveableObject> objects = new HashSet<MoveableObject>();
     MoveableObject person;
     public void initialize() {
         buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -51,7 +52,7 @@ public class Window extends JFrame {
 
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        for (Object object : objects) {
+        for (MoveableObject object : objects) {
             object.poll();
             drawImage(object, b);
         }
@@ -59,15 +60,23 @@ public class Window extends JFrame {
     }
     public void drawImage(Object o, Graphics2D b){
         drawImage(o.getImage(), b, o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
+        drawDebug(o, b);
+    }
+    public void drawDebug(Object o, Graphics2D b){
+        AffineTransform tfm = new AffineTransform();
+        MoveableObject m = (MoveableObject) o;
+        b.setTransform(tfm);
+        b.setColor(Color.white);
+        b.drawOval(o.getRotationCenterX() + o.getIntX() - 10,o.getRotationCenterY() + o.getIntY() - 10, 20, 20);
+        b.setColor(Color.green);
+        b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
     }
     public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
-
         tfm.rotate(rotation, x + rotationCenterX, y + rotationCenterY);
         b.setTransform(tfm);
         b.drawImage(image.getImage(), x, y, this);
-        b.setColor(Color.red);
-        b.drawOval(x + rotationCenterX, y + rotationCenterY, 10, 10);
+        tfm.rotate(0, 0, 0);
     }
 
     public void drawImage(ImageObject image, Graphics2D b, int x, int y) {
@@ -87,6 +96,7 @@ public class Window extends JFrame {
         createBufferStrategy(2);
         
         addPerson();
+        addCar();
     }
 
     public void drawScreen() {
@@ -106,9 +116,26 @@ public class Window extends JFrame {
     }
     public void addPerson(){
         person = new Person();
+        person.setUsedByUser(true);
         objects.add(person);
+    }
+    public void addCar(){
+        objects.add(new Car());
     }
     public MoveableObject getPerson() {
         return person;
+    }
+
+    public MoveableObject switchObject(MoveableObject currentObject) {
+        for (MoveableObject object : objects) {
+            if(!object.equals(currentObject)){
+                if(currentObject.distanceTo(object)<100){
+                    currentObject.setUsedByUser(false);
+                    object.setUsedByUser(true);
+                    return object;
+                }
+            }
+        }
+        return currentObject;
     }
 }

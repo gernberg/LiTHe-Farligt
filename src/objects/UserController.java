@@ -28,13 +28,17 @@ public class UserController implements KeyListener{
     public MoveableObject getPerson(){
         return window.getPerson();
     }
-    public void keyTyped(KeyEvent e) { /* Denna hanterar vi inte */}
+    public void keyTyped(KeyEvent e) {
+    }
     public void keyPressed(KeyEvent e) {
         activeKeys.add(e.getKeyCode());
     }
 
     public void keyReleased(KeyEvent e) {
         activeKeys.remove(e.getKeyCode());
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            switchObject();
+        }
     }
     public boolean isKeyPressed(int keyCode){
         return activeKeys.contains(keyCode);
@@ -45,7 +49,7 @@ public class UserController implements KeyListener{
             currentObject.accelerate();
         }
         if(isKeyPressed(KeyEvent.VK_DOWN)){
-            currentObject.brake();
+            currentObject.retardate();
         }
         if(isKeyPressed(KeyEvent.VK_LEFT)){
             currentObject.turnLeft();
@@ -53,6 +57,13 @@ public class UserController implements KeyListener{
         if(isKeyPressed(KeyEvent.VK_RIGHT)){
             currentObject.turnRight();
         }
+        if(isKeyPressed(KeyEvent.VK_SPACE)){
+            currentObject.brake();
+        }
+    }
+
+    private void switchObject() {
+        currentObject = window.switchObject(currentObject);
     }
 
 

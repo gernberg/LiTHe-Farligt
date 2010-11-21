@@ -11,21 +11,24 @@ import graphics.ImageObject;
  *
  * @author gustav
  */
-public class Person extends MoveableObject{
-    @Override
-    public void setImage() {
-        setImage(new ImageObject("person.png"));
-    }
-    public Person(){
-        centerX = 5;
-        centerY = 10;
+public class Car extends MoveableObject{
+
+    public Car() {
+        centerX = 35;
+        centerY = 25;
         speed = 1;
-        acceleration = 1;
-        maxSpeed = 2;
-        torque = (float) 2;
+        acceleration = (float) 0.2;
+        maxSpeed = 50;
+        torque = (float) 0.5;
         setImage();
         setVelocity();
-        setPosition(100,200);
+        setPosition(150,200);
+    }
+
+
+    @Override
+    public void setImage() {
+        setImage(new ImageObject("car.png"));
     }
     @Override
     public float getNewX(){
@@ -37,4 +40,5 @@ public class Person extends MoveableObject{
         setY(velocity.getNewY(y));
         return getY();
     }
+
 }
