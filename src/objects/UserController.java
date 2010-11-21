@@ -39,6 +39,9 @@ public class UserController implements KeyListener{
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
             switchObject();
         }
+        if(e.getKeyChar() == 'd'){
+            window.switchDebug();
+        }
     }
     public boolean isKeyPressed(int keyCode){
         return activeKeys.contains(keyCode);

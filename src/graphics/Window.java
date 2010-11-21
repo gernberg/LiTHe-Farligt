@@ -6,6 +6,8 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -28,9 +30,14 @@ public class Window extends JFrame {
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;
+    Graphics2D b;
     Panel panel;
     Set<MoveableObject> objects = new HashSet<MoveableObject>();
     MoveableObject person;
+    private boolean debug = false;
+    public void switchDebug(){
+        debug = !debug;
+    }
     public void initialize() {
         buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
         x = 0;
@@ -43,7 +50,7 @@ public class Window extends JFrame {
         drawScreen();
     }
     public void drawBuffer() {
-        Graphics2D b = buffer.createGraphics();
+        b = buffer.createGraphics();
         // Gör så att allt blir härligt smooth
         b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -54,24 +61,31 @@ public class Window extends JFrame {
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         for (MoveableObject object : objects) {
             object.poll();
-            drawImage(object, b);
+            drawImage(object);
         }
         b.dispose();
     }
-    public void drawImage(Object o, Graphics2D b){
-        drawImage(o.getImage(), b, o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
-        drawDebug(o, b);
+    public void drawImage(Object o){
+        drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
+        if(debug){
+            drawDebugCircles((MoveableObject) o);
+        }
     }
-    public void drawDebug(Object o, Graphics2D b){
+    public void drawLine(int x, int y1, int x2, int y2){
+
+    }
+    public void drawDebugCircles(MoveableObject o){
         AffineTransform tfm = new AffineTransform();
         MoveableObject m = (MoveableObject) o;
         b.setTransform(tfm);
-        b.setColor(Color.white);
-        b.drawOval(o.getRotationCenterX() + o.getIntX() - 10,o.getRotationCenterY() + o.getIntY() - 10, 20, 20);
-        b.setColor(Color.green);
+        if(o.isUsedByUser()){
+            b.setColor(Color.GREEN);
+            b.drawOval(o.getRotationCenterX() + o.getIntX() - 10,o.getRotationCenterY() + o.getIntY() - 10, 20, 20);
+        }
+        b.setColor(Color.WHITE);
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
     }
-    public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
+    public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
         tfm.rotate(rotation, x + rotationCenterX, y + rotationCenterY);
         b.setTransform(tfm);
@@ -79,8 +93,8 @@ public class Window extends JFrame {
         tfm.rotate(0, 0, 0);
     }
 
-    public void drawImage(ImageObject image, Graphics2D b, int x, int y) {
-        drawImage(image, b, x, y, 0, 0, 0);
+    public void drawImage(ImageObject image, int x, int y) {
+        drawImage(image, x, y, 0, 0, 0);
     }
 
     public Window() {
@@ -125,11 +139,10 @@ public class Window extends JFrame {
     public MoveableObject getPerson() {
         return person;
     }
-
     public MoveableObject switchObject(MoveableObject currentObject) {
         for (MoveableObject object : objects) {
             if(!object.equals(currentObject)){
-                if(currentObject.distanceTo(object)<100){
+                if(currentObject.distanceTo(object)<50){
                     currentObject.setUsedByUser(false);
                     object.setUsedByUser(true);
                     return object;
