@@ -49,11 +49,11 @@ public class Velocity {
     
     public float getNewX(float x) {
         System.out.println(x + " " + angle);
-        return (float)(x +  Math.cos(angle) * speed / 3);
+        return (float)(x +  Math.cos(angle) * speed);
     }
 
     public float getNewY(float y) {
-        return (float)(y + Math.sin(angle) * speed / 3);
+        return (float)(y + Math.sin(angle) * speed);
     }
     public void turnRight(){
         if(speed>0)
