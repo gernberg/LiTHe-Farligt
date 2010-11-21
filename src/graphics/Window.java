@@ -58,18 +58,20 @@ public class Window extends JFrame {
         b.dispose();
     }
     public void drawImage(Object o, Graphics2D b){
-        drawImage(o.getImage(), b, o.getX(), o.getY(), o.getAngle());
+        drawImage(o.getImage(), b, o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
     }
-    public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation) {
+    public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
 
-        tfm.rotate(rotation, x + image.getCenterWidth(), y + image.getCenterHeight());
+        tfm.rotate(rotation, x + rotationCenterX, y + rotationCenterY);
         b.setTransform(tfm);
         b.drawImage(image.getImage(), x, y, this);
+        b.setColor(Color.red);
+        b.drawOval(x + rotationCenterX, y + rotationCenterY, 10, 10);
     }
 
     public void drawImage(ImageObject image, Graphics2D b, int x, int y) {
-        drawImage(image, b, x, y, 0);
+        drawImage(image, b, x, y, 0, 0, 0);
     }
 
     public Window() {

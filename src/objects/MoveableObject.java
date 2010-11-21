@@ -40,6 +40,9 @@ public abstract class MoveableObject extends Object{
     public void turnRight(){
         velocity.turnRight();
     }
-    public abstract void setVelocity();
+    public void setVelocity(){
+        velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
+        System.out.println(maxSpeed);
+    }
 
 }

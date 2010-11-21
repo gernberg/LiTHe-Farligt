@@ -13,8 +13,8 @@ import graphics.ImageObject;
  */
 public abstract class Object {
     ImageObject image;
-    int x,y;
-    int[] center = new int[2];
+    float x,y;
+    int centerX, centerY;
     public ImageObject getImage() {
         return image;
     }
@@ -31,20 +31,38 @@ public abstract class Object {
     public void setImage(ImageObject image){
         this.image = image;
     }
-    public int getX() {
+    public float getX() {
         return x;
     }
+    public int getIntX(){
+        return Math.round(getX());
+    }
+    public int getIntY(){
+        return Math.round(getY());
+    }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
+    }
+    public int getWidth(){
+        return image.getWidth();
+    }
+    public int getHeight(){
+        return image.getHeight();
+    }
+    public int getRotationCenterX(){
+        return centerX;
+    }
+    public int getRotationCenterY(){
+        return centerY;
     }
     /**
      * Förslagsvis så skapar vi olika funktioner för moveable och fixed.

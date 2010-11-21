@@ -31,6 +31,10 @@ public class Velocity {
     }
     public void decreaseSpeed(){
         speed -= acceleration;
+        float minSpeed = -maxSpeed;
+        if(speed<minSpeed){
+            speed = minSpeed;
+        }
     }
     public void increaseAngle(){
         angle += torque/10;
@@ -43,23 +47,24 @@ public class Velocity {
         return angle;
     }
     
-    public int getNewX(int x) {
-        return x + (Math.round((float) Math.cos(angle) * speed));
+    public float getNewX(float x) {
+        System.out.println(x + " " + angle);
+        return (float)(x +  Math.cos(angle) * speed);
     }
 
-    public int getNewY(int y) {
-        return y + (Math.round((float) Math.sin(angle) * speed));
+    public float getNewY(float y) {
+        return (float)(y + Math.sin(angle) * speed);
     }
     public void turnRight(){
         if(speed>0)
             increaseAngle();
-        else
+        else if(speed<0)
             decreaseAngle();
     }
     public void turnLeft(){
         if(speed>0)
             decreaseAngle();
-        else
+        else if(speed<0)
             increaseAngle();
     }
 }
