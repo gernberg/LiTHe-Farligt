@@ -21,7 +21,7 @@ public class Person extends MoveableObject{
         centerY = 20;
         speed = 0;
         acceleration = 1;
-        maxSpeed = 2;
+        maxSpeed = 50;
         torque = (float) 0.5;
         setImage();
         setVelocity();

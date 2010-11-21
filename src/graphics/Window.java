@@ -66,10 +66,16 @@ public class Window extends JFrame {
         tfm.rotate(rotation, x + rotationCenterX, y + rotationCenterY);
         b.setTransform(tfm);
         b.drawImage(image.getImage(), x, y, this);
+    }
+    /*public void drawDebug(Object o){
+        // För debug, ritar ut centrum för rotation
         b.setColor(Color.red);
         b.drawOval(x + rotationCenterX, y + rotationCenterY, 10, 10);
-    }
 
+        // För debug, ritar ut bounding box
+        b.setColor(Color.red);
+        b.drawOval(x + rotationCenterX, y + rotationCenterY, 10, 10);
+    }*/
     public void drawImage(ImageObject image, Graphics2D b, int x, int y) {
         drawImage(image, b, x, y, 0, 0, 0);
     }
