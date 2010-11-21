@@ -14,7 +14,7 @@ import graphics.ImageObject;
 public abstract class Object {
     ImageObject image;
     int x,y;
-
+    int[] center = new int[2];
     public ImageObject getImage() {
         return image;
     }
@@ -58,4 +58,5 @@ public abstract class Object {
      * Fråga what's up.
      */
     public abstract void poll();
+    public abstract float getAngle();
 }

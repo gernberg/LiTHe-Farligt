@@ -1,6 +1,8 @@
 
 import graphics.Window;
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import objects.UserController;
 
 public class Main {
@@ -18,9 +20,13 @@ public class Main {
             userController.poll();
             window.update();
             window.draw();
-           
-            //window.drawBuffer();
-            //window.drawScreen();
+            try {
+                Thread.sleep(15);
+                //window.drawScreen();
+                //window.drawScreen();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }

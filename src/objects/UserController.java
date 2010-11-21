@@ -44,6 +44,15 @@ public class UserController implements KeyListener{
         if(isKeyPressed(KeyEvent.VK_UP)){
             currentObject.accelerate();
         }
+        if(isKeyPressed(KeyEvent.VK_DOWN)){
+            currentObject.brake();
+        }
+        if(isKeyPressed(KeyEvent.VK_LEFT)){
+            currentObject.turnLeft();
+        }
+        if(isKeyPressed(KeyEvent.VK_RIGHT)){
+            currentObject.turnRight();
+        }
     }
 
 

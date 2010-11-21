@@ -44,10 +44,10 @@ public class ImageObject extends JPanel{
         return image.getHeight();
     }
     public int getCenterWidth(){
-        return 34;
+        return image.getHeight()-center[0];
     }
     public int getCenterHeight(){
-        return 25;
+        return image.getHeight()-center[1];
     }
     
 }

@@ -10,28 +10,36 @@ package objects;
  * @author gustav
  */
 public abstract class MoveableObject extends Object{
-    int maxSpeed;
+    float maxSpeed;
     float weight;
-    Velocity velocity = new Velocity();
+    float speed, angle, acceleration, torque;
+    Velocity velocity;
     float engineCapacity;
-    
+    public MoveableObject(){
+        setVelocity();
+    }
     @Override
     public void setPosition(int x, int y) {
         setX(x);
         setY(y);
     }
+    public float getAngle(){
+        return velocity.getAngle();
+    }
 
-    @Override
-    public int getX(){
-        return velocity.getNewX(x);
-    }
-    @Override
-    public int getY(){
-        return velocity.getNewY(y);
-    }
 
     public void accelerate(){
         velocity.increaseSpeed();
     }
+    public void brake(){
+        velocity.decreaseSpeed();
+    }
+    public void turnLeft(){
+        velocity.turnLeft();
+    }
+    public void turnRight(){
+        velocity.turnRight();
+    }
+    public abstract void setVelocity();
 
 }

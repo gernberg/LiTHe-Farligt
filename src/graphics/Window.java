@@ -58,7 +58,7 @@ public class Window extends JFrame {
         b.dispose();
     }
     public void drawImage(Object o, Graphics2D b){
-        drawImage(o.getImage(), b, o.getX(), o.getY());
+        drawImage(o.getImage(), b, o.getX(), o.getY(), o.getAngle());
     }
     public void drawImage(ImageObject image, Graphics2D b, int x, int y, double rotation) {
         AffineTransform tfm = new AffineTransform();
