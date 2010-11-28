@@ -84,6 +84,8 @@ public class Window extends JFrame {
         }
         b.setColor(Color.WHITE);
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
+        b.setColor(Color.RED);
+        b.drawOval(o.getIntX() - 12, o.getIntY() - 12, 25, 25);
     }
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();

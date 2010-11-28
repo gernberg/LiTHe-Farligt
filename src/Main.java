@@ -22,8 +22,6 @@ public class Main {
             window.draw();
             try {
                 Thread.sleep(15);
-                //window.drawScreen();
-                //window.drawScreen();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
