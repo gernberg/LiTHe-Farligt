@@ -2,7 +2,9 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -11,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -85,7 +88,14 @@ public class Window extends JFrame {
         b.setColor(Color.WHITE);
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
-        b.drawOval(o.getIntX() - 12, o.getIntY() - 12, 25, 25);
+//        b.drawOval(o.getIntX() - 12, o.getIntY() - 12, 25, 25);
+        Rectangle r = new Rectangle(o.getIntX(), o.getIntY(), 1000, 50);
+        tfm.rotate(2, o.getIntX(), o.getIntY());
+        b.draw(tfm.createTransformedShape(r));
+        if(tfm.createTransformedShape(r).intersects(new Rectangle(500 + o.getIntX()/10,500 + o.getIntX()/10,10,10))){
+            b.setColor(Color.YELLOW);
+        }
+        b.draw(new Rectangle(500 + o.getIntX()/10,500 + o.getIntX()/10,10,10));
     }
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
