@@ -18,7 +18,6 @@ public class Main {
         while(true)
         {
             userController.poll();
-            window.update();
             window.draw();
             try {
                 Thread.sleep(15);
