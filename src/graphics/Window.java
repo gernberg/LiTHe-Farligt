@@ -120,14 +120,10 @@ public class Window extends JFrame {
         g.dispose();
     }
 
-    public void update() {
-        // TODO: Uppdatera saker som händer.
-
-    }
-
     public void addUserInput(UserController UserController) {
         panel.addKeyListener(UserController);
     }
+
     public void addPerson(){
         person = new Person();
         person.setUsedByUser(true);
