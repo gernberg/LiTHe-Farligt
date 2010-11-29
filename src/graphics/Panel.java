@@ -4,12 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
-public class Panel extends JPanel implements KeyListener{
+public class Panel extends JPanel{
     private boolean[] keyStatus;
     public Panel(){
         keyStatus = new boolean[50];
         setIgnoreRepaint(true);
-        addKeyListener(this);
         setFocusable(true);
 
     }
