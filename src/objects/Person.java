@@ -6,6 +6,13 @@
 package objects;
 
 import graphics.ImageObject;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -17,6 +24,8 @@ public class Person extends MoveableObject{
         setImage(new ImageObject("person.png"));
     }
     public Person(){
+        width = 10;
+        height = 20;
         centerX = 5;
         centerY = 10;
         speed = 1;
@@ -37,4 +46,5 @@ public class Person extends MoveableObject{
         setY(velocity.getNewY(y));
         return getY();
     }
+
 }

@@ -6,6 +6,7 @@
 package objects;
 
 import graphics.ImageObject;
+import java.awt.Shape;
 
 /**
  *
@@ -14,9 +15,24 @@ import graphics.ImageObject;
 public abstract class Object {
     ImageObject image;
     float x,y;
-    int centerX, centerY;
+    protected int centerX, centerY, height, width;
     public ImageObject getImage() {
         return image;
+    }
+    /**
+     * Hämtar x värdet. Kan med fördel skuggas av subklasser
+     * @return
+     */
+    public int getBoundingY(){
+        return getIntY();
+    }
+    /**
+     *
+     * Hämtar y värdet. Kan med fördel skuggas av subklasser
+     * @return
+     */
+    public int getBoundingX(){
+        return getIntX();
     }
     /**
      * Kör setImage(), inte så mkt mera just nu.
@@ -53,10 +69,10 @@ public abstract class Object {
         this.y = y;
     }
     public int getWidth(){
-        return image.getWidth();
+        return width;
     }
     public int getHeight(){
-        return image.getHeight();
+        return height;
     }
     public int getRotationCenterX(){
         return centerX;
@@ -77,4 +93,9 @@ public abstract class Object {
      */
     public abstract void poll();
     public abstract float getAngle();
+    /**
+     * Returnerar en Shape som är boundingBoxen - till för bla. kollisionshantering.
+     * @return
+     */
+    public abstract Shape getBoundingShape();
 }

@@ -88,14 +88,7 @@ public class Window extends JFrame {
         b.setColor(Color.WHITE);
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
-//        b.drawOval(o.getIntX() - 12, o.getIntY() - 12, 25, 25);
-        Rectangle r = new Rectangle(o.getIntX(), o.getIntY(), 1000, 50);
-        tfm.rotate(2, o.getIntX(), o.getIntY());
-        b.draw(tfm.createTransformedShape(r));
-        if(tfm.createTransformedShape(r).intersects(new Rectangle(500 + o.getIntX()/10,500 + o.getIntX()/10,10,10))){
-            b.setColor(Color.YELLOW);
-        }
-        b.draw(new Rectangle(500 + o.getIntX()/10,500 + o.getIntX()/10,10,10));
+        b.draw(o.getBoundingShape());
     }
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();

@@ -6,6 +6,8 @@
 package objects;
 
 import graphics.ImageObject;
+import java.awt.Rectangle;
+import java.awt.Shape;
 
 /**
  *
@@ -17,6 +19,8 @@ public class Car extends MoveableObject{
         centerX = 35;
         centerY = 25;
         speed = 1;
+        width = 45;
+        height = 25;
         acceleration = (float) 0.2;
         maxSpeed = 50;
         torque = (float) 0.5;
@@ -24,7 +28,9 @@ public class Car extends MoveableObject{
         setVelocity();
         setPosition(150,200);
     }
-
+    public int getBoundingY(){
+        return super.getBoundingY() + 12;
+    }
 
     @Override
     public void setImage() {

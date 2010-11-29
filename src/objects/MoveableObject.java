@@ -7,6 +7,7 @@ package objects;
 
 import com.sun.java.swing.plaf.windows.resources.windows_de;
 import java.awt.Rectangle;
+import java.awt.Shape;
 
 /**
  *
@@ -74,4 +75,13 @@ public abstract class MoveableObject extends Object{
         return  Math.sqrt(Math.pow(this.getX()-object.getX(), 2) +
                 Math.pow(this.getX()-object.getX(), 2));
     }
+    /**
+     * Skapar en standard bounding - om vi antar att det mesta är rektanglar
+     * med inte allt för knepiga bilder.
+     * @return
+     */
+    public Shape getBoundingShape() {
+        return new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight());
+    }
+    
 }
