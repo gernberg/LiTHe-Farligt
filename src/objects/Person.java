@@ -29,7 +29,7 @@ public class Person extends MoveableObject{
         centerX = 5;
         centerY = 10;
         speed = 1;
-        acceleration = 10000;
+        acceleration = 100;
         maxSpeed = 2;
         torque = (float) 2;
         setImage();

@@ -5,7 +5,6 @@
 
 package objects;
 
-import com.sun.java.swing.plaf.windows.resources.windows_de;
 import java.awt.Rectangle;
 import java.awt.Shape;
 
@@ -65,9 +64,7 @@ public abstract class MoveableObject extends Object{
     }
     public void setVelocity(){
         velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
-        System.out.println(maxSpeed);
     }
-
     public abstract float getNewX();
     public abstract float getNewY();
 

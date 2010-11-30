@@ -18,7 +18,7 @@ public class Car extends MoveableObject{
     public Car() {
         centerX = 35;
         centerY = 25;
-        speed = 1;
+        speed = 0;
         width = 45;
         height = 25;
         acceleration = (float) 0.2;

@@ -55,19 +55,22 @@ public class Velocity {
         return (float)(y + Math.sin(angle) * speed);
     }
     public void turnRight(){
-//        if(speed>=0)
+        if(speed>0)
             increaseAngle();
-//        else if(speed<0)
-//            decreaseAngle();
+        else if(speed<0)
+            decreaseAngle();
     }
     public void turnLeft(){
-//        if(speed>=0)
+        if(speed>0)
             decreaseAngle();
-//        else if(speed<0)
-//            increaseAngle();
+        else if(speed<0)
+            increaseAngle();
     }
 
     public void killSpeed() {
+        killSpeed(acceleration);
+    }
+    public void killSpeed(float acceleration) {
         if(speed>0){
             speed -= maxSpeed*acceleration/25;
             if(speed<0){
@@ -79,6 +82,5 @@ public class Velocity {
                 speed = 0;
             }
         }
-        System.out.println(speed);
     }
 }
