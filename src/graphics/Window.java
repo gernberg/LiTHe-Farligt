@@ -7,13 +7,10 @@ import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
-import java.util.HashSet;
 import java.util.Set;
-import objects.Car;
 import objects.MoveableObject;
 import objects.UserController;
 import objects.Object;
-import objects.Person;
 
 public class Window extends JFrame {
 

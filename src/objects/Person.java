@@ -27,6 +27,7 @@ public class Person extends MoveableObject{
         width = 10;
         height = 20;
         centerX = 5;
+
         centerY = 10;
         speed = 1;
         acceleration = 100;

@@ -44,6 +44,7 @@ public abstract class MoveableObject extends Object{
     public void poll(){
         getNewX();
         getNewY();
+        velocity.killSpeed(acceleration/10);
     }
 
     public void accelerate(){
@@ -84,5 +85,10 @@ public abstract class MoveableObject extends Object{
         tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
         return tfm.createTransformedShape(r);
     }
-    
+    public Shape getEnteringRectangle(){
+        Rectangle r =  new Rectangle(getBoundingX()-10, getBoundingY()-10, getWidth()+20, getHeight()+20);
+        AffineTransform tfm = new AffineTransform();
+        tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
+        return tfm.createTransformedShape(r);
+    }
 }

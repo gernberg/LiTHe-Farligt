@@ -100,4 +100,6 @@ public abstract class Object {
      * @return
      */
     public abstract Shape getBoundingRectangle();
+
+    public abstract Shape getEnteringRectangle();
 }
