@@ -6,7 +6,9 @@
 package objects;
 
 import graphics.ImageObject;
+import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -97,5 +99,5 @@ public abstract class Object {
      * Returnerar en Shape som är boundingBoxen - till för bla. kollisionshantering.
      * @return
      */
-    public abstract Shape getBoundingShape();
+    public abstract Shape getBoundingRectangle();
 }

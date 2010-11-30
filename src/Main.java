@@ -13,12 +13,10 @@ public class Main {
     public void start(){
         Window window = new Window();
         UserController userController = new UserController(window);
-        window.addUserInput(userController);
-        window.initialize();
+        Coordinator coordinator = new Coordinator(window, userController);
         while(true)
         {
-            userController.poll();
-            window.draw();
+            coordinator.update();
             try {
                 Thread.sleep(15);
             } catch (InterruptedException ex) {

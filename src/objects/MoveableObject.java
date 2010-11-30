@@ -7,6 +7,8 @@ package objects;
 
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -73,12 +75,14 @@ public abstract class MoveableObject extends Object{
                 Math.pow(this.getX()-object.getX(), 2));
     }
     /**
-     * Skapar en standard bounding - om vi antar att det mesta är rektanglar
-     * med inte allt för knepiga bilder.
+     * Skapar en standard bounding
      * @return
      */
-    public Shape getBoundingShape() {
-        return new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight());
+    public Shape getBoundingRectangle() {
+        Rectangle r =  new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight());
+        AffineTransform tfm = new AffineTransform();
+        tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
+        return tfm.createTransformedShape(r);
     }
     
 }

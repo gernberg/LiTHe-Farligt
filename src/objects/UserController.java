@@ -20,24 +20,20 @@ public class UserController implements KeyListener{
     Window window;
     // Ett set som innehåller de tangenter som är nertryckta för tillfället.
     Set<Integer> activeKeys = new HashSet<Integer>();
-
+    boolean isEnterReleased = false;
     public UserController(Window window) {
         this.window = window;
-        currentObject = getPerson();
-    }
-    public MoveableObject getPerson(){
-        return window.getPerson();
+        this.currentObject = null;
     }
     public void keyTyped(KeyEvent e) {
     }
     public void keyPressed(KeyEvent e) {
         activeKeys.add(e.getKeyCode());
     }
-
     public void keyReleased(KeyEvent e) {
         activeKeys.remove(e.getKeyCode());
         if(e.getKeyCode() == KeyEvent.VK_ENTER){
-            switchObject();
+            isEnterReleased = true;
         }
         if(e.getKeyChar() == 'd'){
             window.switchDebug();
@@ -48,6 +44,10 @@ public class UserController implements KeyListener{
     }
 
     public void poll() {
+        if(currentObject==null){
+            // Om vi inte styr någonting för tillfället - ex. om man är död.
+            return;
+        }
         if(isKeyPressed(KeyEvent.VK_UP)){
             currentObject.accelerate();
         }
@@ -65,8 +65,21 @@ public class UserController implements KeyListener{
         }
     }
 
-    private void switchObject() {
-        currentObject = window.switchObject(currentObject);
+
+    public boolean shallWeSwitchObjects() {
+       if(isEnterReleased){
+           isEnterReleased = false;
+           return true;
+       }
+       return false;
+    }
+
+    public MoveableObject getCurrentObject() {
+        return currentObject;
+    }
+
+    public void setCurrentObject(MoveableObject currentObject) {
+        this.currentObject = currentObject;
     }
 
 

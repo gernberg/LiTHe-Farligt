@@ -2,21 +2,12 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import objects.Car;
 import objects.MoveableObject;
@@ -35,8 +26,6 @@ public class Window extends JFrame {
     BufferedImage buffer;
     Graphics2D b;
     Panel panel;
-    Set<MoveableObject> objects = new HashSet<MoveableObject>();
-    MoveableObject person;
     private boolean debug = false;
     public void switchDebug(){
         debug = !debug;
@@ -48,11 +37,7 @@ public class Window extends JFrame {
         xpos = 50;
         ypos = 50;
     }
-    public void draw(){
-        drawBuffer();
-        drawScreen();
-    }
-    public void drawBuffer() {
+    public void draw(Set<Object> objects) {
         b = buffer.createGraphics();
         // Gör så att allt blir härligt smooth
         b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -62,11 +47,11 @@ public class Window extends JFrame {
 
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        for (MoveableObject object : objects) {
-            object.poll();
+        for (Object object : objects) {
             drawImage(object);
         }
         b.dispose();
+        drawScreen();
     }
     public void drawImage(Object o){
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
@@ -88,7 +73,7 @@ public class Window extends JFrame {
         b.setColor(Color.WHITE);
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
-        b.draw(o.getBoundingShape());
+        b.draw(o.getBoundingRectangle());
     }
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
@@ -112,8 +97,6 @@ public class Window extends JFrame {
         setVisible(true);
         setResizable(false);
         createBufferStrategy(2);
-        addPerson();
-        addCar();
     }
 
     public void drawScreen() {
@@ -127,27 +110,6 @@ public class Window extends JFrame {
         panel.addKeyListener(UserController);
     }
 
-    public void addPerson(){
-        person = new Person();
-        person.setUsedByUser(true);
-        objects.add(person);
-    }
-    public void addCar(){
-        objects.add(new Car());
-    }
-    public MoveableObject getPerson() {
-        return person;
-    }
-    public MoveableObject switchObject(MoveableObject currentObject) {
-        for (MoveableObject object : objects) {
-            if(!object.equals(currentObject)){
-                if(currentObject.distanceTo(object)<50){
-                    currentObject.setUsedByUser(false);
-                    object.setUsedByUser(true);
-                    return object;
-                }
-            }
-        }
-        return currentObject;
-    }
+  
+  
 }
