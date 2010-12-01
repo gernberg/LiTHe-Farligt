@@ -72,6 +72,15 @@ public class Window extends JFrame {
         b.setColor(Color.RED);
         b.draw(o.getBoundingRectangle());
     }
+    /**
+     * Ritar en bild, med rotation
+     * @param image Bilden som skall ritas ut
+     * @param x x-position
+     * @param y y-position
+     * @param rotation Rotering (mätt i radianer)
+     * @param rotationCenterX x-position för rotation, relativt bildens x position
+     * @param rotationCenterY y-position för rotation, relativt bildens y position
+     */
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
         tfm.rotate(rotation, x + rotationCenterX, y + rotationCenterY);

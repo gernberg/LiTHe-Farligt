@@ -1,18 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package graphics;
 
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 /**
+ * ImageObject är till för att underlätta hanteringen av bilder.
  *
- * @author gustav
  */
 public class ImageObject extends JPanel{
     private BufferedImage image;

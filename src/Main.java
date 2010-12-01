@@ -11,6 +11,7 @@ public class Main {
         Window window = new Window();
         UserController userController = new UserController(window);
         Coordinator coordinator = new Coordinator(window, userController);
+        
         while(true)
         {
             coordinator.update();
