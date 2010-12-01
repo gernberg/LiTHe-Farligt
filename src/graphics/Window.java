@@ -45,12 +45,16 @@ public class Window extends JFrame {
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         for (Object object : objects) {
-            drawImage(object);
+            drawObject(object);
         }
         b.dispose();
         drawScreen();
     }
-    public void drawImage(Object o){
+    /**
+     * Ritar ut ett objekt, anropar drawImage
+     * @param o
+     */
+    public void drawObject(Object o){
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
         if(debug){
             drawDebugData((MoveableObject) o);
@@ -62,7 +66,6 @@ public class Window extends JFrame {
      */
     public void drawDebugData(MoveableObject o){
         AffineTransform tfm = new AffineTransform();
-        MoveableObject m = (MoveableObject) o;
         b.setTransform(tfm);
         if(o.isUsedByUser()){
             b.setColor(Color.GREEN);
