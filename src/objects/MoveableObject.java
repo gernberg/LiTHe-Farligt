@@ -20,17 +20,24 @@ public abstract class MoveableObject extends Object{
     Velocity velocity;
     float engineCapacity;
     boolean usedByUser = false;
-
+    /**
+     * Berätta om användaren använder det här objektet för tillfället.
+     * Behövs kanske egentligen inte - men används av Debug.
+     * @return
+     */
     public boolean isUsedByUser() {
         return usedByUser;
     }
-
+    /**
+     * Bestämmer om objektet används av användaren
+     * @param usedByUser
+     */
     public void setUsedByUser(boolean usedByUser) {
         this.usedByUser = usedByUser;
     }
-    
     public MoveableObject(){
-        setVelocity();
+        init();
+        velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
     }
     @Override
     public void setPosition(int x, int y) {
@@ -40,20 +47,29 @@ public abstract class MoveableObject extends Object{
     public double getAngle(){
         return velocity.getAngle();
     }
+    /**
+     * Ber objektet att uppdatera vad som hänt sen sist.
+     */
     public void poll(){
         getNewX();
         getNewY();
+        // Vi vill att alla objekt ska tappa hastighet gradvis
         velocity.killSpeed(acceleration/10);
     }
-
+    /**
+     * Accelererar objektet
+     */
     public void accelerate(){
         velocity.increaseSpeed();
     }
+    /**
+     * Bromsar objektet
+     */
     public void brake(){
         velocity.killSpeed();
     }
     /**
-     * TODO: Hitta på snyggare namn på funktionen?
+     * Saktar ner objektet
      */
     public void retardate(){
         velocity.decreaseSpeed();
@@ -63,9 +79,6 @@ public abstract class MoveableObject extends Object{
     }
     public void turnRight(){
         velocity.turnRight();
-    }
-    public void setVelocity(){
-        velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
     }
     public abstract float getNewX();
     public abstract float getNewY();
@@ -98,4 +111,6 @@ public abstract class MoveableObject extends Object{
         tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
         return tfm.createTransformedShape(r);
     }
+
+    public abstract void init();
 }

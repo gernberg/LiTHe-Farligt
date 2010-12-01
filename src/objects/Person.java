@@ -16,7 +16,7 @@ public class Person extends MoveableObject{
     public void setImage() {
         setImage(new ImageObject("person.png"));
     }
-    public Person(){
+    public void init(){
         width = 10;
         height = 20;
         centerX = 5;
@@ -27,7 +27,6 @@ public class Person extends MoveableObject{
         maxSpeed = 2;
         torque = (float) 2;
         setImage();
-        setVelocity();
         setPosition(100,200);
     }
     @Override
