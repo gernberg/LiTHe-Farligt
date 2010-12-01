@@ -65,8 +65,9 @@ public class Coordinator {
             float tmpX = userController.getCurrentObject().getX();
             float tmpY = userController.getCurrentObject().getY();
             userController.setCurrentObject(switchObject(userController.getCurrentObject()));
+            // TODO: Detta borde inte ligga här - utan någonstans snyggare.
+            // Typ i switchObject.
             if(!userController.getCurrentObject().equals(person)){
-                // Om vi inte blev en person, då ska det hända saker.
                 objects.remove(person);
             }else{
                 person.init();
