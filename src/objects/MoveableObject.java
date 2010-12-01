@@ -69,11 +69,6 @@ public abstract class MoveableObject extends Object{
     }
     public abstract float getNewX();
     public abstract float getNewY();
-
-    public double distanceTo(Object object) {
-        return  Math.sqrt(Math.pow(this.getX()-object.getX(), 2) +
-                Math.pow(this.getX()-object.getX(), 2));
-    }
     /**
      * Hämtar boundingboxen för objektet (och ser till att den är roterad precis
      * som objektets bild)
