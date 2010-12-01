@@ -14,9 +14,7 @@ import java.awt.geom.AffineTransform;
  * @author gustav
  */
 public abstract class MoveableObject extends Object{
-    float maxSpeed;
-    float weight;
-    float speed, angle, acceleration, torque;
+    float maxSpeed, weight, speed, angle, acceleration, torque; // Detta kanske bara ska finnas i velocity.
     Velocity velocity;
     float engineCapacity;
     boolean usedByUser = false;

@@ -33,7 +33,7 @@ public class Velocity {
             speed = maxSpeed;
     }
     /**
-     * Minkar
+     * Minskar
      */
     public void decreaseSpeed(){
         speed -= acceleration;
