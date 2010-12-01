@@ -14,8 +14,8 @@ import objects.Object;
 
 public class Window extends JFrame {
 
-    static int WINDOW_WIDTH = 1024;
-    static int WINDOW_HEIGHT = 768;
+    public static int WINDOW_WIDTH = 1024; // TODO: Borde nog vara private
+    public static int WINDOW_HEIGHT = 768; // TODO: Borde nog vara private
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;

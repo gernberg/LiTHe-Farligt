@@ -22,6 +22,7 @@ public class Coordinator {
     public Coordinator(Window window, UserController userController) {
         addPerson();
         addCar();
+        addCar();
         window.addUserInput(userController);
         userController.setCurrentObject(person);
 
@@ -34,7 +35,11 @@ public class Coordinator {
         objects.add(person);
     }
     public void addCar(){
-        objects.add(new Car());
+        // TODO: Fult, borde göras snyggare
+        addCar(50+(int)Math.floor(Math.random()*window.WINDOW_WIDTH/2), 50+(int)Math.floor(Math.random()*window.WINDOW_HEIGHT/2));
+    }
+    public void addCar(int x, int y){
+        objects.add(new Car(x, y));
     }
       public MoveableObject getPerson() {
         return person;

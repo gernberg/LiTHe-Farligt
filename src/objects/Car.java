@@ -13,6 +13,11 @@ import graphics.ImageObject;
  */
 public class Car extends MoveableObject{
 
+    public Car(int x, int y) {
+        super();
+        setPosition(x, y);
+    }
+
     public void init() {
         centerX = 35;
         centerY = 25;

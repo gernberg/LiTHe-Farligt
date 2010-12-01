@@ -56,7 +56,7 @@ public abstract class MoveableObject extends Object{
         getNewX();
         getNewY();
         // Vi vill att alla objekt ska tappa hastighet gradvis
-        velocity.killSpeed(acceleration/10);
+        velocity.killSpeed(acceleration/5);
     }
     /**
      * Accelererar objektet
