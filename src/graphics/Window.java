@@ -53,7 +53,7 @@ public class Window extends JFrame {
     public void drawImage(Object o){
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
         if(debug){
-            drawDebugCircles((MoveableObject) o);
+            drawDebugData((MoveableObject) o);
         }
     }
     public void drawLine(int x, int y1, int x2, int y2){
@@ -63,7 +63,7 @@ public class Window extends JFrame {
      * Ritar ut debugdata för ett MoveableObject.
      * @param o
      */
-    public void drawDebugCircles(MoveableObject o){
+    public void drawDebugData(MoveableObject o){
         AffineTransform tfm = new AffineTransform();
         MoveableObject m = (MoveableObject) o;
         b.setTransform(tfm);
