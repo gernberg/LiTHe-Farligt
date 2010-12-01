@@ -42,12 +42,14 @@ public class Coordinator {
     public MoveableObject switchObject(MoveableObject currentObject) {
         MoveableObject tmpObject = currentObject;
         for (Object object : objects) {
+            if(!currentObject.equals(person)){
+                // Om man inte är en person just nu  - betyder det att vi alltid
+                // Ska "hoppa ut ur" fordonet.
+                return person;
+            }
             if(!object.equals(currentObject)){
                 if(object.getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
-                    tmpObject = (MoveableObject) object;
-                    tmpObject.setUsedByUser(true);
-                    currentObject.setUsedByUser(false);
-                    return tmpObject;
+                    return (MoveableObject) object;
                 }
             }
         }
@@ -60,8 +62,18 @@ public class Coordinator {
         }
         userController.poll();
         if(userController.shallWeSwitchObjects()){
-            //System.out.println()
+            float tmpX = userController.getCurrentObject().getX();
+            float tmpY = userController.getCurrentObject().getY();
             userController.setCurrentObject(switchObject(userController.getCurrentObject()));
+            if(!userController.getCurrentObject().equals(person)){
+                // Om vi inte blev en person, då ska det hända saker.
+                objects.remove(person);
+            }else{
+                person.init();
+                person.setX(tmpX);
+                person.setY(tmpY);
+                objects.add(person);
+            }
         }
         window.draw(objects);
     }
