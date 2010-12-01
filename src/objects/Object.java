@@ -83,13 +83,14 @@ public abstract class Object {
         return centerY;
     }
     /**
-     * Förslagsvis så skapar vi olika funktioner för moveable och fixed.
-     * För att fixed aldrig ska behöva tänka några bounds, medans moveable
-     * kanske inte alltid får anta alla positioner.
+     * Sätter objektets position
      * @param x
      * @param y
      */
-    public abstract void setPosition(int x, int y);
+    public void setPosition(int x, int y) {
+        setX(x);
+        setY(y);
+    }
     /**
      * Fråga what's up.
      */

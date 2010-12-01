@@ -39,11 +39,6 @@ public abstract class MoveableObject extends Object{
         init();
         velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
     }
-    @Override
-    public void setPosition(int x, int y) {
-        setX(x);
-        setY(y);
-    }
     public double getAngle(){
         return velocity.getAngle();
     }
