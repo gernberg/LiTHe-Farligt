@@ -7,7 +7,6 @@ package graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
@@ -36,12 +35,6 @@ public class ImageObject extends JPanel{
             // Förslagsvis ladda en bild med ett kryss, eller döda programmet.
             System.out.println(e);
         }
-    }
-    public int getRealWidth(){
-        return image.getWidth();
-    }
-    public int getRealHeihgt(){
-        return image.getHeight();
     }
     
 }
