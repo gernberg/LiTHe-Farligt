@@ -75,17 +75,30 @@ public abstract class MoveableObject extends Object{
                 Math.pow(this.getX()-object.getX(), 2));
     }
     /**
-     * Skapar en standard bounding
+     * Hämtar boundingboxen för objektet (och ser till att den är roterad precis
+     * som objektets bild)
      * @return
      */
     public Shape getBoundingRectangle() {
-        Rectangle r =  new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight());
-        AffineTransform tfm = new AffineTransform();
-        tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
-        return tfm.createTransformedShape(r);
+        return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
     }
+    /**
+     * Hämtar boundingboxen för hur nära man behöver stå för att byta till ett
+     * visst fordon.
+     * TODO: Ge metoden ett bra namn...
+     * @return
+     */
     public Shape getEnteringRectangle(){
-        Rectangle r =  new Rectangle(getBoundingX()-10, getBoundingY()-10, getWidth()+20, getHeight()+20);
+        return rotateRectangle(new Rectangle(getBoundingX()-10, getBoundingY()-10, getWidth()+20, getHeight()+20));
+    }
+    /**
+     * Roterar en rektangel
+     * TODO: Ligger den här i rätt fil verkligen, eller ska vi skapa en klass
+     * för den här typen av "hjälpfunktioner"?
+     * @param r Rektangeln som skall roteras.
+     * @return
+     */
+    public Shape rotateRectangle(Rectangle r){
         AffineTransform tfm = new AffineTransform();
         tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
         return tfm.createTransformedShape(r);

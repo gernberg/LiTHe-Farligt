@@ -61,13 +61,13 @@ public class Velocity {
         return (float)(y + Math.sin(angle) * speed);
     }
     public void turnRight(){
-        if(speed>0)
+        if(speed>=0)
             increaseAngle();
         else if(speed<0)
             decreaseAngle();
     }
     public void turnLeft(){
-        if(speed>0)
+        if(speed>=0)
             decreaseAngle();
         else if(speed<0)
             increaseAngle();

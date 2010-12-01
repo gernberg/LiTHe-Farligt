@@ -79,6 +79,8 @@ public class Window extends JFrame {
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
         b.draw(o.getBoundingRectangle());
+        b.setColor(Color.GREEN);
+        b.draw(o.getEnteringRectangle());
     }
     /**
      * Ritar en bild, med rotation
