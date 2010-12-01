@@ -35,10 +35,17 @@ public abstract class MoveableObject extends Object{
     public void setUsedByUser(boolean usedByUser) {
         this.usedByUser = usedByUser;
     }
+    /**
+     * Kör init() och initierar sedan velocity.
+     */
     public MoveableObject(){
         init();
         velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
     }
+    /**
+     * Hämtar vinkeln för objektet
+     * @return
+     */
     public double getAngle(){
         return velocity.getAngle();
     }
@@ -69,13 +76,27 @@ public abstract class MoveableObject extends Object{
     public void retardate(){
         velocity.decreaseSpeed();
     }
+    /**
+     * Svänger objektet åt vänster.
+     */
     public void turnLeft(){
         velocity.turnLeft();
     }
+    /**
+     * Svänger objektet åt höger.
+     */
     public void turnRight(){
         velocity.turnRight();
     }
+    /**
+     * Denna funktion är tänkt att hämta objektets nya X position
+     * @return
+     */
     public abstract float getNewX();
+    /**
+     * Denna funktion är tänkt att hämta objektets nya Y position
+     * @return
+     */
     public abstract float getNewY();
     /**
      * Hämtar boundingboxen för objektet (och ser till att den är roterad precis
@@ -106,6 +127,8 @@ public abstract class MoveableObject extends Object{
         tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
         return tfm.createTransformedShape(r);
     }
-
+    /**
+     * Denna metod är till för att sätta standardvärden för objektet.
+     */
     public abstract void init();
 }
