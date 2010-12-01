@@ -7,7 +7,7 @@ package objects;
 public class Velocity {
     float speed;
     float maxSpeed;
-    float angle;
+    double angle;
     float acceleration;
     float torque;
     /**
@@ -17,7 +17,7 @@ public class Velocity {
      * @param torque Vridningsvinkeln (bestämmer hur snabbt ett objekt svänger)
      * @param maxSpeed
      */
-    public Velocity(float speed, float angle, float acceleration, float torque, float maxSpeed) {
+    public Velocity(float speed, double angle, float acceleration, float torque, float maxSpeed) {
         this.speed = speed;
         this.angle = angle;
         this.acceleration = acceleration;
@@ -32,6 +32,9 @@ public class Velocity {
         if(speed>maxSpeed)
             speed = maxSpeed;
     }
+    /**
+     * Minkar
+     */
     public void decreaseSpeed(){
         speed -= acceleration;
         float minSpeed = -maxSpeed;
@@ -46,7 +49,7 @@ public class Velocity {
         angle -= torque/10;
     }
 
-    public float getAngle() {
+    public double getAngle() {
         return angle;
     }
     

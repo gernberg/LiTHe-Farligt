@@ -94,7 +94,7 @@ public abstract class Object {
      * Fråga what's up.
      */
     public abstract void poll();
-    public abstract float getAngle();
+    public abstract double getAngle();
     /**
      * Returnerar en Shape som är boundingBoxen - till för bla. kollisionshantering.
      * @return

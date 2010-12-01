@@ -37,7 +37,7 @@ public abstract class MoveableObject extends Object{
         setX(x);
         setY(y);
     }
-    public float getAngle(){
+    public double getAngle(){
         return velocity.getAngle();
     }
     public void poll(){
