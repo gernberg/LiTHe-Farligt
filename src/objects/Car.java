@@ -6,8 +6,6 @@
 package objects;
 
 import graphics.ImageObject;
-import java.awt.Rectangle;
-import java.awt.Shape;
 
 /**
  *

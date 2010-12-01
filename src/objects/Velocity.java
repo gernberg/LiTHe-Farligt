@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package objects;
 
 /**
- *
- * @author gustav
+ * Velocity håller koll på alla viktiga aspekter hos hastigheten för ett fordon
+ * såsom fart, riktning samt funktioner acceleration / retardation
  */
 public class Velocity {
     float speed;
@@ -15,7 +10,13 @@ public class Velocity {
     float angle;
     float acceleration;
     float torque;
-
+    /**
+     * @param speed Utgångshastighet
+     * @param angle Riktingen för hastigheten
+     * @param acceleration
+     * @param torque Vridningsvinkeln (bestämmer hur snabbt ett objekt svänger)
+     * @param maxSpeed
+     */
     public Velocity(float speed, float angle, float acceleration, float torque, float maxSpeed) {
         this.speed = speed;
         this.angle = angle;
@@ -23,7 +24,9 @@ public class Velocity {
         this.torque = torque;
         this.maxSpeed = maxSpeed;
     }
-
+    /**
+     * Ökar hastigheten, med hänsyn till accelerationen
+     */
     public void increaseSpeed() {
         speed += acceleration;
         if(speed>maxSpeed)

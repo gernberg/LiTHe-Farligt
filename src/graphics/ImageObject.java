@@ -1,19 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package graphics;
 
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 /**
+ * ImageObject är till för att underlätta hanteringen av bilder.
  *
- * @author gustav
  */
 public class ImageObject extends JPanel{
     private BufferedImage image;
@@ -36,12 +30,6 @@ public class ImageObject extends JPanel{
             // Förslagsvis ladda en bild med ett kryss, eller döda programmet.
             System.out.println(e);
         }
-    }
-    public int getRealWidth(){
-        return image.getWidth();
-    }
-    public int getRealHeihgt(){
-        return image.getHeight();
     }
     
 }

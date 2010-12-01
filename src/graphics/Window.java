@@ -16,25 +16,24 @@ public class Window extends JFrame {
 
     static int WINDOW_WIDTH = 1024;
     static int WINDOW_HEIGHT = 768;
-    double x, y;
-    int xpos, ypos;
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;
     Graphics2D b;
     Panel panel;
     private boolean debug = false;
+    /**
+     * Växlar debugläget
+     */
     public void switchDebug(){
         debug = !debug;
     }
-    public void initialize() {
-        buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        x = 0;
-        y = 0;
-        xpos = 50;
-        ypos = 50;
-    }
+    /**
+     * Ritar ut all grafik
+     * @param objects De objekt som skall synas på skärmen
+     */
     public void draw(Set<Object> objects) {
+        // TODO: Ska vi snygga till koden?
         b = buffer.createGraphics();
         // Gör så att allt blir härligt smooth
         b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -45,23 +44,32 @@ public class Window extends JFrame {
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
         for (Object object : objects) {
-            drawImage(object);
+            drawObject(object);
         }
         b.dispose();
-        drawScreen();
+        // Hämtad från drawScreen 
+        Graphics2D g = (Graphics2D) this.getGraphics();
+        g.drawImage(buffer, 0, 0, this);
+        Toolkit.getDefaultToolkit().sync();
+        g.dispose();
     }
-    public void drawImage(Object o){
+    /**
+     * Ritar ut ett objekt, anropar drawImage
+     * @param o
+     */
+    public void drawObject(Object o){
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
         if(debug){
-            drawDebugCircles((MoveableObject) o);
+            drawDebugData((MoveableObject) o);
         }
     }
-    public void drawLine(int x, int y1, int x2, int y2){
-
-    }
-    public void drawDebugCircles(MoveableObject o){
+    /**
+     * Ritar ut debugdata för ett MoveableObject.
+     * @param o
+     */
+    public void drawDebugData(MoveableObject o){
         AffineTransform tfm = new AffineTransform();
-        MoveableObject m = (MoveableObject) o;
+        tfm.rotate(o.getAngle(), o.getIntX()+o.getRotationCenterX(), o.getIntY()+o.getRotationCenterY());
         b.setTransform(tfm);
         if(o.isUsedByUser()){
             b.setColor(Color.GREEN);
@@ -72,6 +80,15 @@ public class Window extends JFrame {
         b.setColor(Color.RED);
         b.draw(o.getBoundingRectangle());
     }
+    /**
+     * Ritar en bild, med rotation
+     * @param image Bilden som skall ritas ut
+     * @param x x-position
+     * @param y y-position
+     * @param rotation Rotering (mätt i radianer)
+     * @param rotationCenterX x-position för rotation, relativt bildens x position
+     * @param rotationCenterY y-position för rotation, relativt bildens y position
+     */
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
         tfm.rotate(rotation, x + rotationCenterX, y + rotationCenterY);
@@ -79,13 +96,21 @@ public class Window extends JFrame {
         b.drawImage(image.getImage(), x, y, this);
         tfm.rotate(0, 0, 0);
     }
-
+    /**
+     * Ritar en bild, helt utan rotation.
+     * @param image
+     * @param x
+     * @param y
+     */
     public void drawImage(ImageObject image, int x, int y) {
         drawImage(image, x, y, 0, 0, 0);
     }
-
+    /**
+     * Skapar alla viktiga saker
+     */
     public Window() {
         panel = new Panel();
+        buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
         add(panel);
         setTitle("GTA - LiTHe Farligt");
         setDefaultCloseOperation(EXIT_ON_CLOSE); // Kul att det inte är default
@@ -95,13 +120,7 @@ public class Window extends JFrame {
         setResizable(false);
         createBufferStrategy(2);
     }
-
-    public void drawScreen() {
-        Graphics2D g = (Graphics2D) this.getGraphics();
-        g.drawImage(buffer, 0, 0, this);
-        Toolkit.getDefaultToolkit().sync();
-        g.dispose();
-    }
+    
 
     public void addUserInput(UserController UserController) {
         panel.addKeyListener(UserController);
