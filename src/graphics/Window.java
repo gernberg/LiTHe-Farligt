@@ -23,12 +23,6 @@ public class Window extends JFrame {
     Panel panel;
     private boolean debug = false;
     /**
-     * Sätter upp en BufferedImage (som är den vi ritar på).
-     */
-    public Window() {
-        buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
-    }
-    /**
      * Växlar debugläget
      */
     public void switchDebug(){
@@ -39,6 +33,7 @@ public class Window extends JFrame {
      * @param objects De objekt som skall synas på skärmen
      */
     public void draw(Set<Object> objects) {
+        // TODO: Ska vi snygga till koden?
         b = buffer.createGraphics();
         // Gör så att allt blir härligt smooth
         b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
@@ -52,7 +47,11 @@ public class Window extends JFrame {
             drawObject(object);
         }
         b.dispose();
-        drawScreen();
+        // Hämtad från drawScreen 
+        Graphics2D g = (Graphics2D) this.getGraphics();
+        g.drawImage(buffer, 0, 0, this);
+        Toolkit.getDefaultToolkit().sync();
+        g.dispose();
     }
     /**
      * Ritar ut ett objekt, anropar drawImage
@@ -97,13 +96,21 @@ public class Window extends JFrame {
         b.drawImage(image.getImage(), x, y, this);
         tfm.rotate(0, 0, 0);
     }
-
+    /**
+     * Ritar en bild, helt utan rotation.
+     * @param image
+     * @param x
+     * @param y
+     */
     public void drawImage(ImageObject image, int x, int y) {
         drawImage(image, x, y, 0, 0, 0);
     }
-
+    /**
+     * Skapar alla viktiga saker
+     */
     public Window() {
         panel = new Panel();
+        buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
         add(panel);
         setTitle("GTA - LiTHe Farligt");
         setDefaultCloseOperation(EXIT_ON_CLOSE); // Kul att det inte är default
@@ -113,13 +120,7 @@ public class Window extends JFrame {
         setResizable(false);
         createBufferStrategy(2);
     }
-
-    public void drawScreen() {
-        Graphics2D g = (Graphics2D) this.getGraphics();
-        g.drawImage(buffer, 0, 0, this);
-        Toolkit.getDefaultToolkit().sync();
-        g.dispose();
-    }
+    
 
     public void addUserInput(UserController UserController) {
         panel.addKeyListener(UserController);
