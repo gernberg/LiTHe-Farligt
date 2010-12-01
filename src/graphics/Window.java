@@ -16,24 +16,28 @@ public class Window extends JFrame {
 
     static int WINDOW_WIDTH = 1024;
     static int WINDOW_HEIGHT = 768;
-    double x, y;
-    int xpos, ypos;
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;
     Graphics2D b;
     Panel panel;
     private boolean debug = false;
+    /**
+     * Sätter upp en BufferedImage (som är den vi ritar på).
+     */
+    public Window() {
+        buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
+    }
+    /**
+     * Växlar debugläget
+     */
     public void switchDebug(){
         debug = !debug;
     }
-    public void initialize() {
-        buffer = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        x = 0;
-        y = 0;
-        xpos = 50;
-        ypos = 50;
-    }
+    /**
+     * Ritar ut all grafik
+     * @param objects De objekt som skall synas på skärmen
+     */
     public void draw(Set<Object> objects) {
         b = buffer.createGraphics();
         // Gör så att allt blir härligt smooth
