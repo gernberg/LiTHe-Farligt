@@ -56,9 +56,6 @@ public class Window extends JFrame {
             drawDebugData((MoveableObject) o);
         }
     }
-    public void drawLine(int x, int y1, int x2, int y2){
-
-    }
     /**
      * Ritar ut debugdata för ett MoveableObject.
      * @param o
