@@ -22,7 +22,6 @@ public class Coordinator {
     public Coordinator(Window window, UserController userController) {
         addPerson();
         addCar();
-        window.initialize();
         window.addUserInput(userController);
         userController.setCurrentObject(person);
 
