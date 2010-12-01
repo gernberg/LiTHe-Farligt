@@ -66,6 +66,7 @@ public class Window extends JFrame {
      */
     public void drawDebugData(MoveableObject o){
         AffineTransform tfm = new AffineTransform();
+        tfm.rotate(o.getAngle(), o.getIntX()+o.getRotationCenterX(), o.getIntY()+o.getRotationCenterY());
         b.setTransform(tfm);
         if(o.isUsedByUser()){
             b.setColor(Color.GREEN);
