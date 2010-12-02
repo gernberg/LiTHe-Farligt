@@ -36,7 +36,7 @@ public class Coordinator {
     }
     public void addCar(){
         // TODO: Fult, borde göras snyggare
-        addCar(50+(int)Math.floor(Math.random()*window.WINDOW_WIDTH/2), 50+(int)Math.floor(Math.random()*window.WINDOW_HEIGHT/2));
+        addCar(50+(int)Math.floor(Math.random()*window.getWINDOW_WIDTH()/2), 50+(int)Math.floor(Math.random()*window.getWINDOW_HEIGHT()/2));
     }
     public void addCar(int x, int y){
         objects.add(new Car(x, y));
