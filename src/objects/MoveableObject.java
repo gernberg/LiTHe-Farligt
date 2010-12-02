@@ -16,6 +16,8 @@ import java.awt.geom.AffineTransform;
 public abstract class MoveableObject extends Object{
     // TODO: Detta kanske bara ska finnas i velocity.
     // Eller ska man skippa velocity helt?
+    // Eller ska man skicka hela objektet till velocity så får velocity använda
+    // getters i Object?
     float maxSpeed, weight, speed, angle, acceleration, torque;
     Velocity velocity;
     float engineCapacity;
