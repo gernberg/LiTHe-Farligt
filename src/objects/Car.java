@@ -13,7 +13,12 @@ import graphics.ImageObject;
  */
 public class Car extends MoveableObject{
 
-    public Car() {
+    public Car(int x, int y) {
+        super();
+        setPosition(x, y);
+    }
+
+    public void init() {
         centerX = 35;
         centerY = 25;
         speed = 0;
@@ -23,7 +28,6 @@ public class Car extends MoveableObject{
         maxSpeed = 50;
         torque = (float) 0.5;
         setImage();
-        setVelocity();
         setPosition(150,200);
     }
     public int getBoundingY(){

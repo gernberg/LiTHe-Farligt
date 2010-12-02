@@ -14,80 +14,123 @@ import java.awt.geom.AffineTransform;
  * @author gustav
  */
 public abstract class MoveableObject extends Object{
-    float maxSpeed;
-    float weight;
-    float speed, angle, acceleration, torque;
+    // TODO: Detta kanske bara ska finnas i velocity.
+    // Eller ska man skippa velocity helt?
+    // Eller ska man skicka hela objektet till velocity så får velocity använda
+    // getters i Object?
+    float maxSpeed, weight, speed, angle, acceleration, torque;
     Velocity velocity;
     float engineCapacity;
     boolean usedByUser = false;
-
+    /**
+     * Berätta om användaren använder det här objektet för tillfället.
+     * Behövs kanske egentligen inte - men används av Debug.
+     * @return
+     */
     public boolean isUsedByUser() {
         return usedByUser;
     }
-
+    /**
+     * Bestämmer om objektet används av användaren
+     * @param usedByUser
+     */
     public void setUsedByUser(boolean usedByUser) {
         this.usedByUser = usedByUser;
     }
-    
+    /**
+     * Kör init() och initierar sedan velocity.
+     */
     public MoveableObject(){
-        setVelocity();
+        init();
+        velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
     }
-    @Override
-    public void setPosition(int x, int y) {
-        setX(x);
-        setY(y);
-    }
-    public float getAngle(){
+    /**
+     * Hämtar vinkeln för objektet
+     * @return
+     */
+    public double getAngle(){
         return velocity.getAngle();
     }
+    /**
+     * Ber objektet att uppdatera vad som hänt sen sist.
+     */
     public void poll(){
         getNewX();
         getNewY();
-        velocity.killSpeed(acceleration/10);
+        // Vi vill att alla objekt ska tappa hastighet gradvis
+        velocity.killSpeed(acceleration/5);
     }
-
+    /**
+     * Accelererar objektet
+     */
     public void accelerate(){
         velocity.increaseSpeed();
     }
+    /**
+     * Bromsar objektet
+     */
     public void brake(){
         velocity.killSpeed();
     }
     /**
-     * TODO: Hitta på snyggare namn på funktionen?
+     * Saktar ner objektet
      */
     public void retardate(){
         velocity.decreaseSpeed();
     }
+    /**
+     * Svänger objektet åt vänster.
+     */
     public void turnLeft(){
         velocity.turnLeft();
     }
+    /**
+     * Svänger objektet åt höger.
+     */
     public void turnRight(){
         velocity.turnRight();
     }
-    public void setVelocity(){
-        velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
-    }
-    public abstract float getNewX();
-    public abstract float getNewY();
-
-    public double distanceTo(Object object) {
-        return  Math.sqrt(Math.pow(this.getX()-object.getX(), 2) +
-                Math.pow(this.getX()-object.getX(), 2));
-    }
     /**
-     * Skapar en standard bounding
+     * Denna funktion är tänkt att hämta objektets nya X position
+     * @return
+     */
+    public abstract float getNewX();
+    /**
+     * Denna funktion är tänkt att hämta objektets nya Y position
+     * @return
+     */
+    public abstract float getNewY();
+    /**
+     * Hämtar boundingboxen för objektet (och ser till att den är roterad precis
+     * som objektets bild)
      * @return
      */
     public Shape getBoundingRectangle() {
-        Rectangle r =  new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight());
-        AffineTransform tfm = new AffineTransform();
-        tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
-        return tfm.createTransformedShape(r);
+        return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
     }
+    /**
+     * Hämtar boundingboxen för hur nära man behöver stå för att byta till ett
+     * visst fordon.
+     * TODO: Ge metoden ett bra namn...
+     * @return
+     */
     public Shape getEnteringRectangle(){
-        Rectangle r =  new Rectangle(getBoundingX()-10, getBoundingY()-10, getWidth()+20, getHeight()+20);
+        return rotateRectangle(new Rectangle(getBoundingX()-10, getBoundingY()-10, getWidth()+20, getHeight()+20));
+    }
+    /**
+     * Roterar en rektangel
+     * TODO: Ligger den här i rätt fil verkligen, eller ska vi skapa en klass
+     * för den här typen av "hjälpfunktioner"?
+     * @param r Rektangeln som skall roteras.
+     * @return
+     */
+    public Shape rotateRectangle(Rectangle r){
         AffineTransform tfm = new AffineTransform();
         tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
         return tfm.createTransformedShape(r);
     }
+    /**
+     * Denna metod är till för att sätta standardvärden för objektet.
+     */
+    public abstract void init();
 }

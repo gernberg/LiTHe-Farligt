@@ -14,8 +14,8 @@ import objects.Object;
 
 public class Window extends JFrame {
 
-    static int WINDOW_WIDTH = 1024;
-    static int WINDOW_HEIGHT = 768;
+    public static int WINDOW_WIDTH = 1024; // TODO: Borde nog vara private
+    public static int WINDOW_HEIGHT = 768; // TODO: Borde nog vara private
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;
@@ -69,7 +69,7 @@ public class Window extends JFrame {
      */
     public void drawDebugData(MoveableObject o){
         AffineTransform tfm = new AffineTransform();
-        tfm.rotate(o.getAngle(), o.getIntX()+o.getRotationCenterX(), o.getIntY()+o.getRotationCenterY());
+        tfm.rotate(0, o.getIntX()+o.getRotationCenterX(), o.getIntY()+o.getRotationCenterY());
         b.setTransform(tfm);
         if(o.isUsedByUser()){
             b.setColor(Color.GREEN);
@@ -79,6 +79,8 @@ public class Window extends JFrame {
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
         b.draw(o.getBoundingRectangle());
+        b.setColor(Color.GREEN);
+        b.draw(o.getEnteringRectangle());
     }
     /**
      * Ritar en bild, med rotation

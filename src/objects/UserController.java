@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package objects;
 
 import graphics.Window;
@@ -11,16 +6,14 @@ import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- *
- * @author gustav
- */
 public class UserController implements KeyListener{
     MoveableObject currentObject;
     Window window;
     // Ett set som innehåller de tangenter som är nertryckta för tillfället.
     Set<Integer> activeKeys = new HashSet<Integer>();
+    
     boolean isEnterReleased = false;
+
     public UserController(Window window) {
         this.window = window;
         this.currentObject = null;
