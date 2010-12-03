@@ -12,6 +12,15 @@ import graphics.ImageObject;
  * @author gustav
  */
 public class Person extends MoveableObject{
+
+    public Person(int x, int y) {
+        super();
+        setPosition(x, y);
+    }
+
+    public Person() {
+        super();
+    }
     @Override
     public void setImage() {
         setImage(new ImageObject("person.png"));

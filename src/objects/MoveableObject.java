@@ -5,6 +5,7 @@
 
 package objects;
 
+import graphics.Helpers;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -22,6 +23,68 @@ public abstract class MoveableObject extends Object{
     Velocity velocity;
     float engineCapacity;
     boolean usedByUser = false;
+
+    public float getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(float acceleration) {
+        this.acceleration = acceleration;
+    }
+
+
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public float getEngineCapacity() {
+        return engineCapacity;
+    }
+
+    public void setEngineCapacity(float engineCapacity) {
+        this.engineCapacity = engineCapacity;
+    }
+
+    public float getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(float maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public float getTorque() {
+        return torque;
+    }
+
+    public void setTorque(float torque) {
+        this.torque = torque;
+    }
+
+    public Velocity getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Velocity velocity) {
+        this.velocity = velocity;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
     /**
      * Berätta om användaren använder det här objektet för tillfället.
      * Behövs kanske egentligen inte - men används av Debug.
@@ -42,14 +105,14 @@ public abstract class MoveableObject extends Object{
      */
     public MoveableObject(){
         init();
-        velocity = new Velocity(speed, angle, acceleration, torque, maxSpeed);
+        velocity = new Velocity(this);
     }
     /**
      * Hämtar vinkeln för objektet
      * @return
      */
     public double getAngle(){
-        return velocity.getAngle();
+        return angle;
     }
     /**
      * Ber objektet att uppdatera vad som hänt sen sist.
@@ -125,9 +188,7 @@ public abstract class MoveableObject extends Object{
      * @return
      */
     public Shape rotateRectangle(Rectangle r){
-        AffineTransform tfm = new AffineTransform();
-        tfm.rotate(getAngle(), getIntX() + getRotationCenterX(), getIntY() + getRotationCenterY());
-        return tfm.createTransformedShape(r);
+        return Helpers.allHelpers.rotateRectangle(r, this);
     }
     /**
      * Denna metod är till för att sätta standardvärden för objektet.

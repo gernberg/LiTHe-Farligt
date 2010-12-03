@@ -1,8 +1,5 @@
 
 import graphics.Window;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Set;
 import objects.Car;
@@ -23,6 +20,11 @@ public class Coordinator {
         addPerson();
         addCar();
         addCar();
+        addCar();
+        addCar();
+        addCar();
+        addCar();
+        addPeople();
         window.addUserInput(userController);
         userController.setCurrentObject(person);
 
@@ -36,7 +38,16 @@ public class Coordinator {
     }
     public void addCar(){
         // TODO: Fult, borde göras snyggare
-        addCar(50+(int)Math.floor(Math.random()*window.getWINDOW_WIDTH()/2), 50+(int)Math.floor(Math.random()*window.getWINDOW_HEIGHT()/2));
+        addCar(50+(int)Math.floor(Math.random()*window.getWINDOW_WIDTH()), 50+(int)Math.floor(Math.random()*window.getWINDOW_HEIGHT()));
+    }
+    public void addPeople(){
+        // TODO: Fult, borde göras snyggare
+        for(int i = 0; i<50; i++){
+            Person p = new Person((int)(Math.random()*window.getWINDOW_WIDTH()),(int)(Math.random()*window.getWINDOW_HEIGHT()));
+            p.setAngle((float) (Math.random()*Math.PI*2.0));
+            p.setSpeed(p.getMaxSpeed());
+            objects.add(p);
+        }
     }
     public void addCar(int x, int y){
         objects.add(new Car(x, y));
@@ -69,6 +80,7 @@ public class Coordinator {
         if(userController.shallWeSwitchObjects()){
             float tmpX = userController.getCurrentObject().getX();
             float tmpY = userController.getCurrentObject().getY();
+            double tmpAngle = userController.getCurrentObject().getAngle();
             userController.setCurrentObject(switchObject(userController.getCurrentObject()));
             // TODO: Detta borde inte ligga här - utan någonstans snyggare.
             // Typ i switchObject.
@@ -78,6 +90,7 @@ public class Coordinator {
                 person.init();
                 person.setX(tmpX);
                 person.setY(tmpY);
+                person.setAngle((float) tmpAngle);
                 objects.add(person);
             }
         }

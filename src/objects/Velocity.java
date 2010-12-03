@@ -5,88 +5,107 @@ package objects;
  * såsom fart, riktning samt funktioner acceleration / retardation
  */
 public class Velocity {
-    float speed;
-    float maxSpeed;
-    double angle;
-    float acceleration;
-    float torque;
-    /**
-     * @param speed Utgångshastighet
-     * @param angle Riktingen för hastigheten
-     * @param acceleration
-     * @param torque Vridningsvinkeln (bestämmer hur snabbt ett objekt svänger)
-     * @param maxSpeed
-     */
-    public Velocity(float speed, double angle, float acceleration, float torque, float maxSpeed) {
-        this.speed = speed;
-        this.angle = angle;
-        this.acceleration = acceleration;
-        this.torque = torque;
-        this.maxSpeed = maxSpeed;
+    private MoveableObject moveableObject;
+    
+    public Velocity(MoveableObject moveableObject) {
+        this.moveableObject = moveableObject;
+    }
+    private float getSpeed(){
+        return moveableObject.getSpeed();
+    }
+    private void setSpeed(float speed){
+        moveableObject.setSpeed(speed);
+    }
+    private void modifySpeed(float modificator){
+        setSpeed(getSpeed()+modificator);
+    }
+    private float getAcceleration(){
+        return moveableObject.getAcceleration();
     }
     /**
      * Ökar hastigheten, med hänsyn till accelerationen
      */
     public void increaseSpeed() {
-        speed += acceleration;
-        if(speed>maxSpeed)
-            speed = maxSpeed;
+        modifySpeed(getAcceleration());
+        if(getSpeed()>moveableObject.getMaxSpeed()){
+            setSpeed(moveableObject.getMaxSpeed());
+        }
     }
     /**
      * Minskar
      */
     public void decreaseSpeed(){
-        speed -= acceleration;
-        float minSpeed = -maxSpeed;
-        if(speed<minSpeed){
-            speed = minSpeed;
+        modifySpeed(-getAcceleration());
+        if(getSpeed()<getMinSpeed()){
+            setSpeed(getMinSpeed());
         }
     }
+    private float getTorque(){
+        return moveableObject.getTorque();
+    }
     public void increaseAngle(){
-        angle += torque/10;
+        modifyAngle(getTorque()/10);
     }
     public void decreaseAngle(){
-        angle -= torque/10;
+        modifyAngle(-getTorque()/10);
     }
 
     public double getAngle() {
-        return angle;
+        return moveableObject.getAngle();
     }
     
     public float getNewX(float x) {
-        return (float)(x +  Math.cos(angle) * speed);
+        return (float)(x +  Math.cos(getAngle()) * getSpeed());
     }
 
     public float getNewY(float y) {
-        return (float)(y + Math.sin(angle) * speed);
+        return (float)(y + Math.sin(getAngle()) * getSpeed());
     }
     public void turnRight(){
-        if(speed>=0)
+        if(getSpeed()>=0)
             increaseAngle();
-        else if(speed<0)
+        else if(getSpeed()<0)
             decreaseAngle();
     }
     public void turnLeft(){
-        if(speed>=0)
+        if(getSpeed()>=0)
             decreaseAngle();
-        else if(speed<0)
+        else if(getSpeed()<0)
             increaseAngle();
     }
-
+    /**
+     * Dödar hastigheten, anropar killSpeed(float) med objektets acceleration.
+     */
     public void killSpeed() {
-        killSpeed(acceleration);
+        killSpeed(getAcceleration());
     }
+    /**
+     * Dödar hastigheten (dvs. minskar / ökar så att den tillslut antar 0.
+     * @param acceleration hur snabbt vi ska döda hastigheten.
+     */
     public void killSpeed(float acceleration) {
-        if(speed>0){
-            speed -= maxSpeed*acceleration/25;
-            if(speed<0){
-                speed = 0;
+        if(getSpeed()>0){
+            // TODO: Är detta verkligen en uppgift i killSpeed, eller ska den ske
+            // någonannanstans?
+            modifySpeed(-getMaxSpeed()*acceleration/25);
+            if(getSpeed()<0){
+                setSpeed(0);
             }
-        }else if(speed<0){
-            speed += maxSpeed*acceleration/25;
-            if(speed>0){
-                speed = 0;
+        }else if(getSpeed()<0){
+            modifySpeed(getMaxSpeed()*acceleration/25);
+            if(getSpeed()>0){
+                setSpeed(0);
             }
         }
+    }
+    private float getMaxSpeed(){
+        return moveableObject.getMaxSpeed();
+    }
+    private float getMinSpeed() {
+        return - getMaxSpeed();
+    }
+
+    private void modifyAngle(float i) {
+        moveableObject.setAngle((float) moveableObject.getAngle()+i);;
     }
 }

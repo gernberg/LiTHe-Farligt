@@ -14,8 +14,17 @@ import objects.Object;
 
 public class Window extends JFrame {
 
-    public static int WINDOW_WIDTH = 1024; // TODO: Borde nog vara private
-    public static int WINDOW_HEIGHT = 768; // TODO: Borde nog vara private
+    private static int WINDOW_WIDTH = 1024;
+
+    public static int getWINDOW_HEIGHT() {
+        return WINDOW_HEIGHT;
+    }
+
+    public static int getWINDOW_WIDTH() {
+        return WINDOW_WIDTH;
+    }
+    private static int WINDOW_HEIGHT = 768;
+
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;
@@ -75,7 +84,7 @@ public class Window extends JFrame {
             b.setColor(Color.GREEN);
             b.drawOval(o.getRotationCenterX() + o.getIntX() - 10,o.getRotationCenterY() + o.getIntY() - 10, 20, 20);
         }
-        b.setColor(Color.WHITE);
+        b.setColor(Color.YELLOW);
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
         b.draw(o.getBoundingRectangle());
