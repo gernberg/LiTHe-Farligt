@@ -2,12 +2,14 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import java.util.Set;
+import javax.sound.sampled.Line;
 import objects.MoveableObject;
 import objects.UserController;
 import objects.Object;
@@ -61,6 +63,8 @@ public class Window extends JFrame {
         g.drawImage(buffer, 0, 0, this);
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
+        Polygon p = new Polygon();
+
     }
     /**
      * Ritar ut ett objekt, anropar drawImage
