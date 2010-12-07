@@ -54,6 +54,7 @@ public class Velocity {
         return moveableObject.getAngle();
     }
     
+    
     public float getNewX(float x) {
         return (float)(x +  Math.cos(getAngle()) * getSpeed());
     }
@@ -62,13 +63,13 @@ public class Velocity {
         return (float)(y + Math.sin(getAngle()) * getSpeed());
     }
     public void turnRight(){
-        if(getSpeed()>=0)
+        if(getSpeed()>0)
             increaseAngle();
         else if(getSpeed()<0)
             decreaseAngle();
     }
     public void turnLeft(){
-        if(getSpeed()>=0)
+        if(getSpeed()>0)
             decreaseAngle();
         else if(getSpeed()<0)
             increaseAngle();

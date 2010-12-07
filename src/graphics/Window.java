@@ -3,6 +3,7 @@ package graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -90,6 +91,11 @@ public class Window extends JFrame {
         b.draw(o.getBoundingRectangle());
         b.setColor(Color.GREEN);
         b.draw(o.getEnteringRectangle());
+        b.setColor(Color.BLUE);
+        b.draw(o.getBoundingRectangle().getBounds2D());
+        b.setColor(Color.PINK);
+        b.draw(o.getBoundingRectangle().intersection((Shape) o.getBoundingRectangle()));
+
     }
     /**
      * Ritar en bild, med rotation

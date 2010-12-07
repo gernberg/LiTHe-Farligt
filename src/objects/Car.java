@@ -11,7 +11,7 @@ import graphics.ImageObject;
  *
  * @author gustav
  */
-public class Car extends MoveableObject{
+public class Car extends MoveableObject implements Stealable{
 
     public Car(int x, int y) {
         super();
@@ -19,14 +19,14 @@ public class Car extends MoveableObject{
     }
 
     public void init() {
-        centerX = 35;
-        centerY = 25;
-        speed = 0;
-        width = 45;
-        height = 25;
-        acceleration = (float) 0.2;
-        maxSpeed = 50;
-        torque = (float) 0.5;
+        setCenterX(35);
+        setCenterY(25);
+        setSpeed(0);
+        setWidth(40);
+        setHeight(25);
+        setAcceleration(0.2);
+        setMaxSpeed(50);
+        setTorque(0.5);
         setImage();
         setPosition(150,200);
     }
@@ -40,13 +40,18 @@ public class Car extends MoveableObject{
     }
     @Override
     public float getNewX(){
-        setX(velocity.getNewX(x));
+        setX(velocity.getNewX(getX()));
         return getX();
     }
     @Override
     public float getNewY(){
-        setY(velocity.getNewY(y));
+        setY(velocity.getNewY(getY()));
         return getY();
     }
+
+    public void stealAction() {
+        // Gör ingenting
+    }
+
 
 }

@@ -15,9 +15,9 @@ import java.awt.geom.Rectangle2D;
  * @author gustav
  */
 public abstract class Object {
-    ImageObject image;
-    float x,y;
-    protected int centerX, centerY, height, width;
+    private ImageObject image;
+    private float x,y;
+    private int centerX, centerY, height, width;
     public ImageObject getImage() {
         return image;
     }
@@ -103,4 +103,33 @@ public abstract class Object {
     public abstract Shape getBoundingRectangle();
 
     public abstract Shape getEnteringRectangle();
+    /**
+     * Kollar om objektet är stjälbart
+     * @return
+     */
+    public boolean isStealable() {
+        return this instanceof Stealable;
+    }
+
+    public int getCenterX() {
+        return centerX;
+    }
+
+    public void setCenterX(int centerX) {
+        this.centerX = centerX;
+    }
+
+    public int getCenterY() {
+        return centerY;
+    }
+
+    public void setCenterY(int centerY) {
+        this.centerY = centerY;
+    }
+    public void setWidth(int width){
+        this.width = width;
+    }
+    public void setHeight(int height){
+        this.height = height;
+    }
 }

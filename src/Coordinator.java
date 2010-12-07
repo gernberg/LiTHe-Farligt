@@ -1,11 +1,16 @@
 
+import graphics.ImageObject;
 import graphics.Window;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Set;
 import objects.Car;
 import objects.MoveableObject;
 import objects.Object;
 import objects.Person;
+import objects.Stealable;
 import objects.UserController;
 /**
  * Den här klassen fungerar som koordinator mellan Window och UserController.
@@ -32,7 +37,13 @@ public class Coordinator {
         this.userController = userController;
     }
     public void addPerson(){
-        person = new Person();
+        person = new Person(){
+
+            @Override
+            public void setImage() {
+                setImage(new ImageObject("maincharacter.png"));
+            }
+        };
         person.setUsedByUser(true);
         objects.add(person);
     }
@@ -52,7 +63,7 @@ public class Coordinator {
     public void addCar(int x, int y){
         objects.add(new Car(x, y));
     }
-      public MoveableObject getPerson() {
+    public MoveableObject getPerson() {
         return person;
     }
     public MoveableObject switchObject(MoveableObject currentObject) {
@@ -60,10 +71,10 @@ public class Coordinator {
         for (Object object : objects) {
             if(!currentObject.equals(person)){
                 // Om man inte är en person just nu  - betyder det att vi alltid
-                // Ska "hoppa ut ur" fordonet.
+                // ska "hoppa ut ur" fordonet.
                 return person;
             }
-            if(!object.equals(currentObject)){
+            if(object.isStealable() && !object.equals(currentObject)){
                 if(object.getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
                     return (MoveableObject) object;
                 }
@@ -73,9 +84,24 @@ public class Coordinator {
     }
 
     public void update() {
+        int i = 0;
         for (Object object : objects) {
-            object.poll();
+            if(object instanceof MoveableObject){
+                MoveableObject moveableObject = (MoveableObject) object;
+                moveableObject.poll();
+                if(moveableObject.hasMoved()){
+                    for(Object object2 : objects){
+                        i++;
+                        if(!object2.equals(moveableObject) && moveableObject.getBoundingRectangle().intersects(object2.getBoundingRectangle().getBounds2D())){
+                           // moveableObject.setPreviousPosition();
+                           // moveableObject.setPreviousAngle();
+                           // moveableObject.setSpeed(-moveableObject.getSpeed());
+                        }
+                    }
+                }
+            }
         }
+        System.out.println(i + "Kontroller");
         userController.poll();
         if(userController.shallWeSwitchObjects()){
             float tmpX = userController.getCurrentObject().getX();

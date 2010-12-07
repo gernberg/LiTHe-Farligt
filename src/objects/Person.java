@@ -26,26 +26,25 @@ public class Person extends MoveableObject{
         setImage(new ImageObject("person.png"));
     }
     public void init(){
-        width = 10;
-        height = 20;
-        centerX = 5;
-
-        centerY = 10;
-        speed = 1;
-        acceleration = 100;
-        maxSpeed = 2;
-        torque = (float) 2;
+        setWidth(10);
+        setHeight(20);
+        setCenterX(5);
+        setCenterY(10);
+        setSpeed(1);
+        setAcceleration(100);
+        setMaxSpeed(2);
+        setTorque(2);
         setImage();
         setPosition(100,200);
     }
     @Override
     public float getNewX(){
-        setX(velocity.getNewX(x));
+        setX(velocity.getNewX(getX()));
         return getX();
     }
     @Override
     public float getNewY(){
-        setY(velocity.getNewY(y));
+        setY(velocity.getNewY(getY()));
         return getY();
     }
 

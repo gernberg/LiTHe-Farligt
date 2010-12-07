@@ -18,22 +18,33 @@ public abstract class MoveableObject extends Object{
     // TODO: Detta kanske bara ska finnas i velocity.
     // Eller ska man skippa velocity helt?
     // Eller ska man skicka hela objektet till velocity så får velocity använda
-    // getters i Object?
-    float maxSpeed, weight, speed, angle, acceleration, torque;
+    // getterpolls i Object?
+    private float maxSpeed, weight, speed, angle, acceleration, torque, previousX, previousY, previousAngle;
     Velocity velocity;
+
+    public float getPreviousAngle() {
+        return previousAngle;
+    }
+
+    public void setPreviousAngle(float previousAngle) {
+        this.previousAngle = previousAngle;
+    }
     float engineCapacity;
     boolean usedByUser = false;
 
     public float getAcceleration() {
         return acceleration;
     }
-
+    public void setAcceleration(double acceleration){
+        setAcceleration((float) acceleration);
+    }
     public void setAcceleration(float acceleration) {
         this.acceleration = acceleration;
     }
 
 
     public void setAngle(float angle) {
+        setPreviousAngle(angle);
         this.angle = angle;
     }
 
@@ -65,6 +76,9 @@ public abstract class MoveableObject extends Object{
         return torque;
     }
 
+    public void setTorque(double torque) {
+        setTorque((float) torque);
+    }
     public void setTorque(float torque) {
         this.torque = torque;
     }
@@ -194,4 +208,41 @@ public abstract class MoveableObject extends Object{
      * Denna metod är till för att sätta standardvärden för objektet.
      */
     public abstract void init();
+
+    public float getPreviousX() {
+        return previousX;
+    }
+
+    private void setPreviousX(float previousX) {
+        this.previousX = previousX;
+    }
+
+    public float getPreviousY() {
+        return previousY;
+    }
+
+    private void setPreviousY(float previousY) {
+        this.previousY = previousY;
+    }
+    public void setX(float x){
+        setPreviousX(getX());
+        super.setX(x);
+    }
+    public void setY(float y){
+        setPreviousY(getY());
+        super.setY(y);
+    }
+    public boolean hasMoved(){
+        return (getX()!=getPreviousX() ||
+                getY()!=getPreviousY() ||
+                getAngle()!=getPreviousAngle());
+    }
+
+    public void setPreviousPosition() {
+        setPosition((int)getPreviousX(), (int)getPreviousY());
+    }
+
+    public void setPreviousAngle() {
+        setAngle(getPreviousAngle());
+    }
 }
