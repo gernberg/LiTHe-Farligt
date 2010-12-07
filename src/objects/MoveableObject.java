@@ -6,9 +6,15 @@
 package objects;
 
 import graphics.Helpers;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  *
@@ -44,7 +50,7 @@ public abstract class MoveableObject extends Object{
 
 
     public void setAngle(float angle) {
-        setPreviousAngle(angle);
+        setPreviousAngle(getAngle());
         this.angle = angle;
     }
 
@@ -125,7 +131,7 @@ public abstract class MoveableObject extends Object{
      * Hämtar vinkeln för objektet
      * @return
      */
-    public double getAngle(){
+    public float getAngle(){
         return angle;
     }
     /**
@@ -195,16 +201,6 @@ public abstract class MoveableObject extends Object{
         return rotateRectangle(new Rectangle(getBoundingX()-10, getBoundingY()-10, getWidth()+20, getHeight()+20));
     }
     /**
-     * Roterar en rektangel
-     * TODO: Ligger den här i rätt fil verkligen, eller ska vi skapa en klass
-     * för den här typen av "hjälpfunktioner"?
-     * @param r Rektangeln som skall roteras.
-     * @return
-     */
-    public Shape rotateRectangle(Rectangle r){
-        return Helpers.allHelpers.rotateRectangle(r, this);
-    }
-    /**
      * Denna metod är till för att sätta standardvärden för objektet.
      */
     public abstract void init();
@@ -233,6 +229,7 @@ public abstract class MoveableObject extends Object{
         super.setY(y);
     }
     public boolean hasMoved(){
+        
         return (getX()!=getPreviousX() ||
                 getY()!=getPreviousY() ||
                 getAngle()!=getPreviousAngle());
@@ -243,6 +240,6 @@ public abstract class MoveableObject extends Object{
     }
 
     public void setPreviousAngle() {
-        setAngle(getPreviousAngle());
+        angle = getPreviousAngle();
     }
 }

@@ -3,8 +3,10 @@ import graphics.ImageObject;
 import graphics.Window;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import objects.Car;
 import objects.MoveableObject;
@@ -89,13 +91,39 @@ public class Coordinator {
             if(object instanceof MoveableObject){
                 MoveableObject moveableObject = (MoveableObject) object;
                 moveableObject.poll();
+                if(userController.getCurrentObject()==moveableObject){
+                    System.out.println(moveableObject.getAngle() + "|" + moveableObject.getPreviousAngle());
+                }
                 if(moveableObject.hasMoved()){
                     for(Object object2 : objects){
                         i++;
                         if(!object2.equals(moveableObject) && moveableObject.getBoundingRectangle().intersects(object2.getBoundingRectangle().getBounds2D())){
-                           // moveableObject.setPreviousPosition();
-                           // moveableObject.setPreviousAngle();
-                           // moveableObject.setSpeed(-moveableObject.getSpeed());
+                            // Om vi "typ" kolliderat - kolla noggrannare
+                            boolean collision = false;
+                            for(Rectangle collisionRectangle : moveableObject.getBoundingPoints()){
+                                if(object2.getBoundingRectangle().intersects(collisionRectangle)){
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                            for(Rectangle collisionRectangle : object2.getBoundingPoints()){
+                                if(moveableObject.getBoundingRectangle().intersects(collisionRectangle)){
+                                    collision = true;
+                                    break;
+                                }
+                            }
+                            if(collision){
+                                moveableObject.setPreviousPosition();
+                                moveableObject.setPreviousAngle();
+                                float newSpeed = moveableObject.getSpeed();
+                                if(newSpeed>1){
+                                    newSpeed--;
+                                }
+                                else if(newSpeed<1){
+                                    newSpeed++;
+                                }
+                                moveableObject.setSpeed(-newSpeed);
+                            }
                         }
                     }
                 }

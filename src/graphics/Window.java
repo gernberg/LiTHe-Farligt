@@ -2,10 +2,14 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.RectangularShape;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import java.util.Set;
@@ -63,8 +67,6 @@ public class Window extends JFrame {
         g.drawImage(buffer, 0, 0, this);
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
-        Polygon p = new Polygon();
-
     }
     /**
      * Ritar ut ett objekt, anropar drawImage
@@ -92,10 +94,11 @@ public class Window extends JFrame {
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
         b.draw(o.getBoundingRectangle());
-        b.setColor(Color.GREEN);
-        b.draw(o.getEnteringRectangle());
         b.setColor(Color.BLUE);
-        b.draw(o.getBoundingRectangle().getBounds2D());
+//        b.draw(o.getBoundingRectangle().getBounds());
+        for(Rectangle p : o.getBoundingPoints()){
+            b.draw(p);
+        }
     }
     /**
      * Ritar en bild, med rotation

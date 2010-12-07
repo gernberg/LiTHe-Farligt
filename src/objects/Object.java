@@ -5,10 +5,13 @@
 
 package objects;
 
+import graphics.Helpers;
 import graphics.ImageObject;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -91,17 +94,22 @@ public abstract class Object {
         setX(x);
         setY(y);
     }
-    /**
-     * Fråga what's up.
-     */
     public abstract void poll();
-    public abstract double getAngle();
+    public abstract float getAngle();
     /**
      * Returnerar en Shape som är boundingBoxen - till för bla. kollisionshantering.
      * @return
      */
     public abstract Shape getBoundingRectangle();
 
+    public Set<Rectangle> getBoundingPoints(){
+        Set<Rectangle> pointSet = new HashSet<Rectangle>();
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), 1, 1)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY(), 1, 1)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY()+getHeight(), 1, 1)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY()+getHeight(), 1, 1)).getBounds());
+        return pointSet;
+    }
     public abstract Shape getEnteringRectangle();
     /**
      * Kollar om objektet är stjälbart
@@ -131,5 +139,15 @@ public abstract class Object {
     }
     public void setHeight(int height){
         this.height = height;
+    }
+    /**
+     * Roterar en rektangel
+     * TODO: Ligger den här i rätt fil verkligen, eller ska vi skapa en klass
+     * för den här typen av "hjälpfunktioner"?
+     * @param r Rektangeln som skall roteras.
+     * @return
+     */
+    public Shape rotateRectangle(Rectangle r){
+        return Helpers.allHelpers.rotateRectangle(r, this);
     }
 }
