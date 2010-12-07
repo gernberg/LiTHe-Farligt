@@ -87,11 +87,11 @@ public class Window extends JFrame {
         b.setColor(Color.YELLOW);
         b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
         b.setColor(Color.RED);
-        b.draw(o.getBoundingRectangle());
+        b.draw(o.getBoundingCircle());
         b.setColor(Color.GREEN);
         b.draw(o.getEnteringRectangle());
         b.setColor(Color.BLUE);
-        b.draw(o.getBoundingRectangle().getBounds2D());
+        b.draw(o.getBoundingCircle().getBounds2D());
     }
     /**
      * Ritar en bild, med rotation

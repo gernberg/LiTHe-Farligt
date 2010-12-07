@@ -75,7 +75,7 @@ public class Coordinator {
                 return person;
             }
             if(object.isStealable() && !object.equals(currentObject)){
-                if(object.getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
+                if(object.getEnteringRectangle().intersects(currentObject.getBoundingCircle().getBounds())){
                     return (MoveableObject) object;
                 }
             }
@@ -92,7 +92,7 @@ public class Coordinator {
                 if(moveableObject.hasMoved()){
                     for(Object object2 : objects){
                         i++;
-                        if(!object2.equals(moveableObject) && moveableObject.getBoundingRectangle().intersects(object2.getBoundingRectangle().getBounds2D())){
+                        if(!object2.equals(moveableObject) && moveableObject.getBoundingCircle().intersects(object2.getBoundingCircle().getBounds2D())){
                            // moveableObject.setPreviousPosition();
                            // moveableObject.setPreviousAngle();
                            // moveableObject.setSpeed(-moveableObject.getSpeed());

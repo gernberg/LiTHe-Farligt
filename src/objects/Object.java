@@ -100,7 +100,7 @@ public abstract class Object {
      * Returnerar en Shape som är boundingBoxen - till för bla. kollisionshantering.
      * @return
      */
-    public abstract Shape getBoundingRectangle();
+    public abstract Shape getBoundingCircle();
 
     public abstract Shape getEnteringRectangle();
     /**

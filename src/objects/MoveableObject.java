@@ -9,6 +9,8 @@ import graphics.Helpers;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -182,8 +184,9 @@ public abstract class MoveableObject extends Object{
      * som objektets bild)
      * @return
      */
-    public Shape getBoundingRectangle() {
-        return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
+    public Shape getBoundingCircle() {
+        return new Ellipse2D.Float(getX(), getY(), 50,50);
+        //return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
     }
     /**
      * Hämtar boundingboxen för hur nära man behöver stå för att byta till ett
