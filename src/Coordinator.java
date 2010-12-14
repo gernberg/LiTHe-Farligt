@@ -1,4 +1,5 @@
 
+import objects.Water;
 import graphics.ImageObject;
 import graphics.Window;
 import java.awt.Rectangle;
@@ -8,10 +9,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import objects.Building;
 import objects.Car;
 import objects.MoveableObject;
 import objects.Object;
 import objects.Person;
+import objects.Road;
 import objects.Stealable;
 import objects.UserController;
 import org.omg.CORBA.Current;
@@ -33,6 +36,17 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
+        objects.add(new Water(-500,-500));
+        objects.add(new Water(-500,0));
+        objects.add(new Water(-500,500));
+        objects.add(new Water(-500,1000));
+        objects.add(new Road(0,-500));
+        objects.add(new Road(0,-200));
+        objects.add(new Road(0,100));
+        objects.add(new Road(0,400));
+        objects.add(new Road(0,700));
+        objects.add(new Building(100,0));
+        objects.add(new Building(246,0));
         window.addUserInput(userController);
         userController.setCurrentObject(person);
 

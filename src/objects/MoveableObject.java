@@ -5,16 +5,8 @@
 
 package objects;
 
-import graphics.Helpers;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  *
@@ -183,14 +175,6 @@ public abstract class MoveableObject extends Object{
      * @return
      */
     public abstract float getNewY();
-    /**
-     * Hämtar boundingboxen för objektet (och ser till att den är roterad precis
-     * som objektets bild)
-     * @return
-     */
-    public Shape getBoundingRectangle() {
-        return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
-    }
     /**
      * Hämtar boundingboxen för hur nära man behöver stå för att byta till ett
      * visst fordon.

@@ -96,11 +96,7 @@ public abstract class Object {
     }
     public abstract void poll();
     public abstract float getAngle();
-    /**
-     * Returnerar en Shape som är boundingBoxen - till för bla. kollisionshantering.
-     * @return
-     */
-    public abstract Shape getBoundingRectangle();
+    
 
     public Set<Rectangle> getBoundingPoints(){
         Set<Rectangle> pointSet = new HashSet<Rectangle>();
@@ -150,4 +146,13 @@ public abstract class Object {
     public Shape rotateRectangle(Rectangle r){
         return Helpers.allHelpers.rotateRectangle(r, this);
     }
+    /**
+     * Hämtar boundingboxen för objektet (och ser till att den är roterad precis
+     * som objektets bild)
+     * @return
+     */
+    public Shape getBoundingRectangle() {
+        return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
+    }
+  
 }

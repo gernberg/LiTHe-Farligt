@@ -32,7 +32,7 @@ public class Person extends MoveableObject{
         setCenterY(10);
         setSpeed(1);
         setAcceleration(100);
-        setMaxSpeed(2);
+        setMaxSpeed(30);
         setTorque(2);
         setImage();
         setPosition(100,200);
