@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -14,9 +15,17 @@ import objects.UserController;
 import objects.Object;
 
 public class Window extends JFrame {
-
     private static int WINDOW_WIDTH = 1024;
-
+    private static int WINDOW_HEIGHT = 1024;
+    private static int WORLD_WIDTH = 2048;
+    private static int WORLD_HEIGHT = 2048;
+    public int strangey, strangex;
+    public static int getWORLD_HEIGHT() {
+        return WORLD_HEIGHT;
+    }
+    public static int getWORLD_WIDTH() {
+        return WORLD_WIDTH;
+    }
     public static int getWINDOW_HEIGHT() {
         return WINDOW_HEIGHT;
     }
@@ -24,7 +33,6 @@ public class Window extends JFrame {
     public static int getWINDOW_WIDTH() {
         return WINDOW_WIDTH;
     }
-    private static int WINDOW_HEIGHT = 768;
 
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
@@ -43,8 +51,10 @@ public class Window extends JFrame {
      * @param objects De objekt som skall synas på skärmen
      */
     public void draw(Set<Object> objects) {
+        //setBounds(strangex, strangey, WINDOW_WIDTH, WINDOW_HEIGHT);
         // TODO: Ska vi snygga till koden?
         b = buffer.createGraphics();
+        
         // Gör så att allt blir härligt smooth
         b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
@@ -73,27 +83,25 @@ public class Window extends JFrame {
             drawDebugData((MoveableObject) o);
         }
     }
+    private int getRelativeX(int x){
+        return x-strangex+getWINDOW_WIDTH()/2;
+    }
+    private int getRelativeY(int y){
+        return y-strangey+getWINDOW_HEIGHT()/2;
+    }
     /**
      * Ritar ut debugdata för ett MoveableObject.
      * @param o
      */
     public void drawDebugData(MoveableObject o){
         AffineTransform tfm = new AffineTransform();
-        tfm.rotate(0, o.getIntX()+o.getRotationCenterX(), o.getIntY()+o.getRotationCenterY());
+        tfm.rotate(0, getRelativeX(o.getIntX()+o.getRotationCenterX()), getRelativeY(o.getIntY()+o.getRotationCenterY()));
         b.setTransform(tfm);
-        if(o.isUsedByUser()){
-            b.setColor(Color.GREEN);
-            b.drawOval(o.getRotationCenterX() + o.getIntX() - 10,o.getRotationCenterY() + o.getIntY() - 10, 20, 20);
-        }
         b.setColor(Color.YELLOW);
-        b.drawOval(o.getRotationCenterX() + o.getIntX() - 1,o.getRotationCenterY() + o.getIntY() - 1, 2, 2);
+        b.drawOval(getRelativeX(o.getRotationCenterX() + o.getIntX() - 1),getRelativeY(o.getRotationCenterY() + o.getIntY() - 1), 2, 2);
         b.setColor(Color.RED);
         b.draw(o.getBoundingRectangle());
         b.setColor(Color.BLUE);
-//        b.draw(o.getBoundingRectangle().getBounds());
-        for(Rectangle p : o.getBoundingPoints()){
-            b.draw(p);
-        }
     }
     /**
      * Ritar en bild, med rotation
@@ -106,9 +114,11 @@ public class Window extends JFrame {
      */
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
         AffineTransform tfm = new AffineTransform();
-        tfm.rotate(rotation, x + rotationCenterX, y + rotationCenterY);
+        tfm.rotate(rotation, x + rotationCenterX-strangex+getWINDOW_WIDTH()/2, y + rotationCenterY-strangey+getWINDOW_HEIGHT()/2);
         b.setTransform(tfm);
-        b.drawImage(image.getImage(), x, y, this);
+//        System.out.println(x + "|" + strangex);
+//        System.out.println(y + "|" + strangey);
+        b.drawImage(image.getImage(), x-strangex+getWINDOW_WIDTH()/2, y-strangey+getWINDOW_HEIGHT()/2, this);
         tfm.rotate(0, 0, 0);
     }
     /**

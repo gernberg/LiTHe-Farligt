@@ -14,6 +14,7 @@ import objects.Object;
 import objects.Person;
 import objects.Stealable;
 import objects.UserController;
+import org.omg.CORBA.Current;
 /**
  * Den här klassen fungerar som koordinator mellan Window och UserController.
  * @author gustav
@@ -51,12 +52,12 @@ public class Coordinator {
     }
     public void addCar(){
         // TODO: Fult, borde göras snyggare
-        addCar(50+(int)Math.floor(Math.random()*window.getWINDOW_WIDTH()), 50+(int)Math.floor(Math.random()*window.getWINDOW_HEIGHT()));
+        addCar(50+(int)Math.floor(Math.random()*window.getWORLD_WIDTH()), 50+(int)Math.floor(Math.random()*window.getWORLD_HEIGHT()));
     }
     public void addPeople(){
         // TODO: Fult, borde göras snyggare
         for(int i = 0; i<50; i++){
-            Person p = new Person((int)(Math.random()*window.getWINDOW_WIDTH()),(int)(Math.random()*window.getWINDOW_HEIGHT()));
+            Person p = new Person((int)(Math.random()*window.getWORLD_WIDTH()),(int)(Math.random()*window.getWORLD_HEIGHT()));
             p.setAngle((float) (Math.random()*Math.PI*2.0));
             p.setSpeed(p.getMaxSpeed());
             objects.add(p);
@@ -148,6 +149,8 @@ public class Coordinator {
                 objects.add(person);
             }
         }
+        window.strangex = userController.getCurrentObject().getIntX();
+        window.strangey = userController.getCurrentObject().getIntY();
         window.draw(objects);
     }
 }
