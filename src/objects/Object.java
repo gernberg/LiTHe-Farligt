@@ -107,7 +107,7 @@ public abstract class Object {
         pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), 0,0)).getBounds());
         pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY(), 0, 0)).getBounds());
         pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY()+getHeight(), 0, 0)).getBounds());
-        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY()+getHeight(), 0, 06)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY()+getHeight(), 0, 0)).getBounds());
         return pointSet;
     }
     public abstract Shape getEnteringRectangle();
