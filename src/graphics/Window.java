@@ -2,6 +2,7 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Label;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -10,49 +11,37 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import java.util.Set;
+import javax.swing.JLabel;
 import objects.MoveableObject;
 import objects.UserController;
 import objects.Object;
 
 public class Window extends JFrame {
-    private static int WINDOW_WIDTH = 1024;
-    private static int WINDOW_HEIGHT = 1024;
+    private static int WINDOW_WIDTH = 600;
+    private static int WINDOW_HEIGHT = 600;
     private static int WORLD_WIDTH = 2048;
     private static int WORLD_HEIGHT = 2048;
     public int strangey, strangex;
-    public static int getWORLD_HEIGHT() {
-        return WORLD_HEIGHT;
-    }
-    public static int getWORLD_WIDTH() {
-        return WORLD_WIDTH;
-    }
-    public static int getWINDOW_HEIGHT() {
-        return WINDOW_HEIGHT;
-    }
-
-    public static int getWINDOW_WIDTH() {
-        return WINDOW_WIDTH;
-    }
 
     double i = 0;
     Color backgroundColor = Color.LIGHT_GRAY;
     BufferedImage buffer;
-    Graphics2D b;
+    Graphics2D b, bg2;
     Panel panel;
     private boolean debug = false;
+
     /**
      * Växlar debugläget
      */
     public void switchDebug(){
         debug = !debug;
     }
+    boolean isBackgroundDrawed = false;
     /**
      * Ritar ut all grafik
      * @param objects De objekt som skall synas på skärmen
      */
-    public void draw(Set<Object> objects) {
-        //setBounds(strangex, strangey, WINDOW_WIDTH, WINDOW_HEIGHT);
-        // TODO: Ska vi snygga till koden?
+    public void draw(Set<Object> backgroundObjects, Set<Object> foregroundObjects, long points) {
         b = buffer.createGraphics();
         
         // Gör så att allt blir härligt smooth
@@ -63,10 +52,28 @@ public class Window extends JFrame {
 
         b.setColor(backgroundColor); // TODO: Byt ut mot bild.
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-        for (Object object : objects) {
-            drawObject(object);
+
+
+        
+        if(!isBackgroundDrawed){
+            for (Object foregroundObject : foregroundObjects) {
+                drawObject(foregroundObject, b);
+            }
+            //isBackgroundDrawed = true;
         }
+        for (Object backgroundObject : backgroundObjects) {
+                drawObject(backgroundObject, b);
+        }
+        b.setTransform(new AffineTransform());
+        b.setColor(Color.BLACK);
+        AffineTransform tfm = new AffineTransform();
+        b.fillRect(0, 0, getWINDOW_WIDTH(), 50);
+        b.setColor(Color.WHITE);
+        b.drawLine(0, 50, getWINDOW_WIDTH(), 50);
+        b.setColor(Color.GREEN);
+        b.drawChars(("Poäng: " + String.valueOf(points)).toCharArray(), 0, ("Poäng: " + String.valueOf(points)).length(), getWINDOW_WIDTH()/2-20, 45);
         b.dispose();
+
         // Hämtad från drawScreen 
         Graphics2D g = (Graphics2D) this.getGraphics();
         g.drawImage(buffer, 0, 0, this);
@@ -77,8 +84,8 @@ public class Window extends JFrame {
      * Ritar ut ett objekt, anropar drawImage
      * @param o
      */
-    public void drawObject(Object o){
-        drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY());
+    public void drawObject(Object o, Graphics2D b){
+        drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY(), b);
         if(debug){
             drawDebugData((MoveableObject) o);
         }
@@ -111,8 +118,9 @@ public class Window extends JFrame {
      * @param rotation Rotering (mätt i radianer)
      * @param rotationCenterX x-position för rotation, relativt bildens x position
      * @param rotationCenterY y-position för rotation, relativt bildens y position
+     * @param b Graphics2D, buffern som skapas
      */
-    public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY) {
+    public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY, Graphics2D b) {
         AffineTransform tfm = new AffineTransform();
         tfm.rotate(rotation, x + rotationCenterX-strangex+getWINDOW_WIDTH()/2, y + rotationCenterY-strangey+getWINDOW_HEIGHT()/2);
         b.setTransform(tfm);
@@ -127,8 +135,8 @@ public class Window extends JFrame {
      * @param x
      * @param y
      */
-    public void drawImage(ImageObject image, int x, int y) {
-        drawImage(image, x, y, 0, 0, 0);
+    public void drawImage(ImageObject image, Graphics2D b, int x, int y) {
+        drawImage(image, x, y, 0, 0, 0, b);
     }
     /**
      * Skapar alla viktiga saker
@@ -151,6 +159,19 @@ public class Window extends JFrame {
         panel.addKeyListener(UserController);
     }
 
+    public static int getWORLD_HEIGHT() {
+        return WORLD_HEIGHT;
+    }
+    public static int getWORLD_WIDTH() {
+        return WORLD_WIDTH;
+    }
+    public static int getWINDOW_HEIGHT() {
+        return WINDOW_HEIGHT;
+    }
+
+    public static int getWINDOW_WIDTH() {
+        return WINDOW_WIDTH;
+    }
   
   
 }

@@ -11,7 +11,7 @@ import graphics.ImageObject;
  *
  * @author gustav
  */
-public class Person extends MoveableObject{
+public class Person extends MoveableObject implements Destroyable{
 
     public Person(int x, int y) {
         super();
@@ -46,6 +46,13 @@ public class Person extends MoveableObject{
     public float getNewY(){
         setY(velocity.getNewY(getY()));
         return getY();
+    }
+
+    public void destroy(float angle) {
+        setAngle(angle);
+        setImage(new ImageObject("dodperson.png"));
+        setWidth(0);
+        setHeight(0);
     }
 
 }

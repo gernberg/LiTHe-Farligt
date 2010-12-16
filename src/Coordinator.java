@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Set;
 import objects.Building;
 import objects.Car;
+import objects.Destroyable;
 import objects.MoveableObject;
 import objects.Object;
 import objects.Person;
@@ -23,9 +24,11 @@ import org.omg.CORBA.Current;
  * @author gustav
  */
 public class Coordinator {
-    Set<Object> objects = new HashSet<Object>();
+    Set<Object> foregroundObjects = new HashSet<Object>();
+    Set<Object> backgroundObjects = new HashSet<Object>();
     MoveableObject person;
     Window window;
+    long points = 0;
     UserController userController;
     public Coordinator(Window window, UserController userController) {
         addPerson();
@@ -36,17 +39,17 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        objects.add(new Water(-500,-500));
-        objects.add(new Water(-500,0));
-        objects.add(new Water(-500,500));
-        objects.add(new Water(-500,1000));
-        objects.add(new Road(0,-500));
-        objects.add(new Road(0,-200));
-        objects.add(new Road(0,100));
-        objects.add(new Road(0,400));
-        objects.add(new Road(0,700));
-        objects.add(new Building(100,0));
-        objects.add(new Building(246,0));
+        backgroundObjects.add(new Water(-500,-500));
+        backgroundObjects.add(new Water(-500,0));
+        backgroundObjects.add(new Water(-500,500));
+        backgroundObjects.add(new Water(-500,1000));
+        backgroundObjects.add(new Road(0,-500));
+        backgroundObjects.add(new Road(0,-200));
+        backgroundObjects.add(new Road(0,100));
+        backgroundObjects.add(new Road(0,400));
+        backgroundObjects.add(new Road(0,700));
+        backgroundObjects.add(new Building(100,0));
+        backgroundObjects.add(new Building(246,0));
         window.addUserInput(userController);
         userController.setCurrentObject(person);
 
@@ -62,7 +65,7 @@ public class Coordinator {
             }
         };
         person.setUsedByUser(true);
-        objects.add(person);
+        foregroundObjects.add(person);
     }
     public void addCar(){
         // TODO: Fult, borde göras snyggare
@@ -74,20 +77,25 @@ public class Coordinator {
             Person p = new Person((int)(Math.random()*window.getWORLD_WIDTH()),(int)(Math.random()*window.getWORLD_HEIGHT()));
             p.setAngle((float) (Math.random()*Math.PI*2.0));
             p.setSpeed(p.getMaxSpeed());
-            objects.add(p);
+            foregroundObjects.add(p);
         }
     }
     public void addCar(int x, int y){
-        objects.add(new Car(x, y));
+        foregroundObjects.add(new Car(x, y));
     }
     public MoveableObject getPerson() {
         return person;
     }
+    /**
+     * Byter vilket objekt vi befinner oss i, returnerar det objekt vi byter till.
+     * @param currentObject
+     * @return
+     */
     public MoveableObject switchObject(MoveableObject currentObject) {
         MoveableObject tmpObject = currentObject;
-        for (Object object : objects) {
+        for (Object object : foregroundObjects) {
             if(!currentObject.equals(person)){
-                // Om man inte är en person just nu  - betyder det att vi alltid
+                // Om man inte är en person just nu - betyder det att vi alltid
                 // ska "hoppa ut ur" fordonet.
                 return person;
             }
@@ -102,7 +110,9 @@ public class Coordinator {
 
     public void update() {
         int i = 0;
-        for (Object object : objects) {
+        Set<Object> removeThis = new HashSet<Object>();
+        Set<Object> addThis = new HashSet<Object>();
+        for (Object object : foregroundObjects) {
             if(object instanceof MoveableObject){
                 MoveableObject moveableObject = (MoveableObject) object;
                 moveableObject.poll();
@@ -110,6 +120,9 @@ public class Coordinator {
                     System.out.println(moveableObject.getAngle() + "|" + moveableObject.getPreviousAngle());
                 }
                 if(moveableObject.hasMoved()){
+                    Set<Object> objects = new HashSet<Object>();
+                    objects.addAll(foregroundObjects);
+                    objects.addAll(backgroundObjects);
                     for(Object object2 : objects){
                         i++;
                         if(!object2.equals(moveableObject) && moveableObject.getBoundingRectangle().intersects(object2.getBoundingRectangle().getBounds2D())){
@@ -128,22 +141,33 @@ public class Coordinator {
                                 }
                             }
                             if(collision){
-                                moveableObject.setPreviousPosition();
-                                moveableObject.setPreviousAngle();
-                                float newSpeed = moveableObject.getSpeed();
-                                if(newSpeed>1){
-                                    newSpeed--;
+                                if(object2 instanceof Destroyable){
+                                    ((Destroyable) object2).destroy(moveableObject.getAngle());
+                                    removeThis.add(object2);
+                                    addThis.add(object2);
+                                    points++;
+                                }else{
+                                    moveableObject.setPreviousPosition();
+                                    moveableObject.setPreviousAngle();
+                                    float newSpeed = moveableObject.getSpeed();
+                                    if(newSpeed>1){
+                                        newSpeed--;
+                                    }
+                                    else if(newSpeed<1){
+                                        newSpeed++;
+                                    }
+                                    moveableObject.setSpeed(-newSpeed);
                                 }
-                                else if(newSpeed<1){
-                                    newSpeed++;
-                                }
-                                moveableObject.setSpeed(-newSpeed);
                             }
                         }
                     }
                 }
             }
         }
+
+        foregroundObjects.removeAll(removeThis);
+        backgroundObjects.addAll(addThis);
+
         System.out.println(i + "Kontroller");
         userController.poll();
         if(userController.shallWeSwitchObjects()){
@@ -154,17 +178,17 @@ public class Coordinator {
             // TODO: Detta borde inte ligga här - utan någonstans snyggare.
             // Typ i switchObject.
             if(!userController.getCurrentObject().equals(person)){
-                objects.remove(person);
+                foregroundObjects.remove(person);
             }else{
                 person.init();
                 person.setX(tmpX);
                 person.setY(tmpY);
                 person.setAngle((float) tmpAngle);
-                objects.add(person);
+                foregroundObjects.add(person);
             }
         }
         window.strangex = userController.getCurrentObject().getIntX();
         window.strangey = userController.getCurrentObject().getIntY();
-        window.draw(objects);
+        window.draw(foregroundObjects, backgroundObjects, points);
     }
 }
