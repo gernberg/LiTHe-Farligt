@@ -33,7 +33,7 @@ public class Building extends Object{
     }
 
     @Override
-    public float getAngle() {
+    public double getAngle() {
         return 0;
     }
 

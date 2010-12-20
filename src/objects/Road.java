@@ -28,7 +28,7 @@ public class Road extends Object{
     }
 
     @Override
-    public float getAngle() {
+    public double getAngle() {
         return 0;
     }
 

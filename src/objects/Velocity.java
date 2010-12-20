@@ -10,16 +10,16 @@ public class Velocity {
     public Velocity(MoveableObject moveableObject) {
         this.moveableObject = moveableObject;
     }
-    private float getSpeed(){
+    private double getSpeed(){
         return moveableObject.getSpeed();
     }
-    private void setSpeed(float speed){
+    private void setSpeed(double speed){
         moveableObject.setSpeed(speed);
     }
-    private void modifySpeed(float modificator){
+    private void modifySpeed(double modificator){
         setSpeed(getSpeed()+modificator);
     }
-    private float getAcceleration(){
+    private double getAcceleration(){
         return moveableObject.getAcceleration();
     }
     /**
@@ -40,7 +40,7 @@ public class Velocity {
             setSpeed(getMinSpeed());
         }
     }
-    private float getTorque(){
+    private double getTorque(){
         return moveableObject.getTorque();
     }
     public void increaseAngle(){
@@ -55,12 +55,12 @@ public class Velocity {
     }
     
     
-    public float getNewX(float x) {
-        return (float)(x +  Math.cos(getAngle()) * getSpeed());
+    public double getNewX(double x) {
+        return (double)(x +  Math.cos(getAngle()) * getSpeed());
     }
 
-    public float getNewY(float y) {
-        return (float)(y + Math.sin(getAngle()) * getSpeed());
+    public double getNewY(double y) {
+        return (double)(y + Math.sin(getAngle()) * getSpeed());
     }
     public void turnRight(){
         if(getSpeed()>0)
@@ -75,7 +75,7 @@ public class Velocity {
             increaseAngle();
     }
     /**
-     * Dödar hastigheten, anropar killSpeed(float) med objektets acceleration.
+     * Dödar hastigheten, anropar killSpeed(double) med objektets acceleration.
      */
     public void killSpeed() {
         killSpeed(getAcceleration());
@@ -84,7 +84,7 @@ public class Velocity {
      * Dödar hastigheten (dvs. minskar / ökar så att den tillslut antar 0.
      * @param acceleration hur snabbt vi ska döda hastigheten.
      */
-    public void killSpeed(float acceleration) {
+    public void killSpeed(double acceleration) {
         if(getSpeed()>0){
             // TODO: Är detta verkligen en uppgift i killSpeed, eller ska den ske
             // någonannanstans?
@@ -99,14 +99,14 @@ public class Velocity {
             }
         }
     }
-    private float getMaxSpeed(){
+    private double getMaxSpeed(){
         return moveableObject.getMaxSpeed();
     }
-    private float getMinSpeed() {
+    private double getMinSpeed() {
         return - getMaxSpeed();
     }
 
-    private void modifyAngle(float i) {
-        moveableObject.setAngle((float) moveableObject.getAngle()+i);;
+    private void modifyAngle(double i) {
+        moveableObject.setAngle((double) moveableObject.getAngle()+i);;
     }
 }

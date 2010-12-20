@@ -32,13 +32,13 @@ public class Coordinator {
     UserController userController;
     public Coordinator(Window window, UserController userController) {
         addPerson();
-        addCar();
-        addCar();
-        addCar();
-        addCar();
-        addCar();
-        addCar();
-        addPeople();
+//        addCar();
+//        addCar();
+//        addCar();
+//        addCar();
+//        addCar();
+//        addCar();
+//        addPeople();
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
         backgroundObjects.add(new Water(-500,500));
@@ -75,7 +75,7 @@ public class Coordinator {
         // TODO: Fult, borde göras snyggare
         for(int i = 0; i<50; i++){
             Person p = new Person((int)(Math.random()*window.getWORLD_WIDTH()),(int)(Math.random()*window.getWORLD_HEIGHT()));
-            p.setAngle((float) (Math.random()*Math.PI*2.0));
+            p.setAngle((double) (Math.random()*Math.PI*2.0));
             p.setSpeed(p.getMaxSpeed());
             foregroundObjects.add(p);
         }
@@ -116,9 +116,6 @@ public class Coordinator {
             if(object instanceof MoveableObject){
                 MoveableObject moveableObject = (MoveableObject) object;
                 moveableObject.poll();
-                if(userController.getCurrentObject()==moveableObject){
-                    System.out.println(moveableObject.getAngle() + "|" + moveableObject.getPreviousAngle());
-                }
                 if(moveableObject.hasMoved()){
                     Set<Object> objects = new HashSet<Object>();
                     objects.addAll(foregroundObjects);
@@ -149,7 +146,7 @@ public class Coordinator {
                                 }else{
                                     moveableObject.setPreviousPosition();
                                     moveableObject.setPreviousAngle();
-                                    float newSpeed = moveableObject.getSpeed();
+                                    double newSpeed = moveableObject.getSpeed();
                                     if(newSpeed>1){
                                         newSpeed--;
                                     }
@@ -171,8 +168,8 @@ public class Coordinator {
         System.out.println(i + "Kontroller");
         userController.poll();
         if(userController.shallWeSwitchObjects()){
-            float tmpX = userController.getCurrentObject().getX();
-            float tmpY = userController.getCurrentObject().getY();
+            double tmpX = userController.getCurrentObject().getX();
+            double tmpY = userController.getCurrentObject().getY();
             double tmpAngle = userController.getCurrentObject().getAngle();
             userController.setCurrentObject(switchObject(userController.getCurrentObject()));
             // TODO: Detta borde inte ligga här - utan någonstans snyggare.
@@ -183,7 +180,7 @@ public class Coordinator {
                 person.init();
                 person.setX(tmpX);
                 person.setY(tmpY);
-                person.setAngle((float) tmpAngle);
+                person.setAngle((double) tmpAngle);
                 foregroundObjects.add(person);
             }
         }

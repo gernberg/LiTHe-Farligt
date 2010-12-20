@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public abstract class Object {
     private ImageObject image;
-    private float x,y;
+    private double x,y;
     private int centerX, centerY, height, width;
     public ImageObject getImage() {
         return image;
@@ -52,25 +52,25 @@ public abstract class Object {
     public void setImage(ImageObject image){
         this.image = image;
     }
-    public float getX() {
+    public double getX() {
         return x;
     }
     public int getIntX(){
-        return Math.round(getX());
+        return (int) Math.round(getX());
     }
     public int getIntY(){
-        return Math.round(getY());
+        return (int) Math.round(getY());
     }
 
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
     public int getWidth(){
@@ -95,7 +95,7 @@ public abstract class Object {
         setY(y);
     }
     public abstract void poll();
-    public abstract float getAngle();
+    public abstract double getAngle();
     
 
     public Set<Rectangle> getBoundingPoints(){

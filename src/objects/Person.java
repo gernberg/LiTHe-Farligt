@@ -38,17 +38,17 @@ public class Person extends MoveableObject implements Destroyable{
         setPosition(100,200);
     }
     @Override
-    public float getNewX(){
+    public double getNewX(){
         setX(velocity.getNewX(getX()));
         return getX();
     }
     @Override
-    public float getNewY(){
+    public double getNewY(){
         setY(velocity.getNewY(getY()));
         return getY();
     }
 
-    public void destroy(float angle) {
+    public void destroy(double angle) {
         setAngle(angle);
         setImage(new ImageObject("dodperson.png"));
         setWidth(0);

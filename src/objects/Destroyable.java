@@ -10,5 +10,5 @@ package objects;
  * @author gustav
  */
 public interface Destroyable {
-    public void destroy(float angle);
+    public void destroy(double angle);
 }

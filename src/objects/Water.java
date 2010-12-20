@@ -30,7 +30,7 @@ public class Water extends Object{
     }
 
     @Override
-    public float getAngle() {
+    public double getAngle() {
         return 0;
     }
 

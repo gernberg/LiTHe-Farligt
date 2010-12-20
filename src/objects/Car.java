@@ -39,12 +39,12 @@ public class Car extends MoveableObject implements Stealable{
         setImage(new ImageObject("car.png"));
     }
     @Override
-    public float getNewX(){
+    public double getNewX(){
         setX(velocity.getNewX(getX()));
         return getX();
     }
     @Override
-    public float getNewY(){
+    public double getNewY(){
         setY(velocity.getNewY(getY()));
         return getY();
     }
