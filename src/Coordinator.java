@@ -32,13 +32,13 @@ public class Coordinator {
     UserController userController;
     public Coordinator(Window window, UserController userController) {
         addPerson();
-//        addCar();
-//        addCar();
-//        addCar();
-//        addCar();
-//        addCar();
-//        addCar();
-//        addPeople();
+        addCar();
+        addCar();
+        addCar();
+        addCar();
+        addCar();
+        addCar();
+        addPeople();
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
         backgroundObjects.add(new Water(-500,500));
@@ -57,13 +57,14 @@ public class Coordinator {
         this.userController = userController;
     }
     public void addPerson(){
-        person = new Person(){
-
-            @Override
-            public void setImage() {
-                setImage(new ImageObject("maincharacter.png"));
-            }
-        };
+//        person = new Person(){
+//
+//            @Override
+//            public void setImage() {
+//                setImage(new ImageObject("maincharacter.png"));
+//            }
+//        };
+        person = new Person();
         person.setUsedByUser(true);
         foregroundObjects.add(person);
     }

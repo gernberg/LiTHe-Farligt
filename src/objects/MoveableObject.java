@@ -18,7 +18,6 @@ public abstract class MoveableObject extends Object{
     // Eller ska man skicka hela objektet till velocity så får velocity använda
     // getterpolls i Object?
     private double maxSpeed, weight, speed, angle, acceleration, torque, previousX, previousY, previousAngle;
-    double engineCapacity; // Används denna?
     Velocity velocity;
 
     public double getPreviousAngle() {
@@ -28,14 +27,19 @@ public abstract class MoveableObject extends Object{
     public void setPreviousAngle(double previousAngle) {
         this.previousAngle = previousAngle;
     }
+    double engineCapacity;
     boolean usedByUser = false;
 
     public double getAcceleration() {
         return acceleration;
     }
-    public void setAcceleration(double acceleration){
-        setAcceleration((double) acceleration);
+//    public void setAcceleration(double acceleration){
+//        setAcceleration((double) acceleration);
+//    }
+    public void setAcceleration(double acceleration) {
+        this.acceleration = acceleration;
     }
+
 
     public void setAngle(double angle) {
         setPreviousAngle(getAngle());
@@ -69,6 +73,10 @@ public abstract class MoveableObject extends Object{
     public double getTorque() {
         return torque;
     }
+
+//    public void setTorque(double torque) {
+//        setTorque((double) torque);
+//    }
     public void setTorque(double torque) {
         this.torque = torque;
     }
@@ -122,6 +130,11 @@ public abstract class MoveableObject extends Object{
      * Ber objektet att uppdatera vad som hänt sen sist.
      */
     public void poll(){
+        // TODO: Är det bra att göra såhär?
+        // Känner att man kanske ska skippa kontrollen i setX, setY, setAngle?
+        setPreviousX(getX());
+        setPreviousY(getY());
+        setPreviousAngle(getAngle());
         getNewX();
         getNewY();
         // Vi vill att alla objekt ska tappa hastighet gradvis
@@ -205,6 +218,7 @@ public abstract class MoveableObject extends Object{
         super.setY(y);
     }
     public boolean hasMoved(){
+        
         return (getX()!=getPreviousX() ||
                 getY()!=getPreviousY() ||
                 getAngle()!=getPreviousAngle());
