@@ -28,7 +28,7 @@ public class Coordinator {
     Set<Object> backgroundObjects = new HashSet<Object>();
     MoveableObject person;
     Window window;
-    long points = 0;
+    long score = 0;
     UserController userController;
     public Coordinator(Window window, UserController userController) {
         addPerson();
@@ -39,6 +39,19 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
+        foregroundObjects.add(new Person(200, 200){
+
+            @Override
+            public int getScore() {
+                return 2000;
+            }
+
+            @Override
+            public void setImage() {
+                super.setImage(new ImageObject("cop.png"));
+            }
+
+        });
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
         backgroundObjects.add(new Water(-500,500));
@@ -57,14 +70,13 @@ public class Coordinator {
         this.userController = userController;
     }
     public void addPerson(){
-//        person = new Person(){
-//
-//            @Override
-//            public void setImage() {
-//                setImage(new ImageObject("maincharacter.png"));
-//            }
-//        };
-        person = new Person();
+        person = new Person(){
+
+            @Override
+            public void setImage() {
+                setImage(new ImageObject("maincharacter.png"));
+            }
+        };
         person.setUsedByUser(true);
         foregroundObjects.add(person);
     }
@@ -143,7 +155,10 @@ public class Coordinator {
                                     ((Destroyable) object2).destroy(moveableObject.getAngle());
                                     removeThis.add(object2);
                                     addThis.add(object2);
-                                    points++;
+                                    // Ge bara poäng om det är "en själv" som kolliderar
+                                    if(moveableObject.equals(userController.getCurrentObject())){
+                                        addScore(object2);
+                                    }
                                 }else{
                                     moveableObject.setPreviousPosition();
                                     moveableObject.setPreviousAngle();
@@ -166,7 +181,6 @@ public class Coordinator {
         foregroundObjects.removeAll(removeThis);
         backgroundObjects.addAll(addThis);
 
-        System.out.println(i + "Kontroller");
         userController.poll();
         if(userController.shallWeSwitchObjects()){
             double tmpX = userController.getCurrentObject().getX();
@@ -187,6 +201,11 @@ public class Coordinator {
         }
         window.strangex = userController.getCurrentObject().getIntX();
         window.strangey = userController.getCurrentObject().getIntY();
-        window.draw(foregroundObjects, backgroundObjects, points);
+        window.draw(foregroundObjects, backgroundObjects, score);
+    }
+
+    private void addScore(Object object2) {
+        if(object2 instanceof Destroyable)
+            score += ((Destroyable) object2).getScore();
     }
 }

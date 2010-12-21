@@ -11,4 +11,5 @@ package objects;
  */
 public interface Destroyable {
     public void destroy(double angle);
+    public int getScore();
 }

@@ -30,9 +30,9 @@ public class Person extends MoveableObject implements Destroyable{
         setHeight(20);
         setCenterX(5);
         setCenterY(10);
-        setSpeed(1);
+        setSpeed(0);
         setAcceleration(100);
-        setMaxSpeed(30);
+        setMaxSpeed(2);
         setTorque(2);
         setImage();
         setPosition(100,200);
@@ -53,6 +53,10 @@ public class Person extends MoveableObject implements Destroyable{
         setImage(new ImageObject("dodperson.png"));
         setWidth(0);
         setHeight(0);
+    }
+
+    public int getScore() {
+        return 100;
     }
 
 }

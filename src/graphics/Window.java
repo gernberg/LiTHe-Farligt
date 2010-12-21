@@ -87,7 +87,7 @@ public class Window extends JFrame {
     public void drawObject(Object o, Graphics2D b){
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY(), b);
         if(debug){
-            drawDebugData((MoveableObject) o);
+            drawDebugData(o);
         }
     }
     private int getRelativeX(int x){
@@ -100,13 +100,16 @@ public class Window extends JFrame {
      * Ritar ut debugdata för ett MoveableObject.
      * @param o
      */
-    public void drawDebugData(MoveableObject o){
+    public void drawDebugData(Object o){
         AffineTransform tfm = new AffineTransform();
         tfm.rotate(0, getRelativeX(o.getIntX()+o.getRotationCenterX()), getRelativeY(o.getIntY()+o.getRotationCenterY()));
         b.setTransform(tfm);
         b.setColor(Color.YELLOW);
         b.drawOval(getRelativeX(o.getRotationCenterX() + o.getIntX() - 1),getRelativeY(o.getRotationCenterY() + o.getIntY() - 1), 2, 2);
         b.setColor(Color.RED);
+        b.draw(o.getBoundingRectangle());
+        tfm.setToTranslation(o.getX(), o.getY());
+        b.setTransform(tfm);
         b.draw(o.getBoundingRectangle());
         b.setColor(Color.BLUE);
     }
