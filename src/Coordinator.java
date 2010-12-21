@@ -1,4 +1,5 @@
 
+import objects.Cop;
 import objects.Water;
 import graphics.ImageObject;
 import graphics.Window;
@@ -18,6 +19,7 @@ import objects.Person;
 import objects.Road;
 import objects.Stealable;
 import objects.UserController;
+import objects.UserInformation;
 import org.omg.CORBA.Current;
 /**
  * Den här klassen fungerar som koordinator mellan Window och UserController.
@@ -31,6 +33,7 @@ public class Coordinator {
     long score = 0;
     UserController userController;
     public Coordinator(Window window, UserController userController) {
+
         addPerson();
         addCar();
         addCar();
@@ -39,19 +42,7 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        foregroundObjects.add(new Person(200, 200){
-
-            @Override
-            public int getScore() {
-                return 2000;
-            }
-
-            @Override
-            public void setImage() {
-                super.setImage(new ImageObject("cop.png"));
-            }
-
-        });
+        foregroundObjects.add(new Cop(200, 200, new UserInformation(userController)));
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
         backgroundObjects.add(new Water(-500,500));
