@@ -100,10 +100,10 @@ public abstract class Object {
 
     public Set<Rectangle> getBoundingPoints(){
         Set<Rectangle> pointSet = new HashSet<Rectangle>();
-        pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), 0,0)).getBounds());
-        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY(), 0, 0)).getBounds());
-        pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY()+getHeight(), 0, 0)).getBounds());
-        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY()+getHeight(), 0, 0)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), 1,1)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY(), 1, 1)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY()+getHeight(), 1, 1)).getBounds());
+        pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY()+getHeight(), 1, 1)).getBounds());
         return pointSet;
     }
     public abstract Shape getEnteringRectangle();

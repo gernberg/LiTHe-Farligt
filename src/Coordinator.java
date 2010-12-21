@@ -125,6 +125,7 @@ public class Coordinator {
         int i = 0;
         Set<Object> removeThis = new HashSet<Object>();
         Set<Object> addThis = new HashSet<Object>();
+        // TODO: Snygga upp de här raderna
         for (Object object : foregroundObjects) {
             if(object instanceof MoveableObject){
                 MoveableObject moveableObject = (MoveableObject) object;
