@@ -33,7 +33,6 @@ public class Coordinator {
     long score = 0;
     UserController userController;
     public Coordinator(Window window, UserController userController) {
-
         addPerson();
         addCar();
         addCar();
@@ -42,7 +41,8 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        foregroundObjects.add(new Cop(200, 200, new UserInformation(userController)));
+        foregroundObjects.add(new Cop(400, 400, new UserInformation(userController)));
+        foregroundObjects.add(new Car(150, 150));
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
         backgroundObjects.add(new Water(-500,500));
