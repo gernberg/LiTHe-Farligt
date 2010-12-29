@@ -50,7 +50,13 @@ public class Car extends MoveableObject implements Stealable{
     }
 
     public void stealAction() {
-        // Gör ingenting
+        // Ger bilen en ny bild
+        setImage(new ImageObject("car_stolen.png"));
+    }
+
+    public void abandonAction(){
+        // Återställer till standardbilden
+        setImage();
     }
 
 

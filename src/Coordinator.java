@@ -101,10 +101,12 @@ public class Coordinator {
             if(!currentObject.equals(person)){
                 // Om man inte är en person just nu - betyder det att vi alltid
                 // ska "hoppa ut ur" fordonet.
+                ((Stealable) currentObject).abandonAction();
                 return person;
             }
             if(object.isStealable() && !object.equals(currentObject)){
                 if(object.getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
+                    ((Stealable) object).stealAction();
                     return (MoveableObject) object;
                 }
             }
@@ -169,7 +171,6 @@ public class Coordinator {
                 }
             }
         }
-
         foregroundObjects.removeAll(removeThis);
         backgroundObjects.addAll(addThis);
 

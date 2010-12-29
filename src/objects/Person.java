@@ -12,7 +12,7 @@ import graphics.ImageObject;
  * @author gustav
  */
 public class Person extends MoveableObject implements Destroyable{
-
+    private boolean destroyed;
     public Person(int x, int y) {
         super();
         setPosition(x, y);
@@ -53,10 +53,24 @@ public class Person extends MoveableObject implements Destroyable{
         setImage(new ImageObject("dodperson.png"));
         setWidth(0);
         setHeight(0);
+        setDestroyed();
     }
 
     public int getScore() {
         return 100;
+    }
+    protected int animation_incr = 0;
+    @Override
+    public void poll() {
+        if(!isDestroyed()){
+            super.poll();
+        }
+    }
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+    public void setDestroyed() {
+        this.destroyed = true;
     }
 
 }
