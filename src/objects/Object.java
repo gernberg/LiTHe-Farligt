@@ -154,5 +154,10 @@ public abstract class Object {
     public Shape getBoundingRectangle() {
         return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
     }
-  
+    public boolean isDestroyable(){
+        if(this instanceof Destroyable){
+            return !(((Destroyable) this).isDestroyed());
+        }
+        return false;
+    }
 }

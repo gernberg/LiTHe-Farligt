@@ -32,6 +32,9 @@ public class Cop extends Person{
 
     @Override
     public double getAngle() {
+        if(isDestroyed()){
+            return getPreviousAngle();
+        }
         return Math.atan2((ui.getPlayerY()-getY()),(ui.getPlayerX()-getX()));
     }
     public double getSpeed(){

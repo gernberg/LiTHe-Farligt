@@ -145,7 +145,7 @@ public class Coordinator {
                                 }
                             }
                             if(collision){
-                                if(object2 instanceof Destroyable){
+                                if(object2.isDestroyable()){
                                     ((Destroyable) object2).destroy(moveableObject.getAngle());
                                     removeThis.add(object2);
                                     addThis.add(object2);
