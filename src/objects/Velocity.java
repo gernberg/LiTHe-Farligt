@@ -80,7 +80,7 @@ public class Velocity {
     public void killSpeed() {
         killSpeed(getAcceleration());
     }
-    /**
+    /**getNewX
      * Dödar hastigheten (dvs. minskar / ökar så att den tillslut antar 0.
      * @param acceleration hur snabbt vi ska döda hastigheten.
      */

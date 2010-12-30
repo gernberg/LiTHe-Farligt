@@ -1,0 +1,4 @@
+nbbuild.xml
+nproject/**/*
+build.xml
+build/**/*

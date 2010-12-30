@@ -50,5 +50,11 @@ public class Cop extends Person{
     public void setImage() {
         setImage(new ImageObject("cop.png"));
     }
-    
+
+    @Override
+    public void destroy(double angle, double speed) {
+        super.destroy(angle, speed);
+        setImage(new ImageObject("dodcop.png"));
+    }
+
 }

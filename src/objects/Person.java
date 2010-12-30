@@ -48,7 +48,7 @@ public class Person extends MoveableObject implements Destroyable{
         return getY();
     }
 
-    public void destroy(double angle) {
+    public void destroy(double angle, double speed) {
         setAngle(angle);
         setPreviousAngle(angle);
         setImage(new ImageObject("dodperson.png"));

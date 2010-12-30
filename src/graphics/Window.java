@@ -24,7 +24,7 @@ public class Window extends JFrame {
     public int strangey, strangex;
 
     double i = 0;
-    Color backgroundColor = Color.LIGHT_GRAY;
+    Color backgroundColor = Color.GRAY;
     BufferedImage buffer;
     Graphics2D b, bg2;
     Panel panel;

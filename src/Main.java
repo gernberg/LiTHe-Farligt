@@ -13,9 +13,8 @@ public class Main {
         UserController userController = new UserController(window);
         Coordinator coordinator = new Coordinator(window, userController);
 
-        while(true)
+        while(coordinator.update())
         {
-            coordinator.update();
             try {
                 Thread.sleep(15);
             } catch (InterruptedException ex) { }

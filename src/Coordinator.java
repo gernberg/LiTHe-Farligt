@@ -68,7 +68,6 @@ public class Coordinator {
                 setImage(new ImageObject("maincharacter.png"));
             }
         };
-        person.setUsedByUser(true);
         foregroundObjects.add(person);
     }
     public void addCar(){
@@ -114,7 +113,7 @@ public class Coordinator {
         return tmpObject;
     }
 
-    public void update() {
+    public boolean update() {
         int i = 0;
         Set<Object> removeThis = new HashSet<Object>();
         Set<Object> addThis = new HashSet<Object>();
@@ -146,7 +145,7 @@ public class Coordinator {
                             }
                             if(collision){
                                 if(object2.isDestroyable()){
-                                    ((Destroyable) object2).destroy(moveableObject.getAngle());
+                                    ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getSpeed());
                                     removeThis.add(object2);
                                     addThis.add(object2);
                                     // Ge bara poäng om det är "en själv" som kolliderar
@@ -170,6 +169,10 @@ public class Coordinator {
                     }
                 }
             }
+        }
+        if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
+            // Döda spelet
+            return false;
         }
         foregroundObjects.removeAll(removeThis);
         backgroundObjects.addAll(addThis);
@@ -195,6 +198,7 @@ public class Coordinator {
         window.strangex = userController.getCurrentObject().getIntX();
         window.strangey = userController.getCurrentObject().getIntY();
         window.draw(foregroundObjects, backgroundObjects, score);
+        return true;
     }
 
     private void addScore(Object object2) {

@@ -11,7 +11,7 @@ import graphics.ImageObject;
  *
  * @author gustav
  */
-public class Car extends MoveableObject implements Stealable{
+public class Car extends MoveableObject implements Stealable, Destroyable{
 
     public Car(int x, int y) {
         super();
@@ -25,7 +25,7 @@ public class Car extends MoveableObject implements Stealable{
         setWidth(40);
         setHeight(25);
         setAcceleration(0.2);
-        setMaxSpeed(50);
+        setMaxSpeed(10);
         setTorque(0.5);
         setImage();
         setPosition(150,200);
@@ -57,6 +57,20 @@ public class Car extends MoveableObject implements Stealable{
     public void abandonAction(){
         // Återställer till standardbilden
         setImage();
+    }
+
+    boolean destroyed = false;
+    int health = 100;
+    public void destroy(double angle, double speed){
+        destroyed = true;
+    }
+
+    public int getScore() {
+        return 1000;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
     }
 
 
