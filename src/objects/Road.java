@@ -32,9 +32,5 @@ public class Road extends Object{
         return 0;
     }
 
-    @Override
-    public Shape getEnteringRectangle() {
-        return null;
-    }
 
 }

@@ -33,9 +33,4 @@ public class Water extends Object{
     public double getAngle() {
         return 0;
     }
-
-    @Override
-    public Shape getEnteringRectangle() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

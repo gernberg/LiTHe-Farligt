@@ -36,11 +36,5 @@ public class Building extends Object{
     public double getAngle() {
         return 0;
     }
-
-
-    @Override
-    public Shape getEnteringRectangle() {
-        return null;
-    }
     
 }
