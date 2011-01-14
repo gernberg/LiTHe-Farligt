@@ -11,17 +11,14 @@ package objects;
  */
 public interface Destroyable {
     /**
-     * Kollision med något, skicka med vinkel och hastighet så skall det
+     * Kollision med något, skicka med vinkel och skada så skall det
      * bestämmas vad utgången blir.
+     * Returnerar hur mycket poäng användaren får för sina bravader.
      * @param angle
-     * @param speed
+     * @param damage
+     * @return score
      */
-    public void destroy(double angle, double speed);
-    /**
-     * Hur många poäng ska man få när man lyckats förstöra / krocka med objektet?
-     * @return
-     */
-    public int getScore();
+    public int destroy(double angle, double damage);
     /**
      * Berätta om objektet redan är förstört.
      * @return

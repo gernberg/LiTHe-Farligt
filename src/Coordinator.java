@@ -1,14 +1,10 @@
-
+ 
 import objects.Cop;
 import objects.Water;
 import graphics.ImageObject;
 import graphics.Window;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.PathIterator;
-import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import objects.Building;
 import objects.Car;
@@ -20,7 +16,6 @@ import objects.Road;
 import objects.Stealable;
 import objects.UserController;
 import objects.UserInformation;
-import org.omg.CORBA.Current;
 /**
  * Den här klassen fungerar som koordinator mellan Window och UserController.
  * @author gustav
@@ -41,7 +36,7 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        foregroundObjects.add(new Cop(400, 400, new UserInformation(userController)));
+        //foregroundObjects.add(new Cop(400, 400, new UserInformation(userController)));
         foregroundObjects.add(new Car(150, 150));
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
@@ -104,6 +99,7 @@ public class Coordinator {
                 return person;
             }
             if(object.isStealable() && !object.equals(currentObject)){
+                System.out.println("Steal");
                 if(object.getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
                     ((Stealable) object).stealAction();
                     return (MoveableObject) object;
@@ -112,7 +108,10 @@ public class Coordinator {
         }
         return tmpObject;
     }
-
+    /**
+     * 
+     * @return
+     */
     public boolean update() {
         int i = 0;
         Set<Object> removeThis = new HashSet<Object>();
@@ -145,12 +144,12 @@ public class Coordinator {
                             }
                             if(collision){
                                 if(object2.isDestroyable()){
-                                    ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getSpeed());
+                                    int score = ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getDamageRate());
                                     removeThis.add(object2);
                                     addThis.add(object2);
                                     // Ge bara poäng om det är "en själv" som kolliderar
                                     if(moveableObject.equals(userController.getCurrentObject())){
-                                        addScore(object2);
+                                        addScore(score);
                                     }
                                 }else{
                                     moveableObject.setPreviousPosition();
@@ -176,8 +175,8 @@ public class Coordinator {
         }
         foregroundObjects.removeAll(removeThis);
         backgroundObjects.addAll(addThis);
-
         userController.poll();
+        
         if(userController.shallWeSwitchObjects()){
             double tmpX = userController.getCurrentObject().getX();
             double tmpY = userController.getCurrentObject().getY();
@@ -201,8 +200,7 @@ public class Coordinator {
         return true;
     }
 
-    private void addScore(Object object2) {
-        if(object2 instanceof Destroyable)
-            score += ((Destroyable) object2).getScore();
+    private void addScore(int score) {
+        this.score += score;
     }
 }

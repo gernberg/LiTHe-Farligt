@@ -48,16 +48,16 @@ public class Person extends MoveableObject implements Destroyable{
         return getY();
     }
 
-    public void destroy(double angle, double speed) {
+    public int destroy(double angle, double damage) {
+        if(damage<1){
+            return 0;
+        }
         setAngle(angle);
         setPreviousAngle(angle);
         setImage(new ImageObject("dodperson.png"));
         setWidth(0);
         setHeight(0);
         setDestroyed();
-    }
-
-    public int getScore() {
         return 100;
     }
     protected int animation_incr = 0;
@@ -73,5 +73,16 @@ public class Person extends MoveableObject implements Destroyable{
     public void setDestroyed() {
         this.destroyed = true;
     }
+
+    /**
+     * Människor gör väldigt sällan skada genom att bara gå in i saker.
+     * @return
+     */
+    @Override
+    public double getDamageRate() {
+        return 0;
+    }
+
+
 
 }

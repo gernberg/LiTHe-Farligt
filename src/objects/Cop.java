@@ -29,7 +29,6 @@ public class Cop extends Person{
     public double getNewY() {
         return super.getNewY();
     }
-
     @Override
     public double getAngle() {
         if(isDestroyed()){
@@ -41,10 +40,6 @@ public class Cop extends Person{
         return getMaxSpeed();
     }
 
-    @Override
-    public int getScore() {
-        return 2000;
-    }
 
     @Override
     public void setImage() {
@@ -52,9 +47,24 @@ public class Cop extends Person{
     }
 
     @Override
-    public void destroy(double angle, double speed) {
-        super.destroy(angle, speed);
+    public int destroy(double angle, double damage) {
+        if(damage>2){
+            return 0;
+        }
+        super.destroy(angle, damage);
         setImage(new ImageObject("dodcop.png"));
+        return 1000;
     }
+
+    /**
+     * Poliser gör ganska mycket skada.
+     * @return
+     */
+    @Override
+    public double getDamageRate() {
+        return 10;
+    }
+
+
 
 }

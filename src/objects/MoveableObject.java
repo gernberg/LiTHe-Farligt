@@ -177,6 +177,12 @@ public abstract class MoveableObject extends Object{
      */
     public abstract double getNewY();
     /**
+     * Hämtar hur mycket skada objektet gör på andra saker, bestäms gärna med 
+     * hjälp av hastigheten.
+     * @return
+     */
+    public abstract double getDamageRate();
+    /**
      * Hämtar boundingboxen för hur nära man behöver stå för att byta till ett
      * visst fordon.
      * TODO: Ge metoden ett bra namn...

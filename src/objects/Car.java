@@ -12,6 +12,8 @@ import graphics.ImageObject;
  * @author gustav
  */
 public class Car extends MoveableObject implements Stealable, Destroyable{
+    private double health = 100;
+    boolean destroyed = false;
 
     public Car(int x, int y) {
         super();
@@ -29,6 +31,7 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
         setTorque(0.5);
         setImage();
         setPosition(150,200);
+        
     }
     public int getBoundingY(){
         return super.getBoundingY() + 12;
@@ -59,9 +62,17 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
         setImage();
     }
 
-    boolean destroyed = false;
-    int health = 100;
-    public void destroy(double angle, double speed){
+    
+    public int destroy(double angle, double damage){
+        health -= damage;
+        if(health<0){
+            System.out.println("DÖD");
+            setDestroyed();
+        }
+        System.out.println(health + "a" + damage + "b"+ destroyed);
+        return (int) damage;
+    }
+    public void setDestroyed(){
         destroyed = true;
     }
 
@@ -71,6 +82,11 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
 
     public boolean isDestroyed() {
         return destroyed;
+    }
+
+    @Override
+    public double getDamageRate() {
+        return getSpeed()*100;
     }
 
 
