@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package objects;
 
 import java.awt.Rectangle;
@@ -12,7 +11,8 @@ import java.awt.Shape;
  *
  * @author gustav
  */
-public abstract class MoveableObject extends Object{
+public abstract class MoveableObject extends Object {
+
     private double maxSpeed, weight, speed, angle, acceleration, torque, previousX, previousY, previousAngle;
     Velocity velocity;
 
@@ -32,10 +32,10 @@ public abstract class MoveableObject extends Object{
 //    public void setAcceleration(double acceleration){
 //        setAcceleration((double) acceleration);
 //    }
+
     public void setAcceleration(double acceleration) {
         this.acceleration = acceleration;
     }
-
 
     public void setAngle(double angle) {
         setPreviousAngle(getAngle());
@@ -101,6 +101,7 @@ public abstract class MoveableObject extends Object{
     public boolean isUsedByUser() {
         return usedByUser;
     }
+
     /**
      * Bestämmer om objektet används av användaren
      * @param usedByUser
@@ -108,24 +109,27 @@ public abstract class MoveableObject extends Object{
     public void setUsedByUser(boolean usedByUser) {
         this.usedByUser = usedByUser;
     }
+
     /**
      * Kör init() och initierar sedan velocity.
      */
-    public MoveableObject(){
+    public MoveableObject() {
         init();
         velocity = new Velocity(this);
     }
+
     /**
      * Hämtar vinkeln för objektet
      * @return
      */
-    public double getAngle(){
+    public double getAngle() {
         return angle;
     }
+
     /**
      * Ber objektet att uppdatera vad som hänt sen sist.
      */
-    public void poll(){
+    public void poll() {
         // TODO: Är det bra att göra såhär?
         // Känner att man kanske ska skippa kontrollen i setX, setY, setAngle?
         setPreviousX(getX());
@@ -134,63 +138,73 @@ public abstract class MoveableObject extends Object{
         getNewX();
         getNewY();
         // Vi vill att alla objekt ska tappa hastighet gradvis
-        velocity.killSpeed(acceleration/5);
+        velocity.killSpeed(acceleration / 5);
     }
+
     /**
      * Accelererar objektet
      */
-    public void accelerate(){
+    public void accelerate() {
         velocity.increaseSpeed();
     }
+
     /**
      * Bromsar objektet
      */
-    public void brake(){
+    public void brake() {
         velocity.killSpeed();
     }
+
     /**
      * Saktar ner objektet
      */
-    public void retardate(){
+    public void retardate() {
         velocity.decreaseSpeed();
     }
+
     /**
      * Svänger objektet åt vänster.
      */
-    public void turnLeft(){
+    public void turnLeft() {
         velocity.turnLeft();
     }
+
     /**
      * Svänger objektet åt höger.
      */
-    public void turnRight(){
+    public void turnRight() {
         velocity.turnRight();
     }
+
     /**
      * Denna funktion är tänkt att hämta objektets nya X position
      * @return
      */
     public abstract double getNewX();
+
     /**
      * Denna funktion är tänkt att hämta objektets nya Y position
      * @return
      */
     public abstract double getNewY();
+
     /**
      * Hämtar hur mycket skada objektet gör på andra saker, bestäms gärna med 
      * hjälp av hastigheten.
      * @return
      */
     public abstract double getDamageRate();
+
     /**
      * Hämtar boundingboxen för hur nära man behöver stå för att byta till ett
      * visst fordon.
      * TODO: Ge metoden ett bra namn...
      * @return
      */
-    public Shape getEnteringRectangle(){
-        return rotateRectangle(new Rectangle(getBoundingX()-10, getBoundingY()-10, getWidth()+20, getHeight()+20));
+    public Shape getEnteringRectangle() {
+        return rotateRectangle(new Rectangle(getBoundingX() - 10, getBoundingY() - 10, getWidth() + 20, getHeight() + 20));
     }
+
     /**
      * Denna metod är till för att sätta standardvärden för objektet.
      */
@@ -211,25 +225,32 @@ public abstract class MoveableObject extends Object{
     private void setPreviousY(double previousY) {
         this.previousY = previousY;
     }
-    public void setX(double x){
+
+    public void setX(double x) {
         setPreviousX(getX());
         super.setX(x);
     }
-    public void setY(double y){
+
+    public void setY(double y) {
         setPreviousY(getY());
         super.setY(y);
     }
-    public boolean hasMoved(){
-        
-        return (getX()!=getPreviousX() ||
-                getY()!=getPreviousY() ||
-                getAngle()!=getPreviousAngle());
+    /**
+     * Kontrollerar om objektet har förflyttat sig genom att jämföra tidigare
+     * position samt rotation med nuvarande.
+     * @return boolean
+     */
+    public boolean hasMoved() {
+        return (getX() != getPreviousX()
+                || getY() != getPreviousY()
+                || getAngle() != getPreviousAngle());
     }
-
+    /**
+     * Sätter föregående position
+     */
     public void setPreviousPosition() {
-        setPosition((int)getPreviousX(), (int)getPreviousY());
+        setPosition((int) getPreviousX(), (int) getPreviousY());
     }
-
     public void setPreviousAngle() {
         angle = getPreviousAngle();
     }

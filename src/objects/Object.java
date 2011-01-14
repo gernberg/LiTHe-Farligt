@@ -86,7 +86,8 @@ public abstract class Object {
         return centerY;
     }
     /**
-     * Sätter objektets position
+     * Sätter objektets position,
+     * Använder setX() och setY()
      * @param x
      * @param y
      */
@@ -94,11 +95,17 @@ public abstract class Object {
         setX(x);
         setY(y);
     }
+    /**
+     * Körs varje "runda" för att kolla om något nytt hänt
+     */
     public abstract void poll();
     public abstract double getAngle();
     
-
-    public Set<Rectangle> getBoundingPoints(){
+    /**
+     * Hämtar de små rektanglar som ligger i varje hörna av ett objekt.
+     * @return
+     */
+    public Set<Rectangle> getBoundingRectangles(){
         Set<Rectangle> pointSet = new HashSet<Rectangle>();
         pointSet.add(rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), 1,1)).getBounds());
         pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY(), 1, 1)).getBounds());
@@ -106,7 +113,6 @@ public abstract class Object {
         pointSet.add(rotateRectangle(new Rectangle(getBoundingX()+getWidth(), getBoundingY()+getHeight(), 1, 1)).getBounds());
         return pointSet;
     }
-    public abstract Shape getEnteringRectangle();
     /**
      * Kollar om objektet är stjälbart
      * @return

@@ -72,8 +72,15 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
         System.out.println(health + "a" + damage + "b"+ destroyed);
         return (int) damage;
     }
+    boolean burning = false;
+    int burning_incr = 0;
     public void setDestroyed(){
+        burning = true;
+        setImage(new ImageObject("exploding-car.png"));
         destroyed = true;
+    }
+    public void poll(){
+        super.poll();
     }
 
     public int getScore() {
@@ -86,8 +93,26 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
 
     @Override
     public double getDamageRate() {
-        return getSpeed()*100;
+        return getSpeed()*getSpeed()*10;
     }
 
-
+    public ImageObject getImage(){
+        if(burning){
+            System.out.println(burning_incr);
+            burning_incr++;
+        }
+        if(burning && isDestroyed()){
+           if(burning_incr%10>5){
+            setImage(new ImageObject("exploding-car2.png"));
+           }
+           else{
+            setImage(new ImageObject("exploding-car.png"));
+           }
+           if(burning_incr>100){
+                setImage(new ImageObject("broken-car.png"));
+                burning = false;
+           }
+        }
+        return super.getImage();
+    }
 }

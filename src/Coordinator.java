@@ -36,7 +36,7 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        //foregroundObjects.add(new Cop(400, 400, new UserInformation(userController)));
+        foregroundObjects.add(new Cop(400, 400, new UserInformation(userController)));
         foregroundObjects.add(new Car(150, 150));
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
@@ -99,8 +99,7 @@ public class Coordinator {
                 return person;
             }
             if(object.isStealable() && !object.equals(currentObject)){
-                System.out.println("Steal");
-                if(object.getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
+                if(((Stealable) object).getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
                     ((Stealable) object).stealAction();
                     return (MoveableObject) object;
                 }
@@ -130,13 +129,13 @@ public class Coordinator {
                         if(!object2.equals(moveableObject) && moveableObject.getBoundingRectangle().intersects(object2.getBoundingRectangle().getBounds2D())){
                             // Om vi "typ" kolliderat - kolla noggrannare
                             boolean collision = false;
-                            for(Rectangle collisionRectangle : moveableObject.getBoundingPoints()){
+                            for(Rectangle collisionRectangle : moveableObject.getBoundingRectangles()){
                                 if(object2.getBoundingRectangle().intersects(collisionRectangle)){
                                     collision = true;
                                     break;
                                 }
                             }
-                            for(Rectangle collisionRectangle : object2.getBoundingPoints()){
+                            for(Rectangle collisionRectangle : object2.getBoundingRectangles()){
                                 if(moveableObject.getBoundingRectangle().intersects(collisionRectangle)){
                                     collision = true;
                                     break;
@@ -145,6 +144,7 @@ public class Coordinator {
                             if(collision){
                                 if(object2.isDestroyable()){
                                     int score = ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getDamageRate());
+                            
                                     removeThis.add(object2);
                                     addThis.add(object2);
                                     // Ge bara poäng om det är "en själv" som kolliderar
@@ -171,6 +171,7 @@ public class Coordinator {
         }
         if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
             // Döda spelet
+            System.out.println("Game over.");
             return false;
         }
         foregroundObjects.removeAll(removeThis);
