@@ -48,6 +48,7 @@ public class Cop extends Person{
 
     @Override
     public int destroy(double angle, double damage) {
+        System.out.println("Död polis");
         if(damage>2){
             return 0;
         }
@@ -55,16 +56,4 @@ public class Cop extends Person{
         setImage(new ImageObject("dodcop.png"));
         return 1000;
     }
-
-    /**
-     * Poliser gör ganska mycket skada.
-     * @return
-     */
-    @Override
-    public double getDamageRate() {
-        return 10;
-    }
-
-
-
 }

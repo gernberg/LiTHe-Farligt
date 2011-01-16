@@ -1,4 +1,3 @@
- 
 import objects.Cop;
 import objects.Water;
 import graphics.ImageObject;
@@ -21,9 +20,13 @@ import objects.UserInformation;
  * @author gustav
  */
 public class Coordinator {
+    /**
+     * Uppdelning av objekt i två olika Set (foreground och background)
+     * för att förenkla uppritningen.
+     */
     Set<Object> foregroundObjects = new HashSet<Object>();
     Set<Object> backgroundObjects = new HashSet<Object>();
-    MoveableObject person;
+    MoveableObject mainCharacter;
     Window window;
     long score = 0;
     UserController userController;
@@ -46,24 +49,26 @@ public class Coordinator {
         backgroundObjects.add(new Road(0,-200));
         backgroundObjects.add(new Road(0,100));
         backgroundObjects.add(new Road(0,400));
-        backgroundObjects.add(new Road(0,700));
-        backgroundObjects.add(new Building(100,0));
-        backgroundObjects.add(new Building(246,0));
+        for(int i = 0; i< 10; i++){
+            backgroundObjects.add(new Building(100+i*146,0));
+        }
         window.addUserInput(userController);
-        userController.setCurrentObject(person);
+        userController.setCurrentObject(mainCharacter);
 
         this.window = window;
         this.userController = userController;
     }
+    /**
+     * Lägger till huvudkaraktären
+     */
     public void addPerson(){
-        person = new Person(){
-
+        mainCharacter = new Person(){
             @Override
             public void setImage() {
                 setImage(new ImageObject("maincharacter.png"));
             }
         };
-        foregroundObjects.add(person);
+        foregroundObjects.add(mainCharacter);
     }
     public void addCar(){
         // TODO: Fult, borde göras snyggare
@@ -82,7 +87,7 @@ public class Coordinator {
         foregroundObjects.add(new Car(x, y));
     }
     public MoveableObject getPerson() {
-        return person;
+        return mainCharacter;
     }
     /**
      * Byter vilket objekt vi befinner oss i, returnerar det objekt vi byter till.
@@ -92,11 +97,11 @@ public class Coordinator {
     public MoveableObject switchObject(MoveableObject currentObject) {
         MoveableObject tmpObject = currentObject;
         for (Object object : foregroundObjects) {
-            if(!currentObject.equals(person)){
-                // Om man inte är en person just nu - betyder det att vi alltid
+            if(!currentObject.equals(mainCharacter)){
+                // Om man inte är en mainCharacter just nu - betyder det att vi alltid
                 // ska "hoppa ut ur" fordonet.
                 ((Stealable) currentObject).abandonAction();
-                return person;
+                return mainCharacter;
             }
             if(object.isStealable() && !object.equals(currentObject)){
                 if(((Stealable) object).getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
@@ -113,8 +118,10 @@ public class Coordinator {
      */
     public boolean update() {
         int i = 0;
-        Set<Object> removeThis = new HashSet<Object>();
-        Set<Object> addThis = new HashSet<Object>();
+        // Samlar object från foregroundObjects som inte ska vara kvar där utan
+        // flyttas till backgroundObjects
+        Set<Object> foregroundObjectsToRemove = new HashSet<Object>();
+
         // TODO: Snygga upp de här raderna
         for (Object object : foregroundObjects) {
             if(object instanceof MoveableObject){
@@ -145,8 +152,7 @@ public class Coordinator {
                                 if(object2.isDestroyable()){
                                     int score = ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getDamageRate());
                             
-                                    removeThis.add(object2);
-                                    addThis.add(object2);
+                                    foregroundObjectsToRemove.add(object2);
                                     // Ge bara poäng om det är "en själv" som kolliderar
                                     if(moveableObject.equals(userController.getCurrentObject())){
                                         addScore(score);
@@ -174,8 +180,8 @@ public class Coordinator {
             System.out.println("Game over.");
             return false;
         }
-        foregroundObjects.removeAll(removeThis);
-        backgroundObjects.addAll(addThis);
+        foregroundObjects.removeAll(foregroundObjectsToRemove);
+        backgroundObjects.addAll(foregroundObjectsToRemove);
         userController.poll();
         
         if(userController.shallWeSwitchObjects()){
@@ -185,14 +191,14 @@ public class Coordinator {
             userController.setCurrentObject(switchObject(userController.getCurrentObject()));
             // TODO: Detta borde inte ligga här - utan någonstans snyggare.
             // Typ i switchObject.
-            if(!userController.getCurrentObject().equals(person)){
-                foregroundObjects.remove(person);
+            if(!userController.getCurrentObject().equals(mainCharacter)){
+                foregroundObjects.remove(mainCharacter);
             }else{
-                person.init();
-                person.setX(tmpX);
-                person.setY(tmpY);
-                person.setAngle((double) tmpAngle);
-                foregroundObjects.add(person);
+                mainCharacter.init();
+                mainCharacter.setX(tmpX);
+                mainCharacter.setY(tmpY);
+                mainCharacter.setAngle((double) tmpAngle);
+                foregroundObjects.add(mainCharacter);
             }
         }
         window.strangex = userController.getCurrentObject().getIntX();

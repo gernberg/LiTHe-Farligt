@@ -17,8 +17,8 @@ import objects.UserController;
 import objects.Object;
 
 public class Window extends JFrame {
-    private static int WINDOW_WIDTH = 900;
-    private static int WINDOW_HEIGHT = 900;
+    private static int WINDOW_WIDTH = 600;
+    private static int WINDOW_HEIGHT = 600;
     private static int WORLD_WIDTH = 2048;
     private static int WORLD_HEIGHT = 2048;
     public int strangey, strangex;
