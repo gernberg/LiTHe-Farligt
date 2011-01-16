@@ -12,7 +12,7 @@ import java.awt.Shape;
  *
  * @author gustav
  */
-public class Water extends Object{
+public class Water extends Entity{
     public Water(int x, int y) {
         setPosition(x, y);
         setWidth(500);

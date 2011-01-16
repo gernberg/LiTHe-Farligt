@@ -17,7 +17,6 @@ public class Person extends MoveableObject implements Destroyable{
         super();
         setPosition(x, y);
     }
-
     public Person() {
         super();
     }

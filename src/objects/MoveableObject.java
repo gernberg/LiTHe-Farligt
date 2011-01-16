@@ -11,7 +11,7 @@ import java.awt.Shape;
  *
  * @author gustav
  */
-public abstract class MoveableObject extends Object {
+public abstract class MoveableObject extends Entity {
 
     private double maxSpeed, weight, speed, angle, acceleration, torque, previousX, previousY, previousAngle;
     Velocity velocity;
@@ -29,10 +29,7 @@ public abstract class MoveableObject extends Object {
     public double getAcceleration() {
         return acceleration;
     }
-//    public void setAcceleration(double acceleration){
-//        setAcceleration((double) acceleration);
-//    }
-
+    
     public void setAcceleration(double acceleration) {
         this.acceleration = acceleration;
     }

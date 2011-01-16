@@ -7,9 +7,11 @@ import java.util.HashSet;
 import java.util.Set;
 import objects.Building;
 import objects.Car;
+import objects.CarLada;
+import objects.CarPimp;
 import objects.Destroyable;
 import objects.MoveableObject;
-import objects.Object;
+import objects.Entity;
 import objects.Person;
 import objects.Road;
 import objects.Stealable;
@@ -24,8 +26,8 @@ public class Coordinator {
      * Uppdelning av objekt i två olika Set (foreground och background)
      * för att förenkla uppritningen.
      */
-    Set<Object> foregroundObjects = new HashSet<Object>();
-    Set<Object> backgroundObjects = new HashSet<Object>();
+    Set<Entity> foregroundObjects = new HashSet<Entity>();
+    Set<Entity> backgroundObjects = new HashSet<Entity>();
     MoveableObject mainCharacter;
     Window window;
     long score = 0;
@@ -39,8 +41,9 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        foregroundObjects.add(new Cop(400, 400, new UserInformation(userController)));
-        foregroundObjects.add(new Car(150, 150));
+        foregroundObjects.add(new Car(150, 1+0));
+        foregroundObjects.add(new CarLada(150, 200));
+        foregroundObjects.add(new CarPimp(150, 300));
         backgroundObjects.add(new Water(-500,-500));
         backgroundObjects.add(new Water(-500,0));
         backgroundObjects.add(new Water(-500,500));
@@ -96,7 +99,7 @@ public class Coordinator {
      */
     public MoveableObject switchObject(MoveableObject currentObject) {
         MoveableObject tmpObject = currentObject;
-        for (Object object : foregroundObjects) {
+        for (Entity object : foregroundObjects) {
             if(!currentObject.equals(mainCharacter)){
                 // Om man inte är en mainCharacter just nu - betyder det att vi alltid
                 // ska "hoppa ut ur" fordonet.
@@ -120,35 +123,20 @@ public class Coordinator {
         int i = 0;
         // Samlar object från foregroundObjects som inte ska vara kvar där utan
         // flyttas till backgroundObjects
-        Set<Object> foregroundObjectsToRemove = new HashSet<Object>();
+        Set<Entity> foregroundObjectsToRemove = new HashSet<Entity>();
 
         // TODO: Snygga upp de här raderna
-        for (Object object : foregroundObjects) {
+        for (Entity object : foregroundObjects) {
             if(object instanceof MoveableObject){
                 MoveableObject moveableObject = (MoveableObject) object;
                 moveableObject.poll();
                 if(moveableObject.hasMoved()){
-                    Set<Object> objects = new HashSet<Object>();
+                    Set<Entity> objects = new HashSet<Entity>();
                     objects.addAll(foregroundObjects);
                     objects.addAll(backgroundObjects);
-                    for(Object object2 : objects){
+                    for(Entity object2 : objects){
                         i++;
-                        if(!object2.equals(moveableObject) && moveableObject.getBoundingRectangle().intersects(object2.getBoundingRectangle().getBounds2D())){
-                            // Om vi "typ" kolliderat - kolla noggrannare
-                            boolean collision = false;
-                            for(Rectangle collisionRectangle : moveableObject.getBoundingRectangles()){
-                                if(object2.getBoundingRectangle().intersects(collisionRectangle)){
-                                    collision = true;
-                                    break;
-                                }
-                            }
-                            for(Rectangle collisionRectangle : object2.getBoundingRectangles()){
-                                if(moveableObject.getBoundingRectangle().intersects(collisionRectangle)){
-                                    collision = true;
-                                    break;
-                                }
-                            }
-                            if(collision){
+                        if(!object2.equals(moveableObject) && CollisionHelper.ch.isColliding(object2, moveableObject)){
                                 if(object2.isDestroyable()){
                                     int score = ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getDamageRate());
                             
@@ -157,28 +145,21 @@ public class Coordinator {
                                     if(moveableObject.equals(userController.getCurrentObject())){
                                         addScore(score);
                                     }
-                                }else{
-                                    moveableObject.setPreviousPosition();
-                                    moveableObject.setPreviousAngle();
-                                    double newSpeed = moveableObject.getSpeed();
-                                    if(newSpeed>1){
-                                        newSpeed--;
-                                    }
-                                    else if(newSpeed<1){
-                                        newSpeed++;
-                                    }
-                                    moveableObject.setSpeed(-newSpeed);
                                 }
-                            }
+                                moveableObject.setPreviousPosition();
+                                moveableObject.setPreviousAngle();
+                                double newSpeed = moveableObject.getSpeed();
+                                if(newSpeed>1){
+                                    newSpeed--;
+                                }
+                                else if(newSpeed<1){
+                                    newSpeed++;
+                                }
+                                moveableObject.setSpeed(-newSpeed);
                         }
                     }
                 }
             }
-        }
-        if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
-            // Döda spelet
-            System.out.println("Game over.");
-            return false;
         }
         foregroundObjects.removeAll(foregroundObjectsToRemove);
         backgroundObjects.addAll(foregroundObjectsToRemove);
@@ -201,13 +182,36 @@ public class Coordinator {
                 foregroundObjects.add(mainCharacter);
             }
         }
+        if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
+            // Döda spelet
+            printText("Game over.", 10);
+        }
         window.strangex = userController.getCurrentObject().getIntX();
         window.strangey = userController.getCurrentObject().getIntY();
-        window.draw(foregroundObjects, backgroundObjects, score);
+        window.draw(foregroundObjects, backgroundObjects, score, text);
+        timeout--;
+        if(timeout<=0){
+            text = null;
+        }
+        if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
+            return false;
+        }
         return true;
     }
 
     private void addScore(int score) {
         this.score += score;
+        printText(String.valueOf(score), 10);
+    }
+    int timeout = 0;
+    String text = null;
+    /**
+     * 
+     * @param text Texten som skall skrivas ut på skärmen
+     * @param timeout
+     */
+    private void printText(String text, int timeout){
+        this.text = text;
+        this.timeout = timeout;
     }
 }

@@ -6,6 +6,7 @@ package objects;
  */
 public class Velocity {
     private MoveableObject moveableObject;
+    private double angle, speed;
     
     public Velocity(MoveableObject moveableObject) {
         this.moveableObject = moveableObject;
@@ -78,22 +79,20 @@ public class Velocity {
      * Dödar hastigheten, anropar killSpeed(double) med objektets acceleration.
      */
     public void killSpeed() {
-        killSpeed(getAcceleration());
+        killSpeed(getAcceleration()*getMaxSpeed()/10);
     }
-    /**getNewX
+    /**
      * Dödar hastigheten (dvs. minskar / ökar så att den tillslut antar 0.
-     * @param acceleration hur snabbt vi ska döda hastigheten.
+     * @param retardation hur snabbt vi ska döda hastigheten.
      */
-    public void killSpeed(double acceleration) {
+    public void killSpeed(double retardation) {
         if(getSpeed()>0){
-            // TODO: Är detta verkligen en uppgift i killSpeed, eller ska den ske
-            // någonannanstans?
-            modifySpeed(-getMaxSpeed()*acceleration/25);
+            modifySpeed(-retardation);
             if(getSpeed()<0){
                 setSpeed(0);
             }
         }else if(getSpeed()<0){
-            modifySpeed(getMaxSpeed()*acceleration/25);
+            modifySpeed(retardation);
             if(getSpeed()>0){
                 setSpeed(0);
             }

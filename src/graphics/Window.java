@@ -9,12 +9,13 @@ import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.HashSet;
 import javax.swing.JFrame;
 import java.util.Set;
 import javax.swing.JLabel;
 import objects.MoveableObject;
 import objects.UserController;
-import objects.Object;
+import objects.Entity;
 
 public class Window extends JFrame {
     private static int WINDOW_WIDTH = 600;
@@ -28,20 +29,13 @@ public class Window extends JFrame {
     BufferedImage buffer;
     Graphics2D b, bg2;
     Panel panel;
-    private boolean debug = false;
 
-    /**
-     * Växlar debugläget
-     */
-    public void switchDebug(){
-        debug = !debug;
-    }
     boolean isBackgroundDrawed = false;
     /**
      * Ritar ut all grafik
      * @param objects De objekt som skall synas på skärmen
      */
-    public void draw(Set<Object> backgroundObjects, Set<Object> foregroundObjects, long points) {
+    public void draw(Set<Entity> backgroundObjects, Set<Entity> foregroundObjects, long points, String text) {
         b = buffer.createGraphics();
         
         // Gör så att allt blir härligt smooth
@@ -56,12 +50,12 @@ public class Window extends JFrame {
 
         
         if(!isBackgroundDrawed){
-            for (Object foregroundObject : foregroundObjects) {
+            for (Entity foregroundObject : foregroundObjects) {
                 drawObject(foregroundObject, b);
             }
             //isBackgroundDrawed = true;
         }
-        for (Object backgroundObject : backgroundObjects) {
+        for (Entity backgroundObject : backgroundObjects) {
                 drawObject(backgroundObject, b);
         }
         b.setTransform(new AffineTransform());
@@ -72,9 +66,7 @@ public class Window extends JFrame {
         b.drawLine(0, 50, getWINDOW_WIDTH(), 50);
         b.setColor(Color.GREEN);
         b.drawChars(("Poäng: " + String.valueOf(points)).toCharArray(), 0, ("Poäng: " + String.valueOf(points)).length(), getWINDOW_WIDTH()/2-20, 45);
-        tfm.setToScale(6, 6);
-        b.setTransform(tfm);
-        b.drawChars(("100").toCharArray(), 0, ("100").length(), 0,0);
+        drawTextMessage(text);
         b.dispose();
 
         // Hämtad från drawScreen 
@@ -87,7 +79,7 @@ public class Window extends JFrame {
      * Ritar ut ett objekt, anropar drawImage
      * @param o
      */
-    public void drawObject(Object o, Graphics2D b){
+    public void drawObject(Entity o, Graphics2D b){
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY(), b);
         if(debug){
             drawDebugData(o);
@@ -98,23 +90,6 @@ public class Window extends JFrame {
     }
     private int getRelativeY(int y){
         return y-strangey+getWINDOW_HEIGHT()/2;
-    }
-    /**
-     * Ritar ut debugdata för ett MoveableObject.
-     * @param o
-     */
-    public void drawDebugData(Object o){
-        AffineTransform tfm = new AffineTransform();
-        tfm.rotate(0, getRelativeX(o.getIntX()+o.getRotationCenterX()), getRelativeY(o.getIntY()+o.getRotationCenterY()));
-        b.setTransform(tfm);
-        b.setColor(Color.YELLOW);
-        b.drawOval(getRelativeX(o.getRotationCenterX() + o.getIntX() - 1),getRelativeY(o.getRotationCenterY() + o.getIntY() - 1), 2, 2);
-        b.setColor(Color.RED);
-        b.draw(o.getBoundingRectangle());
-        tfm.setToTranslation(o.getX(), o.getY());
-        b.setTransform(tfm);
-        b.draw(o.getBoundingRectangle());
-        b.setColor(Color.BLUE);
     }
     /**
      * Ritar en bild, med rotation
@@ -178,6 +153,23 @@ public class Window extends JFrame {
     public static int getWINDOW_WIDTH() {
         return WINDOW_WIDTH;
     }
-  
+    /**
+     * Ritar ut ett meddelande på skärmen strax ovanför användaren.
+     * @param textMessage
+     */
+    public void drawTextMessage(String textMessage) {
+        if(textMessage==null)
+            return;
+        AffineTransform tfm = new AffineTransform();
+        tfm.setToScale(3, 3);
+        b.setTransform(tfm);
+        b.setColor(Color.BLACK);
+        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100, 100);
+        tfm.setToScale(2.985, 2.985);
+        b.setTransform(tfm);
+        b.setColor(Color.WHITE);
+        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100, 100);
+        b.dispose();
+    }
   
 }

@@ -13,7 +13,7 @@ import java.awt.Shape;
  *
  * @author gustav
  */
-public class Building extends Object{
+public class Building extends Entity{
 
     public Building(int x, int y) {
         setPosition(x, y);

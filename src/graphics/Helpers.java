@@ -8,7 +8,7 @@ package graphics;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import objects.Object;
+import objects.Entity;
 
 /**
  *
@@ -23,7 +23,7 @@ public class Helpers {
         return tfm.createTransformedShape(r);
     }
 
-    public Shape rotateRectangle(Rectangle r, Object o) {
+    public Shape rotateRectangle(Rectangle r, Entity o) {
         return rotateRectangle(r, o.getAngle(), o.getIntX() + o.getRotationCenterX(), o.getIntY() + o.getRotationCenterY());
     }
 

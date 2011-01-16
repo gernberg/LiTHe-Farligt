@@ -1,25 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package objects;
 
 import graphics.ImageObject;
 
 /**
- *
+ * Car är grundklassen för alla bilar
  * @author gustav
  */
 public class Car extends MoveableObject implements Stealable, Destroyable{
     private double health = 100;
     boolean destroyed = false;
-
+    boolean burning = false;
+    int burning_incr = 0;
+    public Car(){
+        super();
+    }
     public Car(int x, int y) {
         super();
         setPosition(x, y);
     }
-
     public void init() {
         setCenterX(35);
         setCenterY(25);
@@ -66,14 +64,10 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
     public int destroy(double angle, double damage){
         health -= damage;
         if(health<0){
-            System.out.println("DÖD");
             setDestroyed();
         }
-        System.out.println(health + "a" + damage + "b"+ destroyed);
         return (int) damage;
     }
-    boolean burning = false;
-    int burning_incr = 0;
     public void setDestroyed(){
         burning = true;
         setImage(new ImageObject("exploding-car.png"));
@@ -98,7 +92,6 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
 
     public ImageObject getImage(){
         if(burning){
-            System.out.println(burning_incr);
             burning_incr++;
         }
         if(burning && isDestroyed()){

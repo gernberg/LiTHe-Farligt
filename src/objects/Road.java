@@ -12,7 +12,7 @@ import java.awt.Shape;
  *
  * @author gustav
  */
-public class Road extends Object{
+public class Road extends Entity{
 
     public Road(int x, int y){
         setPosition(x, y);

@@ -1,8 +1,9 @@
-
 import graphics.Window;
 import objects.UserController;
-
-
+/**
+ * 
+ * @author gustav
+ */
 public class Main {
     public static void main(String[] args){
         Main m = new Main();
