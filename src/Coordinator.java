@@ -3,6 +3,8 @@ import objects.Water;
 import graphics.ImageObject;
 import graphics.Window;
 import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Set;
 import objects.Building;
@@ -182,18 +184,14 @@ public class Coordinator {
                 foregroundObjects.add(mainCharacter);
             }
         }
-        if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
-            // Döda spelet
-            printText("Game over.", 10);
-        }
-        window.strangex = userController.getCurrentObject().getIntX();
-        window.strangey = userController.getCurrentObject().getIntY();
-        window.draw(foregroundObjects, backgroundObjects, score, text);
+        updateWindow();
         timeout--;
         if(timeout<=0){
             text = null;
         }
+        // Om spelaren dör
         if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
+            gameOverAction();
             return false;
         }
         return true;
@@ -213,5 +211,20 @@ public class Coordinator {
     private void printText(String text, int timeout){
         this.text = text;
         this.timeout = timeout;
+    }
+
+    private void updateWindow() {
+        window.strangex = userController.getCurrentObject().getIntX();
+        window.strangey = userController.getCurrentObject().getIntY();
+        window.draw(foregroundObjects, backgroundObjects, score, text);
+    }
+
+    private void gameOverAction() {
+        if(Highscore.writeNewHighscore(score)){
+            printText("Ny highscore: " + score, 1);
+        }else{
+            printText((Highscore.getHighscore()-score) + " poäng från ny highscore", 1);
+        }
+        updateWindow();
     }
 }

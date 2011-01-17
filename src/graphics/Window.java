@@ -81,9 +81,6 @@ public class Window extends JFrame {
      */
     public void drawObject(Entity o, Graphics2D b){
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY(), b);
-        if(debug){
-            drawDebugData(o);
-        }
     }
     private int getRelativeX(int x){
         return x-strangex+getWINDOW_WIDTH()/2;
@@ -164,11 +161,11 @@ public class Window extends JFrame {
         tfm.setToScale(3, 3);
         b.setTransform(tfm);
         b.setColor(Color.BLACK);
-        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100, 100);
+        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100-textMessage.length()*3, 100);
         tfm.setToScale(2.985, 2.985);
         b.setTransform(tfm);
         b.setColor(Color.WHITE);
-        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100, 100);
+        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100-textMessage.length()*3, 100);
         b.dispose();
     }
   
