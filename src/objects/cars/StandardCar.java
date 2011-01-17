@@ -1,5 +1,6 @@
 package objects.cars;
 
+import graphics.Animation;
 import graphics.ImageObject;
 import objects.Destroyable;
 import objects.MoveableObject;
@@ -11,10 +12,18 @@ import objects.collisionType;
  * @author gustav
  */
 public class StandardCar extends MoveableObject implements Stealable, Destroyable{
-    private double health = 1000;
+    double health = 1000;
     boolean destroyed = false;
-    boolean burning = false;
-    int burning_incr = 0;
+    Animation destroyAnimation = new Animation();
+    ImageObject brokenCar = new ImageObject("broken-car.png");
+
+    public double getHealth() {
+        return health;
+    }
+
+    public void setHealth(double health) {
+        this.health = health;
+    }
     public StandardCar(){
         super();
     }
@@ -80,8 +89,9 @@ public class StandardCar extends MoveableObject implements Stealable, Destroyabl
         return (int) mo.getDamageRate();
     }
     public void setDestroyed(){
-        burning = true;
-        setImage(new ImageObject("exploding-car.png"));
+        destroyAnimation.addImage(new ImageObject("exploding-car.png"));
+        destroyAnimation.addImage(new ImageObject("exploding-car2.png"));
+        destroyAnimation.play(10);
         destroyed = true;
     }
     public void poll(){
@@ -108,22 +118,13 @@ public class StandardCar extends MoveableObject implements Stealable, Destroyabl
     public double getDamageRate() {
         return getSpeed()*getSpeed()*10;
     }
-
     public ImageObject getImage(){
-        if(burning){
-            burning_incr++;
-        }
-        if(burning && isDestroyed()){
-           if(burning_incr%10>5){
-            setImage(new ImageObject("exploding-car2.png"));
-           }
-           else{
-            setImage(new ImageObject("exploding-car.png"));
-           }
-           if(burning_incr>100){
-                setImage(new ImageObject("broken-car.png"));
-                burning = false;
-           }
+        if(isDestroyed()){
+            if(destroyAnimation.isPlaying()){
+                return destroyAnimation.poll();
+            }else{
+                return brokenCar;
+            }
         }
         return super.getImage();
     }

@@ -17,6 +17,7 @@ public class Pimpmobile extends StandardCar{
         super(x, y);
         setAcceleration(0.7);
         setMaxSpeed(10);
+        setHealth(500);
     }
     @Override
     public void setImage(){
@@ -34,6 +35,16 @@ public class Pimpmobile extends StandardCar{
     @Override
     public int getScore(MoveableObject mo) {
         return super.getScore(mo)*2;
+    }
+
+    @Override
+    public void setDestroyed(){
+        destroyAnimation.addImage(new ImageObject("car_pimp_exploding.png"));
+        destroyAnimation.addImage(new ImageObject("car_pimp_exploding2.png"));
+        destroyAnimation.addImage(new ImageObject("car_pimp_exploding3.png"));
+        destroyAnimation.setSpeed(5);
+        destroyAnimation.play(10);
+        destroyed = true;
     }
 
 }

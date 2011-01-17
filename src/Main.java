@@ -10,9 +10,7 @@ public class Main {
         m.start();
     }
     public void start(){
-        Window window = new Window();
-        UserController userController = new UserController(window);
-        Coordinator coordinator = new Coordinator(window, userController);
+        Coordinator coordinator = new Coordinator(new Window(), new UserController());
 
         while(coordinator.update())
         {

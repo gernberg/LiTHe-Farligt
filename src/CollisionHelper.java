@@ -17,6 +17,12 @@ public class CollisionHelper {
     private CollisionHelper(){
 
     }
+    /**
+     * Kontrollerar om två objekt kolliderar
+     * @param object1
+     * @param object2
+     * @return
+     */
     public boolean isColliding(Entity object1, Entity object2) {
         // Gör en snabbkoll om objekten kolliderar med sina "stora" rektanglar
         if(!object2.getBoundingRectangle().intersects(object1.getBoundingRectangle().getBounds2D())){
@@ -32,7 +38,12 @@ public class CollisionHelper {
         }
         return false;
     }
-    
+    /**
+     * Kontrollerar om boundingRectangles från object1 kolliderar med object2
+     * @param object1
+     * @param object2
+     * @return
+     */
     public boolean areBoundingRectanglesColliding(Entity object1, Entity object2) {
         for(Rectangle collisionRectangle : object1.getBoundingRectangles()){
             if(object2.getBoundingRectangle().intersects(collisionRectangle)){
@@ -55,7 +66,7 @@ public class CollisionHelper {
             // Skadar det objekt som krockar - dock bara hälften mot vad den skadar
             // andra.
             ((Destroyable) a).destroy(a.getAngle(), damageRate/2);
-            
+            // Ändrar så att a byter riktning och tappar hastighet vid ev. kollision
             a.setSpeed(-a.getSpeed());
             a.brake();
             a.setPreviousPosition();

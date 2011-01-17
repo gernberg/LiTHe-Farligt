@@ -1,13 +1,7 @@
-
-import objects.Water;
 import graphics.ImageObject;
 import graphics.Window;
-import java.awt.Rectangle;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Set;
-import objects.Building;
 import objects.cars.StandardCar;
 import objects.cars.Lada;
 import objects.cars.Pimpmobile;
@@ -16,10 +10,8 @@ import objects.MoveableObject;
 import objects.Entity;
 import objects.Pedestrian;
 import objects.Person;
-import objects.Road;
 import objects.Stealable;
 import objects.UserController;
-import objects.UserInformation;
 
 /**
  * Den här klassen fungerar som koordinator mellan Window och UserController.
@@ -37,17 +29,17 @@ public class Coordinator {
     Window window;
     long score = 0;
     UserController userController;
-
     public Coordinator(Window window, UserController userController) {
-        addPerson();
-        addCar();
-        addCar();
-        addCar();
-        addCar();
-        addCar();
-        addCar();
-        addPeople();
-        foregroundObjects.add(new StandardCar(150, 1 + 0));
+        addMainCharacter();
+        addRandomCar();
+        addRandomCar();
+        addRandomCar();
+        addRandomCar();
+        addRandomCar();
+        addRandomCar();
+        addPedestrians();
+        // Lägger ut några fixerade objekt
+        foregroundObjects.add(new StandardCar(150, 100));
         foregroundObjects.add(new Lada(150, 200));
         foregroundObjects.add(new Pimpmobile(150, 300));
         backgroundObjects.addAll(StandardMap.getMapEntities());
@@ -61,7 +53,7 @@ public class Coordinator {
     /**
      * Lägger till huvudkaraktären
      */
-    public void addPerson() {
+    public void addMainCharacter() {
         mainCharacter = new Person() {
 
             @Override
@@ -71,14 +63,17 @@ public class Coordinator {
         };
         foregroundObjects.add(mainCharacter);
     }
-
-    public void addCar() {
+    /**
+     * Slumpar ut en bil på kartan
+     */
+    public void addRandomCar() {
         // TODO: Fult, borde göras snyggare
         addCar(50 + (int) Math.floor(Math.random() * window.getWORLD_WIDTH()), 50 + (int) Math.floor(Math.random() * window.getWORLD_HEIGHT()));
     }
-
-    public void addPeople() {
-        // TODO: Fult, borde göras snyggare
+    /**
+     * Slumpar ut lite människor
+     */
+    public void addPedestrians() {
         for (int i = 0; i < 50; i++) {
             Pedestrian p = new Pedestrian((int) (Math.random() * window.getWORLD_WIDTH()), (int) (Math.random() * window.getWORLD_HEIGHT()));
             p.setAngle((double) (Math.random() * Math.PI * 2.0));
@@ -86,27 +81,42 @@ public class Coordinator {
             foregroundObjects.add(p);
         }
     }
-
+    /**
+     * Lägger ut en bil på en specifik x,y koordinat
+     * @param x
+     * @param y
+     */
     public void addCar(int x, int y) {
         foregroundObjects.add(new StandardCar(x, y));
     }
-
-    public MoveableObject getPerson() {
+    /**
+     * Hämtar huvudkaraktären
+     * @return
+     */
+    public MoveableObject getMainCharacter() {
         return mainCharacter;
     }
 
     /**
-     * Byter vilket objekt vi befinner oss i, returnerar det objekt vi byter till.
+     * Provar att byta det objekt som man ko
      * @param currentObject
      * @return
      */
-    public MoveableObject switchObject(MoveableObject currentObject) {
+    public MoveableObject switchCurrentObject() {
+        MoveableObject currentObject = userController.getCurrentObject();
         MoveableObject tmpObject = currentObject;
         for (Entity object : foregroundObjects) {
             if (!currentObject.equals(mainCharacter)) {
                 // Om man inte är en mainCharacter just nu - betyder det att vi alltid
                 // ska "hoppa ut ur" fordonet.
                 ((Stealable) currentObject).abandonAction();
+                double tmpX = userController.getCurrentObject().getX();
+                double tmpY = userController.getCurrentObject().getY();
+                double tmpAngle = userController.getCurrentObject().getAngle();
+                mainCharacter.init();
+                mainCharacter.setX(tmpX-10);
+                mainCharacter.setY(tmpY-10);
+                mainCharacter.setAngle((double) tmpAngle);
                 return mainCharacter;
             }
             if (object.isStealable() && !object.equals(currentObject)) {
@@ -158,27 +168,23 @@ public class Coordinator {
         backgroundObjects.addAll(foregroundObjectsToRemove);
         userController.poll();
 
-        if (userController.shallWeSwitchObjects()) {
-            double tmpX = userController.getCurrentObject().getX();
-            double tmpY = userController.getCurrentObject().getY();
-            double tmpAngle = userController.getCurrentObject().getAngle();
-            userController.setCurrentObject(switchObject(userController.getCurrentObject()));
-            // TODO: Detta borde inte ligga här - utan någonstans snyggare.
-            // Typ i switchObject.
-            if (!userController.getCurrentObject().equals(mainCharacter)) {
-                foregroundObjects.remove(mainCharacter);
-            } else {
-                mainCharacter.init();
-                mainCharacter.setX(tmpX);
-                mainCharacter.setY(tmpY);
-                mainCharacter.setAngle((double) tmpAngle);
-                foregroundObjects.add(mainCharacter);
+        if (userController.shallWeSwitchObjects()){
+            MoveableObject tmpMoveableObject = switchCurrentObject();
+            // Kontrollera om det verkligen blev något byte
+            if(!userController.getCurrentObject().equals(tmpMoveableObject)){
+                userController.setCurrentObject(tmpMoveableObject);
+                if(userController.getCurrentObject().equals(mainCharacter)){
+                    foregroundObjects.add(mainCharacter);
+                }else{
+                    foregroundObjects.remove(mainCharacter);
+                }
             }
         }
         updateWindow();
-        timeout--;
         if (timeout <= 0) {
             text = null;
+        }else{
+            timeout--;
         }
         // Om spelaren dör
         if (((Destroyable) userController.getCurrentObject()).isDestroyed()) {

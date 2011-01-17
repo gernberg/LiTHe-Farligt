@@ -7,15 +7,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UserController implements KeyListener{
+    // Det objekt som användaren kontrollerar för tillfället.
     MoveableObject currentObject;
-    Window window;
-    // Ett set som innehåller de tangenter som är nertryckta för tillfället.
+    // Ett set som innehåller de tangenter som är nertryckta för tillfäl;let.
     Set<Integer> activeKeys = new HashSet<Integer>();
     
     boolean isEnterReleased = false;
 
-    public UserController(Window window) {
-        this.window = window;
+    public UserController() {
         this.currentObject = null;
     }
     public void keyTyped(KeyEvent e) {
