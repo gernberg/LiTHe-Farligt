@@ -17,7 +17,7 @@ public class Main {
         while(coordinator.update())
         {
             try {
-                Thread.sleep(15);
+                Thread.sleep(10);
             } catch (InterruptedException ex) { }
         }
     }

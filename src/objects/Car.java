@@ -80,6 +80,14 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
     public int getScore() {
         return 1000;
     }
+    /**
+     * Alla bilar är stjälbara ända tills de är trasiga.
+     * @return
+     */
+    @Override
+    public boolean isStealable() {
+        return !isDestroyed();
+    }
 
     public boolean isDestroyed() {
         return destroyed;

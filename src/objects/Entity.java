@@ -115,7 +115,7 @@ public abstract class Entity {
      * @return
      */
     public boolean isStealable() {
-        return this instanceof Stealable;
+        return (this instanceof Stealable);
     }
 
     public int getCenterX() {
