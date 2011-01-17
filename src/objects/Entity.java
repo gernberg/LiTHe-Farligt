@@ -117,6 +117,15 @@ public abstract class Entity {
     public boolean isStealable() {
         return (this instanceof Stealable);
     }
+    /**
+     * Berätta hur många poäng användaren får för sina bravader.
+     * Som standard får man inga poäng.
+     * @param mo
+     * @return
+     */
+    public int getScore(MoveableObject mo){
+        return 0;
+    }
 
     public int getCenterX() {
         return centerX;

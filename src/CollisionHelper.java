@@ -3,6 +3,7 @@ import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+import objects.Destroyable;
 import objects.Entity;
 import objects.MoveableObject;
 import objects.collisionType;
@@ -48,12 +49,34 @@ public class CollisionHelper {
      * @return Eventuellt förlorande objekt.
      */
     public Set<Entity> decideCollisionOutcome(MoveableObject a, Entity b){
-        Set<Entity> killedEntities = new HashSet<Entity>();
+        Set<Entity> destroyedEntities = new HashSet<Entity>();
+        double damageRate = a.getDamageRate();
         if(b.getCollisionType()==collisionType.FIXED){
-            a.brake();
-            a.setSpeed(-a.getSpeed());
+            // Skadar det objekt som krockar - dock bara hälften mot vad den skadar
+            // andra.
+            ((Destroyable) a).destroy(a.getAngle(), damageRate/2);
             
+            a.setSpeed(-a.getSpeed());
+            a.brake();
+            a.setPreviousPosition();
+            a.setPreviousAngle();
         }
-        return killedEntities;
+        if(b.isDestroyable()){
+            ((Destroyable) b).destroy(a.getAngle(), damageRate);
+            if(((Destroyable) b).isDestroyed())
+                destroyedEntities.add(b);
+        }
+        return destroyedEntities;
+    }
+    /**
+     * Beräknar hur många poäng man får för att kollidera med ett objekt
+     * @param moveableObject
+     * @param entity
+     * @return
+     */
+    public int calculateScore(MoveableObject moveableObject, Entity entity) {
+        if(!entity.isDestroyable())
+            return 0;
+        return entity.getScore(moveableObject);
     }
 }

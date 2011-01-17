@@ -1,4 +1,4 @@
-package objects;
+package objects.cars;
 
 import graphics.ImageObject;
 
@@ -6,9 +6,10 @@ import graphics.ImageObject;
  * Lada är den sämsta bilen i spelet.
  * @author gustav
  */
-public class CarLada extends Car{
-    public CarLada(int x, int y){
+public class Lada extends Car{
+    public Lada(int x, int y){
         super(x, y);
+        setMaxSpeed(5);
     }
     @Override
     public void setImage(){

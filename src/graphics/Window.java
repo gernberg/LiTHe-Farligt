@@ -18,10 +18,10 @@ import objects.UserController;
 import objects.Entity;
 
 public class Window extends JFrame {
-    private static int WINDOW_WIDTH = 600;
-    private static int WINDOW_HEIGHT = 600;
-    private static int WORLD_WIDTH = 2048;
-    private static int WORLD_HEIGHT = 2048;
+    private static int WINDOW_WIDTH = 400;
+    private static int WINDOW_HEIGHT = 400;
+    private static int WORLD_WIDTH = 1280;
+    private static int WORLD_HEIGHT = 1280;
     public int strangey, strangex;
 
     double i = 0;
@@ -58,14 +58,7 @@ public class Window extends JFrame {
         for (Entity backgroundObject : backgroundObjects) {
                 drawObject(backgroundObject, b);
         }
-        b.setTransform(new AffineTransform());
-        b.setColor(Color.BLACK);
-        AffineTransform tfm = new AffineTransform();
-        b.fillRect(0, 0, getWINDOW_WIDTH(), 50);
-        b.setColor(Color.WHITE);
-        b.drawLine(0, 50, getWINDOW_WIDTH(), 50);
-        b.setColor(Color.GREEN);
-        b.drawChars(("Poäng: " + String.valueOf(points)).toCharArray(), 0, ("Poäng: " + String.valueOf(points)).length(), getWINDOW_WIDTH()/2-20, 45);
+        drawScore(points);
         drawTextMessage(text);
         b.dispose();
 
@@ -167,6 +160,16 @@ public class Window extends JFrame {
         b.setColor(Color.WHITE);
         b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100-textMessage.length()*3, 100);
         b.dispose();
+    }
+
+    private void drawScore(long points) {
+        b.setTransform(new AffineTransform());
+        b.setColor(Color.BLACK);
+        b.fillRect(0, 0, getWINDOW_WIDTH(), 50);
+        b.setColor(Color.WHITE);
+        b.drawLine(0, 50, getWINDOW_WIDTH(), 50);
+        b.setColor(Color.GREEN);
+        b.drawChars(("Poäng: " + String.valueOf(points)).toCharArray(), 0, ("Poäng: " + String.valueOf(points)).length(), getWINDOW_WIDTH()/2-20, 45);
     }
   
 }

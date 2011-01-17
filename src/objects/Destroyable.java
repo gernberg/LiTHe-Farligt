@@ -18,7 +18,7 @@ public interface Destroyable {
      * @param damage
      * @return score
      */
-    public int destroy(double angle, double damage);
+    public void destroy(double angle, double damage);
     /**
      * Berätta om objektet redan är förstört.
      * @return

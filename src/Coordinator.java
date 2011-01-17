@@ -1,5 +1,4 @@
 
-import objects.Cop;
 import objects.Water;
 import graphics.ImageObject;
 import graphics.Window;
@@ -9,12 +8,13 @@ import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Set;
 import objects.Building;
-import objects.Car;
-import objects.CarLada;
-import objects.CarPimp;
+import objects.cars.Car;
+import objects.cars.Lada;
+import objects.cars.Pimpmobile;
 import objects.Destroyable;
 import objects.MoveableObject;
 import objects.Entity;
+import objects.Pedestrian;
 import objects.Person;
 import objects.Road;
 import objects.Stealable;
@@ -48,8 +48,8 @@ public class Coordinator {
         addCar();
         addPeople();
         foregroundObjects.add(new Car(150, 1 + 0));
-        foregroundObjects.add(new CarLada(150, 200));
-        foregroundObjects.add(new CarPimp(150, 300));
+        foregroundObjects.add(new Lada(150, 200));
+        foregroundObjects.add(new Pimpmobile(150, 300));
         backgroundObjects.addAll(StandardMap.getMapEntities());
         window.addUserInput(userController);
         userController.setCurrentObject(mainCharacter);
@@ -80,7 +80,7 @@ public class Coordinator {
     public void addPeople() {
         // TODO: Fult, borde göras snyggare
         for (int i = 0; i < 50; i++) {
-            Person p = new Person((int) (Math.random() * window.getWORLD_WIDTH()), (int) (Math.random() * window.getWORLD_HEIGHT()));
+            Pedestrian p = new Pedestrian((int) (Math.random() * window.getWORLD_WIDTH()), (int) (Math.random() * window.getWORLD_HEIGHT()));
             p.setAngle((double) (Math.random() * Math.PI * 2.0));
             p.setSpeed(p.getMaxSpeed());
             foregroundObjects.add(p);
@@ -141,27 +141,14 @@ public class Coordinator {
                     for (Entity object2 : objects) {
                         i++;
                         if (!object2.equals(moveableObject) && CollisionHelper.ch.isColliding(object2, moveableObject)) {
-                            if (object2.isDestroyable()) {
-                                int score = ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getDamageRate());
-                                if (moveableObject.equals(userController.getCurrentObject())) {
-                                    addScore(score);
-                                }
+                            if (moveableObject.equals(userController.getCurrentObject())) {
+                                addScore(CollisionHelper.ch.calculateScore(moveableObject, object2));
                             }
                             // Lägger till eventuellt trasiga objekt i kön för
                             // borttagning
                             foregroundObjectsToRemove.addAll(
                                     CollisionHelper.ch.decideCollisionOutcome(moveableObject, object2)
                                     );
-                            moveableObject.setPreviousPosition();
-                            moveableObject.setPreviousAngle();
-//                                double newSpeed = moveableObject.getSpeed();
-//                                if(newSpeed>1){
-//                                    newSpeed--;
-//                                }
-//                                else if(newSpeed<1){
-//                                    newSpeed++;
-//                                }
-//                                moveableObject.setSpeed(-newSpeed);
                         }
                     }
                 }
@@ -202,6 +189,9 @@ public class Coordinator {
     }
 
     private void addScore(int score) {
+        // Ignorera alla poänguppdateringar som är 0
+        if(score==0)
+            return;
         this.score += score;
         printText(String.valueOf(score), 10);
     }

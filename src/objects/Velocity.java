@@ -79,7 +79,7 @@ public class Velocity {
      * Dödar hastigheten, anropar killSpeed(double) med objektets acceleration.
      */
     public void killSpeed() {
-        killSpeed(getAcceleration()*getMaxSpeed()/10);
+        killSpeed(getAcceleration()*getMaxSpeed());
     }
     /**
      * Dödar hastigheten (dvs. minskar / ökar så att den tillslut antar 0.

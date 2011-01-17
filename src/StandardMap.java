@@ -33,13 +33,15 @@ class StandardMap {
                 return -Math.PI / 2;
             }
         });
-
         for (int i = 0; i < 5; i++){
             entities.add(new Water(-500, 500*i));
         }
-        
+
         for (int i = 0; i < 10; i++) {
-            entities.add(new Building(100 + i * 146, 0));
+            entities.add(new Building(1460, i * 146));
+        }
+        for (int i = 0; i < 10; i++) {
+            entities.add(new Building(i * 146, 1460));
         }
         return entities;
     }

@@ -1,6 +1,10 @@
-package objects;
+package objects.cars;
 
 import graphics.ImageObject;
+import objects.Destroyable;
+import objects.MoveableObject;
+import objects.Stealable;
+import objects.collisionType;
 
 /**
  * Car är grundklassen för alla bilar
@@ -41,12 +45,12 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
     }
     @Override
     public double getNewX(){
-        setX(velocity.getNewX(getX()));
+        setX(getVelocity().getNewX(getX()));
         return getX();
     }
     @Override
     public double getNewY(){
-        setY(velocity.getNewY(getY()));
+        setY(getVelocity().getNewY(getY()));
         return getY();
     }
 
@@ -61,12 +65,19 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
     }
 
     
-    public int destroy(double angle, double damage){
+    public void destroy(double angle, double damage){
         health -= damage;
         if(health<0){
             setDestroyed();
         }
-        return (int) damage;
+    }
+    /**
+     * Att köra på en bil ger en olika poäng beroende på hur stor skada man orsakar
+     * @param mo
+     * @return
+     */
+    public int getScore(MoveableObject mo){
+        return (int) mo.getDamageRate();
     }
     public void setDestroyed(){
         burning = true;

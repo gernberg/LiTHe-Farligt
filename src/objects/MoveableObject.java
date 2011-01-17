@@ -13,9 +13,11 @@ import java.awt.Shape;
  */
 public abstract class MoveableObject extends Entity {
 
-    private double maxSpeed, weight, speed, angle, acceleration, torque, previousX, previousY, previousAngle;
-    Velocity velocity;
-
+    private double maxSpeed, speed, angle, acceleration, torque, previousX, previousY, previousAngle;
+    private Velocity velocity;
+    public Velocity getVelocity(){
+        return velocity;
+    }
     public double getPreviousAngle() {
         return previousAngle;
     }
@@ -35,7 +37,7 @@ public abstract class MoveableObject extends Entity {
     }
 
     public void setAngle(double angle) {
-        setPreviousAngle(getAngle());
+//        setPreviousAngle(getAngle());
         this.angle = angle;
     }
 
@@ -74,18 +76,12 @@ public abstract class MoveableObject extends Entity {
         this.torque = torque;
     }
 
-    public Velocity getVelocity() {
-        return velocity;
-    }
 
     public void setVelocity(Velocity velocity) {
         this.velocity = velocity;
     }
 
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
 
     /**
      * Berätta om användaren använder det här objektet för tillfället.

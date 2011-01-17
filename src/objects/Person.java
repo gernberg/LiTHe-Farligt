@@ -38,26 +38,34 @@ public class Person extends MoveableObject implements Destroyable{
     }
     @Override
     public double getNewX(){
-        setX(velocity.getNewX(getX()));
+        setX(getVelocity().getNewX(getX()));
         return getX();
     }
     @Override
     public double getNewY(){
-        setY(velocity.getNewY(getY()));
+        setY(getVelocity().getNewY(getY()));
         return getY();
     }
 
-    public int destroy(double angle, double damage) {
-        if(damage<1){
-            return 0;
-        }
+    public void destroy(double angle, double damage) {
+        if(damage<=0)
+            return;
         setAngle(angle);
         setPreviousAngle(angle);
         setImage(new ImageObject("dodperson.png"));
         setWidth(0);
         setHeight(0);
         setDestroyed();
-        return 100;
+    }
+    /**
+     * Man får alltid 100 poäng för att köra över människor.
+     * @param mo
+     * @return
+     */
+    public int getScore(MoveableObject mo){
+        if(mo.getDamageRate()>0)
+            return 100;
+        return 0;
     }
     protected int animation_incr = 0;
     @Override
