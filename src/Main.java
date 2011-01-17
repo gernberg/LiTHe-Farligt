@@ -1,7 +1,7 @@
 import graphics.Window;
 import objects.UserController;
 /**
- * 
+ * Mainklassen startar upp spelet
  * @author gustav
  */
 public class Main {
@@ -14,7 +14,8 @@ public class Main {
 
         while(coordinator.update())
         {
-            try {
+            try{
+                // Gör så att spelet inte går för snabbt
                 Thread.sleep(10);
             } catch (InterruptedException ex) { }
         }

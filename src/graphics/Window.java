@@ -2,85 +2,77 @@ package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Label;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.HashSet;
 import javax.swing.JFrame;
 import java.util.Set;
-import javax.swing.JLabel;
-import objects.MoveableObject;
 import objects.UserController;
 import objects.Entity;
 
+/**
+ * Fönstret där allting visas
+ * @author gustav
+ */
 public class Window extends JFrame {
+
     private static int WINDOW_WIDTH = 600;
     private static int WINDOW_HEIGHT = 600;
     private static int WORLD_WIDTH = 1280;
     private static int WORLD_HEIGHT = 1280;
-    public int strangey, strangex;
-
+    public int offsetY, offsetX;
     double i = 0;
     Color backgroundColor = Color.GRAY;
     BufferedImage buffer;
     Graphics2D b, bg2;
     Panel panel;
 
-    boolean isBackgroundDrawed = false;
     /**
      * Ritar ut all grafik
      * @param objects De objekt som skall synas på skärmen
      */
     public void draw(Set<Entity> backgroundObjects, Set<Entity> foregroundObjects, long points, String text) {
         b = buffer.createGraphics();
-        
+
         // Gör så att allt blir härligt smooth
         b.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         b.setRenderingHint(RenderingHints.KEY_RENDERING,
                 RenderingHints.VALUE_RENDER_QUALITY);
 
-        b.setColor(backgroundColor); // TODO: Byt ut mot bild.
+        // Fyll bakgrunden i hela spelet med bakgrundsfärgen
+        b.setColor(backgroundColor);
         b.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-
-        
-        if(!isBackgroundDrawed){
-            for (Entity foregroundObject : foregroundObjects) {
-                drawObject(foregroundObject, b);
-            }
-            //isBackgroundDrawed = true;
+        for (Entity foregroundObject : foregroundObjects) {
+            drawObject(foregroundObject, b);
         }
         for (Entity backgroundObject : backgroundObjects) {
-                drawObject(backgroundObject, b);
+            drawObject(backgroundObject, b);
         }
         drawScore(points);
         drawTextMessage(text);
-        b.dispose();
-
-        // Hämtad från drawScreen 
-        Graphics2D g = (Graphics2D) this.getGraphics();
-        g.drawImage(buffer, 0, 0, this);
-        Toolkit.getDefaultToolkit().sync();
-        g.dispose();
+        drawScreen();
     }
+
+
     /**
      * Ritar ut ett objekt, anropar drawImage
      * @param o
      */
-    public void drawObject(Entity o, Graphics2D b){
+    public void drawObject(Entity o, Graphics2D b) {
         drawImage(o.getImage(), o.getIntX(), o.getIntY(), o.getAngle(), o.getRotationCenterX(), o.getRotationCenterY(), b);
     }
-    private int getRelativeX(int x){
-        return x-strangex+getWINDOW_WIDTH()/2;
+
+    private int getRelativeX(int x) {
+        return x - offsetX + getWINDOW_WIDTH() / 2;
     }
-    private int getRelativeY(int y){
-        return y-strangey+getWINDOW_HEIGHT()/2;
+
+    private int getRelativeY(int y) {
+        return y - offsetY + getWINDOW_HEIGHT() / 2;
     }
+
     /**
      * Ritar en bild, med rotation
      * @param image Bilden som skall ritas ut
@@ -93,13 +85,12 @@ public class Window extends JFrame {
      */
     public void drawImage(ImageObject image, int x, int y, double rotation, int rotationCenterX, int rotationCenterY, Graphics2D b) {
         AffineTransform tfm = new AffineTransform();
-        tfm.rotate(rotation, x + rotationCenterX-strangex+getWINDOW_WIDTH()/2, y + rotationCenterY-strangey+getWINDOW_HEIGHT()/2);
+        tfm.rotate(rotation, x + rotationCenterX - offsetX + getWINDOW_WIDTH() / 2, y + rotationCenterY - offsetY + getWINDOW_HEIGHT() / 2);
         b.setTransform(tfm);
-//        System.out.println(x + "|" + strangex);
-//        System.out.println(y + "|" + strangey);
-        b.drawImage(image.getImage(), x-strangex+getWINDOW_WIDTH()/2, y-strangey+getWINDOW_HEIGHT()/2, this);
+        b.drawImage(image.getImage(), x - offsetX + getWINDOW_WIDTH() / 2, y - offsetY + getWINDOW_HEIGHT() / 2, this);
         tfm.rotate(0, 0, 0);
     }
+
     /**
      * Ritar en bild, helt utan rotation.
      * @param image
@@ -109,6 +100,7 @@ public class Window extends JFrame {
     public void drawImage(ImageObject image, Graphics2D b, int x, int y) {
         drawImage(image, x, y, 0, 0, 0, b);
     }
+
     /**
      * Skapar alla viktiga saker
      */
@@ -124,7 +116,6 @@ public class Window extends JFrame {
         setResizable(false);
         createBufferStrategy(2);
     }
-    
 
     public void addUserInput(UserController UserController) {
         panel.addKeyListener(UserController);
@@ -133,9 +124,11 @@ public class Window extends JFrame {
     public static int getWORLD_HEIGHT() {
         return WORLD_HEIGHT;
     }
+
     public static int getWORLD_WIDTH() {
         return WORLD_WIDTH;
     }
+
     public static int getWINDOW_HEIGHT() {
         return WINDOW_HEIGHT;
     }
@@ -143,22 +136,24 @@ public class Window extends JFrame {
     public static int getWINDOW_WIDTH() {
         return WINDOW_WIDTH;
     }
+
     /**
      * Ritar ut ett meddelande på skärmen strax ovanför användaren.
      * @param textMessage
      */
     public void drawTextMessage(String textMessage) {
-        if(textMessage==null)
+        if (textMessage == null) {
             return;
+        }
         AffineTransform tfm = new AffineTransform();
         tfm.setToScale(3, 3);
         b.setTransform(tfm);
         b.setColor(Color.BLACK);
-        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100-textMessage.length()*3, 100);
+        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100 - textMessage.length() * 3, 100);
         tfm.setToScale(2.985, 2.985);
         b.setTransform(tfm);
         b.setColor(Color.WHITE);
-        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100-textMessage.length()*3, 100);
+        b.drawChars(textMessage.toCharArray(), 0, textMessage.length(), 100 - textMessage.length() * 3, 100);
         b.dispose();
     }
 
@@ -169,7 +164,16 @@ public class Window extends JFrame {
         b.setColor(Color.WHITE);
         b.drawLine(0, 50, getWINDOW_WIDTH(), 50);
         b.setColor(Color.GREEN);
-        b.drawChars(("Poäng: " + String.valueOf(points)).toCharArray(), 0, ("Poäng: " + String.valueOf(points)).length(), getWINDOW_WIDTH()/2-20, 45);
+        b.drawChars(("Poäng: " + String.valueOf(points)).toCharArray(), 0, ("Poäng: " + String.valueOf(points)).length(), getWINDOW_WIDTH() / 2 - 20, 45);
     }
-  
+    /**
+     * Ritar ut allting på skärmen
+     */
+    private void drawScreen() {
+        b.dispose();
+        Graphics2D g = (Graphics2D) this.getGraphics();
+        g.drawImage(buffer, 0, 0, this);
+        Toolkit.getDefaultToolkit().sync();
+        g.dispose();
+    }
 }

@@ -27,8 +27,8 @@ public class Person extends MoveableObject implements Destroyable{
     public void init(){
         setWidth(10);
         setHeight(20);
-        setCenterX(5);
-        setCenterY(10);
+        setRotationCenterX(5);
+        setRotationCenterY(10);
         setSpeed(0);
         setAcceleration(100);
         setMaxSpeed(2);
@@ -92,7 +92,7 @@ public class Person extends MoveableObject implements Destroyable{
 
     @Override
     public collisionType getCollisionType() {
-        return collisionType.FLOAT;
+        return collisionType.NON_SOLID;
     }
 
 

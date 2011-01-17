@@ -29,6 +29,9 @@ public class Coordinator {
     Window window;
     long score = 0;
     UserController userController;
+    int timeout = 0;
+    String text = null;
+
     public Coordinator(Window window, UserController userController) {
         addMainCharacter();
         addRandomCar();
@@ -104,33 +107,36 @@ public class Coordinator {
      */
     public MoveableObject switchCurrentObject() {
         MoveableObject currentObject = userController.getCurrentObject();
-        MoveableObject tmpObject = currentObject;
+        // Om man inte är en mainCharacter just nu - betyder det att vi alltid
+        // ska "hoppa ut ur" fordonet.
+        if (!currentObject.equals(mainCharacter)) {
+            ((Stealable) currentObject).abandonAction();
+            double tmpX = userController.getCurrentObject().getX();
+            double tmpY = userController.getCurrentObject().getY();
+            double tmpAngle = userController.getCurrentObject().getAngle();
+            // Gör så att mainCharacter vet var han ska hamna
+            mainCharacter.init();
+            mainCharacter.setX(tmpX-10); // Offset på 10px för utseendets skull
+            mainCharacter.setY(tmpY-10);
+            mainCharacter.setAngle((double) tmpAngle);
+            return mainCharacter;
+        }
         for (Entity object : foregroundObjects) {
-            if (!currentObject.equals(mainCharacter)) {
-                // Om man inte är en mainCharacter just nu - betyder det att vi alltid
-                // ska "hoppa ut ur" fordonet.
-                ((Stealable) currentObject).abandonAction();
-                double tmpX = userController.getCurrentObject().getX();
-                double tmpY = userController.getCurrentObject().getY();
-                double tmpAngle = userController.getCurrentObject().getAngle();
-                mainCharacter.init();
-                mainCharacter.setX(tmpX-10);
-                mainCharacter.setY(tmpY-10);
-                mainCharacter.setAngle((double) tmpAngle);
-                return mainCharacter;
-            }
+            // Om objektet vi undersöker är stjälbart och inte "sigsjälv"
             if (object.isStealable() && !object.equals(currentObject)) {
                 if (((Stealable) object).getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())) {
+                    // Initiera stealAction hos objektet
                     ((Stealable) object).stealAction();
                     return (MoveableObject) object;
                 }
             }
         }
-        return tmpObject;
+        return currentObject;
     }
 
     /**
-     * 
+     * Denna funktion är den som styr i princip hela spelet.
+     * Den håller koll på kollisioner, förflyttningar och skärmuppdateringar.
      * @return
      */
     public boolean update() {
@@ -193,17 +199,18 @@ public class Coordinator {
         }
         return true;
     }
-
+    /**
+     * Lägger till poäng samt skriver ut den på skärmen
+     * @param score
+     */
     private void addScore(int score) {
         // Ignorera alla poänguppdateringar som är 0
         if(score==0)
             return;
         this.score += score;
+        // Skriv ut till skärmen
         printText(String.valueOf(score), 10);
     }
-    int timeout = 0;
-    String text = null;
-
     /**
      * 
      * @param text Texten som skall skrivas ut på skärmen
@@ -213,13 +220,18 @@ public class Coordinator {
         this.text = text;
         this.timeout = timeout;
     }
-
+    /**
+     * Uppdaterar skärmen
+     */
     private void updateWindow() {
-        window.strangex = userController.getCurrentObject().getIntX();
-        window.strangey = userController.getCurrentObject().getIntY();
+        window.offsetX = userController.getCurrentObject().getIntX();
+        window.offsetY = userController.getCurrentObject().getIntY();
         window.draw(foregroundObjects, backgroundObjects, score, text);
     }
-
+    /**
+     * Denna körs när det blir "game over"
+     * Sparar ev. highscore och skriver ut på skärmen
+     */
     private void gameOverAction() {
         if (Highscore.writeNewHighscore(score)) {
             printText("Ny highscore: " + score, 1);

@@ -4,19 +4,16 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
- *
+ * Denna klass hanterar highscore
  * @author gustav
  */
 public class Highscore {
     private static String highscore_file = "highscore.txt";
+    /**
+     * Hämtar nuvarande Highscore
+     * @return
+     */
     public static long getHighscore() {
         try{
             BufferedReader br = new BufferedReader(new FileReader(highscore_file));
@@ -27,7 +24,11 @@ public class Highscore {
         }
         return -1;
     }
-
+    /**
+     * Skriver ny highscore, om den nya highscoren är större än den tidigare
+     * @param score
+     * @return boolean Om man slår den tidigare highscoren
+     */
     public static boolean writeNewHighscore(long score) {
         // Skriv bara in ny highscore om den är större än den förra.
         if (score > getHighscore()) {

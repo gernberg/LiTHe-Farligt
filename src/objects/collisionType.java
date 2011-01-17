@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package objects;
 
 /**
- *
+ * Kollisionstyper
  * @author gustav
  */
 public enum collisionType{
-    FIXED,
-    FLOAT;
+    SOLID,
+    NON_SOLID;
 }

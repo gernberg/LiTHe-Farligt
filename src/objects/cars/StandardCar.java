@@ -32,8 +32,8 @@ public class StandardCar extends MoveableObject implements Stealable, Destroyabl
         setPosition(x, y);
     }
     public void init() {
-        setCenterX(35);
-        setCenterY(25);
+        setRotationCenterX(35);
+        setRotationCenterY(25);
         setSpeed(0);
         setWidth(40);
         setHeight(25);
@@ -81,7 +81,7 @@ public class StandardCar extends MoveableObject implements Stealable, Destroyabl
         }
     }
     /**
-     * Att köra på en bil ger en olika poäng beroende på hur stor skada man orsakar
+     * Att köra på bilen ger en olika poäng beroende på hur stor skada man orsakar
      * @param mo
      * @return
      */
@@ -131,7 +131,7 @@ public class StandardCar extends MoveableObject implements Stealable, Destroyabl
 
     @Override
     public collisionType getCollisionType() {
-        return collisionType.FIXED;
+        return collisionType.SOLID;
     }
 
 }

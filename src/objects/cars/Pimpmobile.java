@@ -1,15 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package objects.cars;
 
 import graphics.ImageObject;
 import objects.MoveableObject;
 
 /**
- *
+ * Pimpmobilen är lite snyggare, med schysst toppfart
  * @author gustav
  */
 public class Pimpmobile extends StandardCar{

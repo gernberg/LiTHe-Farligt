@@ -1,13 +1,11 @@
 package objects;
 
-import graphics.Helpers;
+import graphics.Helper;
 import graphics.ImageObject;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Vector;
 
 /**
  * Entity (tidigare Object, omdöpt pga. förvirring) är grundklassen för alla
@@ -17,7 +15,7 @@ import java.util.Vector;
 public abstract class Entity {
     private ImageObject image;
     private double x,y;
-    private int centerX, centerY, height, width, weight;
+    private int rotationCenterX, rotationCenterY, height, width, weight;
     public ImageObject getImage() {
         return image;
     }
@@ -77,10 +75,10 @@ public abstract class Entity {
         return height;
     }
     public int getRotationCenterX(){
-        return centerX;
+        return rotationCenterX;
     }
     public int getRotationCenterY(){
-        return centerY;
+        return rotationCenterY;
     }
     /**
      * Sätter objektets position,
@@ -92,14 +90,16 @@ public abstract class Entity {
         setX(x);
         setY(y);
     }
+    public abstract double getAngle();
     /**
      * Körs varje "runda" för att kolla om något nytt hänt
      */
     public abstract void poll();
-    public abstract double getAngle();
     
     /**
      * Hämtar de små rektanglar som ligger i varje hörna av ett objekt.
+     * 4st 1x1 rektanglar.
+     * Behövs för att intersect bara fungerar mellan rektanglar - där max en får vara roterad
      * @return
      */
     public Set<Rectangle> getBoundingRectangles(){
@@ -127,20 +127,6 @@ public abstract class Entity {
         return 0;
     }
 
-    public int getCenterX() {
-        return centerX;
-    }
-
-    public void setCenterX(int centerX) {
-        this.centerX = centerX;
-    }
-
-    public int getCenterY() {
-        return centerY;
-    }
-    public void setCenterY(int centerY) {
-        this.centerY = centerY;
-    }
     public void setWidth(int width){
         this.width = width;
     }
@@ -155,7 +141,7 @@ public abstract class Entity {
      * @return
      */
     public Shape rotateRectangle(Rectangle r){
-        return Helpers.allHelpers.rotateRectangle(r, this);
+        return Helper.allHelpers.rotateRectangle(r, this);
     }
     /**
      * Hämtar boundingboxen för objektet (och ser till att den är roterad precis
@@ -165,6 +151,16 @@ public abstract class Entity {
     public Shape getBoundingRectangle() {
         return rotateRectangle(new Rectangle(getBoundingX(), getBoundingY(), getWidth(), getHeight()));
     }
+    public void setRotationCenterX(int x){
+        rotationCenterX = x;
+    }
+    public void setRotationCenterY(int y){
+        rotationCenterY = y;
+    }
+    /**
+     * Kollar om objektet är förstörbart, och isåfall - helt.
+     * @return
+     */
     public boolean isDestroyable(){
         if(this instanceof Destroyable){
             return !(((Destroyable) this).isDestroyed());

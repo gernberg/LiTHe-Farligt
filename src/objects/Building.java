@@ -1,16 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package objects;
 
 import graphics.ImageObject;
-import java.awt.Rectangle;
-import java.awt.Shape;
 
 /**
- *
+ * En byggnad.
  * @author gustav
  */
 public class Building extends Entity{
@@ -39,7 +32,7 @@ public class Building extends Entity{
 
     @Override
     public collisionType getCollisionType() {
-        return collisionType.FIXED;
+        return collisionType.SOLID;
     }
     
 }

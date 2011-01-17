@@ -5,20 +5,21 @@ import objects.Building;
 import objects.Water;
 import objects.Entity;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * Standardkartan för spelet. Innehåller inga roliga saker.
  * @author gustav
  */
 class StandardMap {
+
     private static Set<Entity> entities = new HashSet<Entity>();
-    public static Set<Entity> getMapEntities(){
-        for (int i = 0; i < 5; i++){
-            entities.add(new Water(i*500, -500) {
+    /**
+     * Lägger ut massa vatten och hus.
+     * @return
+     */
+    public static Set<Entity> getMapEntities() {
+        // TODO: Snygga upp koden
+        for (int i = 0; i < 5; i++) {
+            entities.add(new Water(i * 500, -500) {
 
                 @Override
                 public double getAngle() {
@@ -33,8 +34,8 @@ class StandardMap {
                 return -Math.PI / 2;
             }
         });
-        for (int i = 0; i < 5; i++){
-            entities.add(new Water(-500, 500*i));
+        for (int i = 0; i < 5; i++) {
+            entities.add(new Water(-500, 500 * i));
         }
 
         for (int i = 0; i < 10; i++) {

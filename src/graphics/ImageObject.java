@@ -1,19 +1,18 @@
 package graphics;
 
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 /**
  * ImageObject är till för att underlätta hanteringen av bilder.
- *
  */
 public class ImageObject extends JPanel{
     private BufferedImage image;
-    public ImageObject() {
-        setImage("car.png");
-    }
+    /**
+     * För att instansiera ett ImageObject måste vi veta vilken bildfil vi skall använda
+     * @param imagefile
+     */
     public ImageObject(String imagefile){
         setImage(imagefile);
     }

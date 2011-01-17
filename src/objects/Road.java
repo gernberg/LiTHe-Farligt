@@ -6,10 +6,9 @@
 package objects;
 
 import graphics.ImageObject;
-import java.awt.Shape;
 
 /**
- *
+ * En bit väg
  * @author gustav
  */
 public class Road extends Entity{
@@ -33,7 +32,7 @@ public class Road extends Entity{
 
     @Override
     public collisionType getCollisionType() {
-        return collisionType.FLOAT;
+        return collisionType.NON_SOLID;
     }
     
 }

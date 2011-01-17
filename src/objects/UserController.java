@@ -1,6 +1,5 @@
 package objects;
 
-import graphics.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashSet;

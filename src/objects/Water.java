@@ -1,15 +1,9 @@
 package objects;
 
 import graphics.ImageObject;
-import java.awt.Shape;
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- *
+ * Vatten med staket
  * @author gustav
  */
 public class Water extends Entity{
@@ -17,8 +11,8 @@ public class Water extends Entity{
         setPosition(x, y);
         setWidth(500);
         setHeight(500);
-        setCenterX(250);
-        setCenterY(250);
+        setRotationCenterX(250);
+        setRotationCenterY(250);
     }
 
     @Override
@@ -38,7 +32,7 @@ public class Water extends Entity{
 
     @Override
     public collisionType getCollisionType() {
-        return collisionType.FIXED;
+        return collisionType.SOLID;
     }
 
 

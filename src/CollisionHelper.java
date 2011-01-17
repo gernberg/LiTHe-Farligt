@@ -62,7 +62,7 @@ public class CollisionHelper {
     public Set<Entity> decideCollisionOutcome(MoveableObject a, Entity b){
         Set<Entity> destroyedEntities = new HashSet<Entity>();
         double damageRate = a.getDamageRate();
-        if(b.getCollisionType()==collisionType.FIXED){
+        if(b.getCollisionType()==collisionType.SOLID){
             // Skadar det objekt som krockar - dock bara hälften mot vad den skadar
             // andra.
             ((Destroyable) a).destroy(a.getAngle(), damageRate/2);
