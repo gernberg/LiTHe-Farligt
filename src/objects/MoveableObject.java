@@ -82,9 +82,6 @@ public abstract class MoveableObject extends Entity {
         this.velocity = velocity;
     }
 
-    public double getWeight() {
-        return weight;
-    }
 
     public void setWeight(double weight) {
         this.weight = weight;

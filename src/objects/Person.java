@@ -82,6 +82,11 @@ public class Person extends MoveableObject implements Destroyable{
         return 0;
     }
 
+    @Override
+    public collisionType getCollisionType() {
+        return collisionType.FLOAT;
+    }
+
 
 
 }

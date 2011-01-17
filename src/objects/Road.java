@@ -13,7 +13,6 @@ import java.awt.Shape;
  * @author gustav
  */
 public class Road extends Entity{
-
     public Road(int x, int y){
         setPosition(x, y);
     }
@@ -32,5 +31,9 @@ public class Road extends Entity{
         return 0;
     }
 
-
+    @Override
+    public collisionType getCollisionType() {
+        return collisionType.FLOAT;
+    }
+    
 }

@@ -7,7 +7,7 @@ import graphics.ImageObject;
  * @author gustav
  */
 public class Car extends MoveableObject implements Stealable, Destroyable{
-    private double health = 100;
+    private double health = 1000;
     boolean destroyed = false;
     boolean burning = false;
     int burning_incr = 0;
@@ -108,4 +108,10 @@ public class Car extends MoveableObject implements Stealable, Destroyable{
         }
         return super.getImage();
     }
+
+    @Override
+    public collisionType getCollisionType() {
+        return collisionType.FIXED;
+    }
+
 }

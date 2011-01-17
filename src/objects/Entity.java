@@ -7,6 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  * Entity (tidigare Object, omdöpt pga. förvirring) är grundklassen för alla
@@ -16,7 +17,7 @@ import java.util.Set;
 public abstract class Entity {
     private ImageObject image;
     private double x,y;
-    private int centerX, centerY, height, width;
+    private int centerX, centerY, height, width, weight;
     public ImageObject getImage() {
         return image;
     }
@@ -128,7 +129,6 @@ public abstract class Entity {
     public int getCenterY() {
         return centerY;
     }
-
     public void setCenterY(int centerY) {
         this.centerY = centerY;
     }
@@ -162,4 +162,5 @@ public abstract class Entity {
         }
         return false;
     }
+    public abstract collisionType getCollisionType();
 }

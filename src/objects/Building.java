@@ -36,5 +36,10 @@ public class Building extends Entity{
     public double getAngle() {
         return 0;
     }
+
+    @Override
+    public collisionType getCollisionType() {
+        return collisionType.FIXED;
+    }
     
 }

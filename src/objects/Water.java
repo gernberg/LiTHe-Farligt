@@ -17,6 +17,8 @@ public class Water extends Entity{
         setPosition(x, y);
         setWidth(500);
         setHeight(500);
+        setCenterX(250);
+        setCenterY(250);
     }
 
     @Override
@@ -33,4 +35,11 @@ public class Water extends Entity{
     public double getAngle() {
         return 0;
     }
+
+    @Override
+    public collisionType getCollisionType() {
+        return collisionType.FIXED;
+    }
+
+
 }

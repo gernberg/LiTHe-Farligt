@@ -1,3 +1,4 @@
+
 import objects.Cop;
 import objects.Water;
 import graphics.ImageObject;
@@ -19,11 +20,13 @@ import objects.Road;
 import objects.Stealable;
 import objects.UserController;
 import objects.UserInformation;
+
 /**
  * Den här klassen fungerar som koordinator mellan Window och UserController.
  * @author gustav
  */
 public class Coordinator {
+
     /**
      * Uppdelning av objekt i två olika Set (foreground och background)
      * för att förenkla uppritningen.
@@ -34,6 +37,7 @@ public class Coordinator {
     Window window;
     long score = 0;
     UserController userController;
+
     public Coordinator(Window window, UserController userController) {
         addPerson();
         addCar();
@@ -43,31 +47,23 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        foregroundObjects.add(new Car(150, 1+0));
+        foregroundObjects.add(new Car(150, 1 + 0));
         foregroundObjects.add(new CarLada(150, 200));
         foregroundObjects.add(new CarPimp(150, 300));
-        backgroundObjects.add(new Water(-500,-500));
-        backgroundObjects.add(new Water(-500,0));
-        backgroundObjects.add(new Water(-500,500));
-        backgroundObjects.add(new Water(-500,1000));
-        backgroundObjects.add(new Road(0,-500));
-        backgroundObjects.add(new Road(0,-200));
-        backgroundObjects.add(new Road(0,100));
-        backgroundObjects.add(new Road(0,400));
-        for(int i = 0; i< 10; i++){
-            backgroundObjects.add(new Building(100+i*146,0));
-        }
+        backgroundObjects.addAll(StandardMap.getMapEntities());
         window.addUserInput(userController);
         userController.setCurrentObject(mainCharacter);
 
         this.window = window;
         this.userController = userController;
     }
+
     /**
      * Lägger till huvudkaraktären
      */
-    public void addPerson(){
-        mainCharacter = new Person(){
+    public void addPerson() {
+        mainCharacter = new Person() {
+
             @Override
             public void setImage() {
                 setImage(new ImageObject("maincharacter.png"));
@@ -75,25 +71,30 @@ public class Coordinator {
         };
         foregroundObjects.add(mainCharacter);
     }
-    public void addCar(){
+
+    public void addCar() {
         // TODO: Fult, borde göras snyggare
-        addCar(50+(int)Math.floor(Math.random()*window.getWORLD_WIDTH()), 50+(int)Math.floor(Math.random()*window.getWORLD_HEIGHT()));
+        addCar(50 + (int) Math.floor(Math.random() * window.getWORLD_WIDTH()), 50 + (int) Math.floor(Math.random() * window.getWORLD_HEIGHT()));
     }
-    public void addPeople(){
+
+    public void addPeople() {
         // TODO: Fult, borde göras snyggare
-        for(int i = 0; i<50; i++){
-            Person p = new Person((int)(Math.random()*window.getWORLD_WIDTH()),(int)(Math.random()*window.getWORLD_HEIGHT()));
-            p.setAngle((double) (Math.random()*Math.PI*2.0));
+        for (int i = 0; i < 50; i++) {
+            Person p = new Person((int) (Math.random() * window.getWORLD_WIDTH()), (int) (Math.random() * window.getWORLD_HEIGHT()));
+            p.setAngle((double) (Math.random() * Math.PI * 2.0));
             p.setSpeed(p.getMaxSpeed());
             foregroundObjects.add(p);
         }
     }
-    public void addCar(int x, int y){
+
+    public void addCar(int x, int y) {
         foregroundObjects.add(new Car(x, y));
     }
+
     public MoveableObject getPerson() {
         return mainCharacter;
     }
+
     /**
      * Byter vilket objekt vi befinner oss i, returnerar det objekt vi byter till.
      * @param currentObject
@@ -102,14 +103,14 @@ public class Coordinator {
     public MoveableObject switchObject(MoveableObject currentObject) {
         MoveableObject tmpObject = currentObject;
         for (Entity object : foregroundObjects) {
-            if(!currentObject.equals(mainCharacter)){
+            if (!currentObject.equals(mainCharacter)) {
                 // Om man inte är en mainCharacter just nu - betyder det att vi alltid
                 // ska "hoppa ut ur" fordonet.
                 ((Stealable) currentObject).abandonAction();
                 return mainCharacter;
             }
-            if(object.isStealable() && !object.equals(currentObject)){
-                if(((Stealable) object).getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())){
+            if (object.isStealable() && !object.equals(currentObject)) {
+                if (((Stealable) object).getEnteringRectangle().intersects(currentObject.getBoundingRectangle().getBounds())) {
                     ((Stealable) object).stealAction();
                     return (MoveableObject) object;
                 }
@@ -117,6 +118,7 @@ public class Coordinator {
         }
         return tmpObject;
     }
+
     /**
      * 
      * @return
@@ -129,35 +131,37 @@ public class Coordinator {
 
         // TODO: Snygga upp de här raderna
         for (Entity object : foregroundObjects) {
-            if(object instanceof MoveableObject){
+            if (object instanceof MoveableObject) {
                 MoveableObject moveableObject = (MoveableObject) object;
                 moveableObject.poll();
-                if(moveableObject.hasMoved()){
+                if (moveableObject.hasMoved()) {
                     Set<Entity> objects = new HashSet<Entity>();
                     objects.addAll(foregroundObjects);
                     objects.addAll(backgroundObjects);
-                    for(Entity object2 : objects){
+                    for (Entity object2 : objects) {
                         i++;
-                        if(!object2.equals(moveableObject) && CollisionHelper.ch.isColliding(object2, moveableObject)){
-                                if(object2.isDestroyable()){
-                                    int score = ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getDamageRate());
-                            
-                                    foregroundObjectsToRemove.add(object2);
-                                    // Ge bara poäng om det är "en själv" som kolliderar
-                                    if(moveableObject.equals(userController.getCurrentObject())){
-                                        addScore(score);
-                                    }
+                        if (!object2.equals(moveableObject) && CollisionHelper.ch.isColliding(object2, moveableObject)) {
+                            if (object2.isDestroyable()) {
+                                int score = ((Destroyable) object2).destroy(moveableObject.getAngle(), moveableObject.getDamageRate());
+                                if (moveableObject.equals(userController.getCurrentObject())) {
+                                    addScore(score);
                                 }
-                                moveableObject.setPreviousPosition();
-                                moveableObject.setPreviousAngle();
-                                double newSpeed = moveableObject.getSpeed();
-                                if(newSpeed>1){
-                                    newSpeed--;
-                                }
-                                else if(newSpeed<1){
-                                    newSpeed++;
-                                }
-                                moveableObject.setSpeed(-newSpeed);
+                            }
+                            // Lägger till eventuellt trasiga objekt i kön för
+                            // borttagning
+                            foregroundObjectsToRemove.addAll(
+                                    CollisionHelper.ch.decideCollisionOutcome(moveableObject, object2)
+                                    );
+                            moveableObject.setPreviousPosition();
+                            moveableObject.setPreviousAngle();
+//                                double newSpeed = moveableObject.getSpeed();
+//                                if(newSpeed>1){
+//                                    newSpeed--;
+//                                }
+//                                else if(newSpeed<1){
+//                                    newSpeed++;
+//                                }
+//                                moveableObject.setSpeed(-newSpeed);
                         }
                     }
                 }
@@ -166,17 +170,17 @@ public class Coordinator {
         foregroundObjects.removeAll(foregroundObjectsToRemove);
         backgroundObjects.addAll(foregroundObjectsToRemove);
         userController.poll();
-        
-        if(userController.shallWeSwitchObjects()){
+
+        if (userController.shallWeSwitchObjects()) {
             double tmpX = userController.getCurrentObject().getX();
             double tmpY = userController.getCurrentObject().getY();
             double tmpAngle = userController.getCurrentObject().getAngle();
             userController.setCurrentObject(switchObject(userController.getCurrentObject()));
             // TODO: Detta borde inte ligga här - utan någonstans snyggare.
             // Typ i switchObject.
-            if(!userController.getCurrentObject().equals(mainCharacter)){
+            if (!userController.getCurrentObject().equals(mainCharacter)) {
                 foregroundObjects.remove(mainCharacter);
-            }else{
+            } else {
                 mainCharacter.init();
                 mainCharacter.setX(tmpX);
                 mainCharacter.setY(tmpY);
@@ -186,11 +190,11 @@ public class Coordinator {
         }
         updateWindow();
         timeout--;
-        if(timeout<=0){
+        if (timeout <= 0) {
             text = null;
         }
         // Om spelaren dör
-        if(((Destroyable) userController.getCurrentObject()).isDestroyed()){
+        if (((Destroyable) userController.getCurrentObject()).isDestroyed()) {
             gameOverAction();
             return false;
         }
@@ -203,12 +207,13 @@ public class Coordinator {
     }
     int timeout = 0;
     String text = null;
+
     /**
      * 
      * @param text Texten som skall skrivas ut på skärmen
      * @param timeout
      */
-    private void printText(String text, int timeout){
+    private void printText(String text, int timeout) {
         this.text = text;
         this.timeout = timeout;
     }
@@ -220,10 +225,10 @@ public class Coordinator {
     }
 
     private void gameOverAction() {
-        if(Highscore.writeNewHighscore(score)){
+        if (Highscore.writeNewHighscore(score)) {
             printText("Ny highscore: " + score, 1);
-        }else{
-            printText((Highscore.getHighscore()-score) + " poäng från ny highscore", 1);
+        } else {
+            printText((Highscore.getHighscore() - score) + " poäng från ny highscore", 1);
         }
         updateWindow();
     }
