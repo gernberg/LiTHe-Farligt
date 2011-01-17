@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.util.HashSet;
 import java.util.Set;
 import objects.Building;
-import objects.cars.Car;
+import objects.cars.StandardCar;
 import objects.cars.Lada;
 import objects.cars.Pimpmobile;
 import objects.Destroyable;
@@ -47,7 +47,7 @@ public class Coordinator {
         addCar();
         addCar();
         addPeople();
-        foregroundObjects.add(new Car(150, 1 + 0));
+        foregroundObjects.add(new StandardCar(150, 1 + 0));
         foregroundObjects.add(new Lada(150, 200));
         foregroundObjects.add(new Pimpmobile(150, 300));
         backgroundObjects.addAll(StandardMap.getMapEntities());
@@ -88,7 +88,7 @@ public class Coordinator {
     }
 
     public void addCar(int x, int y) {
-        foregroundObjects.add(new Car(x, y));
+        foregroundObjects.add(new StandardCar(x, y));
     }
 
     public MoveableObject getPerson() {

@@ -12,7 +12,7 @@ import objects.MoveableObject;
  *
  * @author gustav
  */
-public class Pimpmobile extends Car{
+public class Pimpmobile extends StandardCar{
     public Pimpmobile(int x, int y){
         super(x, y);
         setAcceleration(0.7);

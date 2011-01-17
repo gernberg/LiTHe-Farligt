@@ -7,18 +7,18 @@ import objects.Stealable;
 import objects.collisionType;
 
 /**
- * Car är grundklassen för alla bilar
+ * StandardCar är grundklassen för alla bilar
  * @author gustav
  */
-public class Car extends MoveableObject implements Stealable, Destroyable{
+public class StandardCar extends MoveableObject implements Stealable, Destroyable{
     private double health = 1000;
     boolean destroyed = false;
     boolean burning = false;
     int burning_incr = 0;
-    public Car(){
+    public StandardCar(){
         super();
     }
-    public Car(int x, int y) {
+    public StandardCar(int x, int y) {
         super();
         setPosition(x, y);
     }

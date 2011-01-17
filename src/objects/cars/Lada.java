@@ -6,7 +6,7 @@ import graphics.ImageObject;
  * Lada är den sämsta bilen i spelet.
  * @author gustav
  */
-public class Lada extends Car{
+public class Lada extends StandardCar{
     public Lada(int x, int y){
         super(x, y);
         setMaxSpeed(5);
